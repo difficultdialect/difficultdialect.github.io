@@ -1,12 +1,7 @@
 var inputtext='';
 var w=0;
-window.addEventListener('resize', function(event){
-  redraw();
-});
-$( document ).ready(function() {
-  redraw();
-  openkeyboard();
-});
+redraw();
+openkeyboard();
 function back(){
   inputtext=inputtext.slice(0,-1);
   document.getElementById("inputplace").innerHTML=inputtext;
