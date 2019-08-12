@@ -1,5 +1,5 @@
 var inputtext='';
-var w=0;
+
 function back(){
   inputtext=inputtext.slice(0,-1);
   document.getElementById("inputplace").innerHTML=inputtext;
@@ -13,7 +13,7 @@ function types(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
 }
-w=document.getElementById("primarykeyboard").clientWidth;
+var w=document.getElementById("primarykeyboard").clientWidth;
 var letters=['ṃ','ḥ','e','r','t','y','u','i','o','p','a','s','d','ṛ','g','h','j','k','l','ś','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ḥ','e','r','ṭ','y','ū','ī','o','p','ā','s','ḍ','ṝ','g','h','ñ','k','l','ś','ṣ','c','v','b','ṇ','ṅ'];
 var keysdeclaration='';
@@ -36,7 +36,6 @@ document.getElementById("shiftsq").addEventListener("click",function() {document
 document.getElementById("sshiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
 document.getElementById("backsq").addEventListener("click",back);
 document.getElementById("sbacksq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
-
 for(i=0;i<letters.length;i++){
   var csq=document.getElementById(letters[i]+"sq");
   var cssq=document.getElementById("s"+sletters[i]+"sq");
@@ -70,6 +69,7 @@ for(i=0;i<letters.length;i++){
   csk.style.fontSize=Math.floor(w/15.0)+"px";
   cssq.addEventListener("click",types);
 }
+
 /*document.getElementById("shiftsq").style.left=0.5*w/10.0+"px";;
 */
 function openkeyboard() {
