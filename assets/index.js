@@ -1,4 +1,12 @@
 var inputtext='';
+var w=0;
+window.addEventListener('resize', function(event){
+  redraw();
+});
+$( document ).ready(function() {
+  redraw();
+  openkeyboard();
+});
 function back(){
   inputtext=inputtext.slice(0,-1);
   document.getElementById("inputplace").innerHTML=inputtext;
@@ -12,7 +20,6 @@ function types(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
 }
-var w=document.getElementById("primarykeyboard").clientWidth;
 var letters=['ṃ','ḥ','e','r','t','y','u','i','o','p','a','s','d','ṛ','g','h','j','k','l','ś','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ḥ','e','r','ṭ','y','ū','ī','o','p','ā','s','ḍ','ṝ','g','h','ñ','k','l','ś','ṣ','c','v','b','ṇ','ṅ'];
 var keysdeclaration='';
@@ -34,7 +41,10 @@ document.getElementById("shiftkeyboard").innerHTML=skeysdeclaration;
 document.getElementById("shiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="inline";});
 document.getElementById("sshiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
 document.getElementById("backsq").addEventListener("click",back);
-document.getElementById("sbacksq").addEventListener("click",back);
+document.getElementById("sbacksq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
+
+function redraw(){
+w=document.getElementById("primarykeyboard").clientWidth;
 for(i=0;i<letters.length;i++){
   var csq=document.getElementById(letters[i]+"sq");
   var cssq=document.getElementById("s"+sletters[i]+"sq");
@@ -68,7 +78,7 @@ for(i=0;i<letters.length;i++){
   csk.style.fontSize=Math.floor(w/15.0)+"px";
   cssq.addEventListener("click",types);
 }
-
+}
 /*document.getElementById("shiftsq").style.left=0.5*w/10.0+"px";;
 */
 function openkeyboard() {
@@ -81,5 +91,3 @@ function closekeyboard() {
   document.getElementById("primarykeyboard").style.height = "0";
   document.getElementById("shiftkeyboard").style.height="0";
 }
-
-openkeyboard();
