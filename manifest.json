@@ -1,6 +1,6 @@
 {
-  "short_name": "Minimal PWA",
-  "name": "Minimal Progressive Web App",
+  "short_name": "Learn Sanskrit",
+  "name": "Learn Sanskrit",
   "icons": [
     {
       "src": "/android-chrome-512x512.png",
@@ -9,7 +9,7 @@
     }
   ],
   "start_url": "/",
-  "theme_color": "#db7093",
+  "theme_color": "#4b0082",
   "background_color": "#222222",
   "display": "standalone"
 }
