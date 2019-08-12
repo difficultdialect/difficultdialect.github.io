@@ -1,149 +1,39 @@
 @import url('https://fonts.googleapis.com/css?family=Mukta:400,700&display=swap&subset=devanagari,latin-ext');
-
 body {
   word-wrap: break-word;
   font-family: 'Mukta', sans-serif;
-  overflow-x:hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
-
-
-/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */
-/**
- * prism.js default theme for JavaScript, CSS and HTML
- * Based on dabblet (http://dabblet.com)
- * @author Lea Verou
- */
-
-code[class*='language-'],
-pre[class*='language-'] {
-  color: black;
-  background: none;
-  text-shadow: 0 1px white;
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.5;
-
-  -moz-tab-size: 2;
-  -o-tab-size: 2;
-  tab-size: 2;
-
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
+.keyboard {
+  height: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  background-color: #E5E4E2;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  transition: 0.2s;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
-
-pre[class*='language-']::-moz-selection,
-pre[class*='language-'] ::-moz-selection,
-code[class*='language-']::-moz-selection,
-code[class*='language-'] ::-moz-selection {
-  text-shadow: none;
-  background: #b3d4fc;
+.keyboard .keys {
+  position: absolute;
+  width: 10%;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 13%;
 }
-
-pre[class*='language-']::selection,
-pre[class*='language-'] ::selection,
-code[class*='language-']::selection,
-code[class*='language-'] ::selection {
-  text-shadow: none;
-  background: #b3d4fc;
-}
-
-@media print {
-  code[class*='language-'],
-  pre[class*='language-'] {
-    text-shadow: none;
-  }
-}
-
-/* Code blocks */
-pre[class*='language-'] {
-  overflow: auto;
-}
-
-:not(pre) > code[class*='language-'],
-pre[class*='language-'] {
-  background: #f5f2f0;
-}
-
-/* Inline code */
-:not(pre) > code[class*='language-'] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-  white-space: normal;
-}
-
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: slategray;
-}
-
-.token.punctuation {
-  color: #999;
-}
-
-.namespace {
-  opacity: 0.7;
-}
-
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #905;
-}
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #690;
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #a67f59;
-  background: hsla(0, 0%, 100%, 0.5);
-}
-
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: #07a;
-}
-
-.token.function {
-  color: #dd4a68;
-}
-
-.token.regex,
-.token.important,
-.token.variable {
-  color: #e90;
-}
-
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
-.token.italic {
-  font-style: italic;
-}
-
-.token.entity {
-  cursor: help;
+.keys .text {
+  color:black;
+  position: absolute;
+  bottom:0;
+  text-align:center;
 }
