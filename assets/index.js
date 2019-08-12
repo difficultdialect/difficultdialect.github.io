@@ -1,4 +1,5 @@
-var inputtext='';
+$(document).ready(function()
+{var inputtext='';
 
 function back(){
   inputtext=inputtext.slice(0,-1);
@@ -84,3 +85,4 @@ function closekeyboard() {
 }
 
 openkeyboard();
+});
