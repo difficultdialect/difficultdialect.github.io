@@ -20,6 +20,8 @@ function types(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
 }
+function redraw(){
+w=document.getElementById("primarykeyboard").clientWidth;
 var letters=['ṃ','ḥ','e','r','t','y','u','i','o','p','a','s','d','ṛ','g','h','j','k','l','ś','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ḥ','e','r','ṭ','y','ū','ī','o','p','ā','s','ḍ','ṝ','g','h','ñ','k','l','ś','ṣ','c','v','b','ṇ','ṅ'];
 var keysdeclaration='';
@@ -43,8 +45,6 @@ document.getElementById("sshiftsq").addEventListener("click",function() {documen
 document.getElementById("backsq").addEventListener("click",back);
 document.getElementById("sbacksq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
 
-function redraw(){
-w=document.getElementById("primarykeyboard").clientWidth;
 for(i=0;i<letters.length;i++){
   var csq=document.getElementById(letters[i]+"sq");
   var cssq=document.getElementById("s"+sletters[i]+"sq");
