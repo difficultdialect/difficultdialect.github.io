@@ -65,7 +65,7 @@ for(i=0;i<letters.length;i++){
   csk.style.bottom=0.0+"px";
   csk.style.lineHeight=Math.floor(w*1.3/10.0)+"px";
   csk.style.width=Math.floor(w/10.0)+"px";
-  csk.style.fontSize=Math.floor(w/17.0)+"px";
+  csk.style.fontSize=Math.floor(w/16.0)+"px";
   cssq.addEventListener("click",types);
 }
 

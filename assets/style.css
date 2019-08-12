@@ -2,6 +2,7 @@
 body {
   word-wrap: break-word;
   font-family: 'Mukta', sans-serif;
+  font-size: large;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -32,6 +33,7 @@ body {
   padding-top: 13%;
 }
 .keys .text {
+  font-weight: bold;
   color:black;
   position: absolute;
   bottom:0;
