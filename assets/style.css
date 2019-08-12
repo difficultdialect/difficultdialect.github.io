@@ -4,7 +4,17 @@ body {
   font-family: 'Mukta', sans-serif;
   font-size: large;
   overflow-x: hidden;
+  overflow-y: hidden;
+}
+#space {
+  transition: 0.2s;
   overflow-y: scroll;
+}
+
+#inputplace {
+  font-size: x-large;
+  font-weight: bold;
+  color: #ff2400;
 }
 .keyboard {
   height: 0;

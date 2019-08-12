@@ -76,12 +76,14 @@ for(i=0;i<letters.length;i++){
 function openkeyboard() {
   document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
+  document.getElementById("space").style.height=window.innerHeight - w*1.3*0.3+"px";
 }
 
 /* Set the width of the side navigation to 0 */
 function closekeyboard() {
   document.getElementById("primarykeyboard").style.height = "0";
   document.getElementById("shiftkeyboard").style.height="0";
+  document.getElementById("space").style.height=window.innerHeight;
 }
 
 openkeyboard();
