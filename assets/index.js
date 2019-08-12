@@ -59,13 +59,13 @@ for(i=0;i<letters.length;i++){
   ck.style.bottom=0.0+"px";
   ck.style.lineHeight=Math.floor(w*1.3/10.0)+"px";
   ck.style.width=Math.floor(w/10.0)+"px";
-  ck.style.fontSize=Math.floor(w/17.0)+"px";
+  ck.style.fontSize=Math.floor(w/15.0)+"px";
   csq.addEventListener("click",type);
   
   csk.style.bottom=0.0+"px";
   csk.style.lineHeight=Math.floor(w*1.3/10.0)+"px";
   csk.style.width=Math.floor(w/10.0)+"px";
-  csk.style.fontSize=Math.floor(w/16.0)+"px";
+  csk.style.fontSize=Math.floor(w/15.0)+"px";
   cssq.addEventListener("click",types);
 }
 
