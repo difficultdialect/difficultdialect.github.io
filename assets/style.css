@@ -4,7 +4,7 @@ body {
   font-family: 'Mukta', sans-serif;
   font-size: large;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 .keyboard {
   height: 0;
