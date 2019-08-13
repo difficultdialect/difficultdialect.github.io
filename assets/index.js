@@ -17,7 +17,18 @@ window.addEventListener('resize', function(event){
     if(openedkb==1){openkeyboard();}
 	}
 });
-window.onload=function(){redraw();subnext();};
+window.onload=function(){
+  WebFont.load({google: {
+  families: ['Mukta:400, 700']
+},
+timeout:5000,
+fontactive: function(familyName,fvd){ //This is called once font has been rendered in browser
+    // Your business logic goes here
+   redraw();subnext();
+  },
+});
+
+};
 function activatebutton(){
   document.getElementById("button1").style.display="inline";
 	closekeyboard();
