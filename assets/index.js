@@ -6,11 +6,11 @@ function back(){
   document.getElementById("inputplace").innerHTML=inputtext;
 }
 function type(e) {
-  inputtext=inputtext.concat(e.target.innerHTML);
+  inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
 }
 function types(e) {
-  inputtext=inputtext.concat(e.target.innerHTML);
+  inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
 }
