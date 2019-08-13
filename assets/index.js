@@ -15,8 +15,8 @@ function types(e) {
   document.getElementById("shiftkeyboard").style.display="none";
 }
 var w=document.getElementById("primarykeyboard").clientWidth;
-var letters=['ṃ','ḥ','e','r','t','y','u','i','o','p','a','s','d','ṛ','g','h','j','k','l','ś','ṣ','c','v','b','n','m'];
-var sletters=['ṃ','ḥ','e','r','ṭ','y','ū','ī','o','p','ā','s','ḍ','ṝ','g','h','ñ','k','l','ś','ṣ','c','v','b','ṇ','ṅ'];
+var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
+var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','k','ḷ','ḍ','ṣ','c','v','b','ṇ','ṅ'];
 var keysdeclaration='';
 var skeysdeclaration='';
 var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
