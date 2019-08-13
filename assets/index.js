@@ -6,18 +6,12 @@ function back(){
   document.getElementById("inputplace").innerHTML=inputtext;
 }
 function type(e) {
-  var id=e.target.id;
-  if id.includes("sq"){
-    inputtext=inputtext.concat(id.slice(-3,-3));
-    document.getElementById("inputplace").innerHTML=inputtext;
-  }
+  inputtext=inputtext.concat(e.target.innerHTML);
+  document.getElementById("inputplace").innerHTML=inputtext;
 }
 function types(e) {
-  var id=e.target.id;
-  if id.includes("sq"){
-    inputtext=inputtext.concat(id.slice(-3,-3));
-    document.getElementById("inputplace").innerHTML=inputtext;
-  }
+  inputtext=inputtext.concat(e.target.innerHTML);
+  document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
 }
 var w=document.getElementById("primarykeyboard").clientWidth;
