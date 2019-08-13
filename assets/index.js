@@ -39,7 +39,7 @@ function subnext(){
 }
 function next(){
   inputtext='';
-  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><button style=\"display: none\" onclick=\"subnext()\" id=\"button1\" class=\'button\'>>></div></div>";
+  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><button style=\"display: none\" onclick=\"subnext()\" id=\"button1\" class=\'button\'>kaṇṭīnyu</div></div>";
   if(document.getElementById("space").innerHTML.includes("inputplace")){
     openkeyboard();
   }
