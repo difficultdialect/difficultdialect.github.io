@@ -1,47 +1,108 @@
-$(document).ready(function()
-{var inputtext='';
-
+var E=document.body.offsetWidth;
+var openedkb=0;
+var pressed=-1;
+var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
+var primarykeyboardinner='';
+var inputtext='';
+var sliden=2;
+var slidei=1;
+var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
+var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','k','ḷ','ḍ','ṣ','c','v','b','ṇ','ṅ'];
+window.addEventListener('resize', function(event){
+  
+	if(E!=document.body.offsetWidth)
+	{
+		E=document.body.offsetWidth;
+		redraw();
+    if(openedkb==1){openkeyboard();}
+	}
+});
+$(document).ready(function(){redraw();next();});
+function activatebutton(){
+  document.getElementById("button1").style.display="inline";
+}
+function subnext(){
+  document.getElementById("space").style.opacity=0;
+  next();
+}
+function next(){
+  inputtext='';
+  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><button style=\"display: none\" onclick=\"subnext()\" id=\"button1\" class=\'button\'>>></div></div>";
+  document.getElementById("space").style.opacity=1;
+  if(document.getElementById("space").innerHTML.includes("inputplace")){
+    openkeyboard();
+  }
+  else activatebutton();
+  if(slidei<sliden){slidei++;}
+}
 function back(){
   inputtext=inputtext.slice(0,-1);
   document.getElementById("inputplace").innerHTML=inputtext;
+  clearpressed();
+}
+function clearpressed(){
+  if(pressed!==-1){
+    document.getElementById(pressed+"key").style.color="black";
+    document.getElementById(pressed+"key").innerHTML=letters[pressed];
+    pressed=-1;
+  }
 }
 function type(e) {
+  var i=parseInt(e.currentTarget.id.slice(-4,-2));
+  if(pressed==i){inputtext=inputtext.slice(0,-1);}
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
+  if(pressable[i] && pressed!==i){
+    clearpressed();
+    e.currentTarget.children[0].style.color="blue";
+    e.currentTarget.children[0].innerHTML=sletters[i];
+    pressed=i;
+  }
+  else clearpressed();
+  if(inputtext==document.getElementById("answer").innerHTML){activatebutton();}
 }
 function types(e) {
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
+  if(inputtext==document.getElementById("answer").innerHTML){activatebutton();}
 }
-var w=document.getElementById("primarykeyboard").clientWidth;
-var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
-var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','k','ḷ','ḍ','ṣ','c','v','b','ṇ','ṅ'];
-var keysdeclaration='';
+
+var w=0;
+
+
+function redraw()
+{
+  if(openedkb==0){document.getElementById("space").style.height=window.innerHeight;}
+  var keysdeclaration='';
 var skeysdeclaration='';
+  w=document.getElementById("primarykeyboard").clientWidth;
+  
 var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
 var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
 var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
 var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
 
 for(i=0;i<letters.length;i++){
-  keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ letters[i] + "sq\"><div class=\"text\" id=\""+letters[i]+"key\">"+letters[i]+"</div></div>";
-  skeysdeclaration=skeysdeclaration+"<div class=\"keys\" id=\"s"+ sletters[i] + "sq\"><div class=\"text\" id=\"s"+sletters[i]+"key\">"+sletters[i]+"</div></div>";
+  keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ i + "sq\"><div class=\"text\" id=\""+i+"key\">"+letters[i]+"</div></div>";
+  skeysdeclaration=skeysdeclaration+"<div class=\"keys\" id=\"s"+ i + "sq\"><div class=\"text\" id=\"s"+i+"key\">"+sletters[i]+"</div></div>";
 }
 skeysdeclaration=skeysdeclaration+sshiftkeydeclaration+sbackkeydeclaration;
 keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
 
 document.getElementById("primarykeyboard").innerHTML=keysdeclaration;
 document.getElementById("shiftkeyboard").innerHTML=skeysdeclaration;
-document.getElementById("shiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="inline";});
+document.getElementById("shiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="inline";clearpressed();});
 document.getElementById("sshiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
 document.getElementById("backsq").addEventListener("click",back);
 document.getElementById("sbacksq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
+
+
 for(i=0;i<letters.length;i++){
-  var csq=document.getElementById(letters[i]+"sq");
-  var cssq=document.getElementById("s"+sletters[i]+"sq");
-  var ck=document.getElementById(letters[i]+"key");
-  var csk=document.getElementById("s"+sletters[i]+"key");
+  var csq=document.getElementById(i+"sq");
+  var cssq=document.getElementById("s"+i+"sq");
+  var ck=document.getElementById(i+"key");
+  var csk=document.getElementById("s"+i+"key");
   if(i<10){
     csq.style.left=i*w/10.0+"px";
     cssq.style.left=i*w/10.0+"px";
@@ -70,13 +131,12 @@ for(i=0;i<letters.length;i++){
   csk.style.fontSize=Math.floor(w/15.0)+"px";
   cssq.addEventListener("click",types);
 }
-
-/*document.getElementById("shiftsq").style.left=0.5*w/10.0+"px";;
-*/
+}
 function openkeyboard() {
   document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("space").style.height=window.innerHeight - w*1.3*0.3+"px";
+  openedkb=1;
 }
 
 /* Set the width of the side navigation to 0 */
@@ -84,7 +144,6 @@ function closekeyboard() {
   document.getElementById("primarykeyboard").style.height = "0";
   document.getElementById("shiftkeyboard").style.height="0";
   document.getElementById("space").style.height=window.innerHeight;
+  openedkb=0;
 }
 
-openkeyboard();
-});
