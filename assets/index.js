@@ -4,10 +4,10 @@ var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var primarykeyboardinner='';
 var inputtext='';
-var sliden=2;
+var sliden=3;
 var slidei=1;
 var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
-var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','k','ḷ','ḍ','ṣ','c','v','b','ṇ','ṅ'];
+var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','ṅ','ḷ','ḍ','ṣ','c','v','b','ṇ','m'];
 window.addEventListener('resize', function(event){
   
 	if(E!=document.body.offsetWidth)
@@ -20,19 +20,20 @@ window.addEventListener('resize', function(event){
 $(document).ready(function(){redraw();next();});
 function activatebutton(){
   document.getElementById("button1").style.display="inline";
+	closekeyboard();
+	animateCSS('#button1','fadeIn');
 }
 function subnext(){
-  document.getElementById("space").style.opacity=0;
-  next();
+  animateCSS('#space','fadeOut',next);
 }
 function next(){
   inputtext='';
   document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><button style=\"display: none\" onclick=\"subnext()\" id=\"button1\" class=\'button\'>>></div></div>";
-  document.getElementById("space").style.opacity=1;
   if(document.getElementById("space").innerHTML.includes("inputplace")){
     openkeyboard();
   }
-  else activatebutton();
+  else{activatebutton();closekeyboard();}
+	animateCSS('#space','fadeIn');
   if(slidei<sliden){slidei++;}
 }
 function back(){
@@ -54,7 +55,7 @@ function type(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   if(pressable[i] && pressed!==i){
     clearpressed();
-    e.currentTarget.children[0].style.color="blue";
+    e.currentTarget.children[0].style.color="#ff2400";
     e.currentTarget.children[0].innerHTML=sletters[i];
     pressed=i;
   }
@@ -135,7 +136,7 @@ for(i=0;i<letters.length;i++){
 function openkeyboard() {
   document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
-  document.getElementById("space").style.height=window.innerHeight - w*1.3*0.3+"px";
+  /*document.getElementById("space").style.height=window.innerHeight - w*1.3*0.3+"px";*/
   openedkb=1;
 }
 
@@ -143,7 +144,19 @@ function openkeyboard() {
 function closekeyboard() {
   document.getElementById("primarykeyboard").style.height = "0";
   document.getElementById("shiftkeyboard").style.height="0";
-  document.getElementById("space").style.height=window.innerHeight;
+  /*document.getElementById("space").style.height=window.innerHeight;*/
   openedkb=0;
 }
+function animateCSS(element, animationName, callback) {
+    const node = document.querySelector(element)
+    node.classList.add('animated', animationName,'fast')
 
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName,'fast')
+        node.removeEventListener('animationend', handleAnimationEnd)
+
+        if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
+}
