@@ -17,7 +17,7 @@ window.addEventListener('resize', function(event){
     if(openedkb==1){openkeyboard();}
 	}
 });
-$(document).ready(function(){redraw();next();});
+$(document).ready(function(){redraw();subnext();});
 function activatebutton(){
   document.getElementById("button1").style.display="inline";
 	closekeyboard();
@@ -79,15 +79,16 @@ function redraw()
 var skeysdeclaration='';
   w=document.getElementById("primarykeyboard").clientWidth;
   
-var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
-var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
-var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
-var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding-top: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"gray\"></svg></div>';
+var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B2BEB5\"></svg></div>';
+var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B2BEB5\"></svg></div>';
+var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B2BEB5\"></svg></div>';
+var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B2BEB5\"></svg></div>';
 
 for(i=0;i<letters.length;i++){
   keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ i + "sq\"><div class=\"text\" id=\""+i+"key\">"+letters[i]+"</div></div>";
   skeysdeclaration=skeysdeclaration+"<div class=\"keys\" id=\"s"+ i + "sq\"><div class=\"text\" id=\"s"+i+"key\">"+sletters[i]+"</div></div>";
 }
+skeysdeclaration=skeysdeclaration.replace("s16key\"","s16key\" style=\"color: dimgray\"").replace("s17key\"","s17key\" style=\"color: dimgray\"").replace("s24key\"","s24key\" style=\"color: dimgray\"");
 skeysdeclaration=skeysdeclaration+sshiftkeydeclaration+sbackkeydeclaration;
 keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
 
