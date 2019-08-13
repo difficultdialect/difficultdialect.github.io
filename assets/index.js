@@ -17,7 +17,7 @@ window.addEventListener('resize', function(event){
     if(openedkb==1){openkeyboard();}
 	}
 });
-$(document).ready(function(){redraw();subnext();});
+window.onload=function(){redraw();subnext();};
 function activatebutton(){
   document.getElementById("button1").style.display="inline";
 	closekeyboard();
