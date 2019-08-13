@@ -6,16 +6,13 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-#space {
-  opacity: 0;
-  transition: 0.5s;
+#space{
 }
-
 #inputplace {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
-  color: #ff2400;
+  color: indigo;
 }
 .keyboard {
   height: 0;
@@ -54,25 +51,11 @@ body {
   display:none;
 }
 .button {
-  font-family: 'Mukta', sans-serif;
-  display: inline-block;
-  padding: 5px 25px;
-  font-size: 24px;
-  cursor: pointer;
+  background-color: #4CAF50; /* Green */
+  color: white;
+	font-size:x-large;
+	text-decoration: none;
+	border: none;
   text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
-}
-
-.button:hover {background-color: #3e8e41}
-
-.button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+  display: inline-block;
 }
