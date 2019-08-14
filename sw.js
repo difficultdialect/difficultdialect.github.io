@@ -10,7 +10,7 @@ if (workbox) {
 
 workbox.routing.registerRoute(
   // Cache CSS files.
-  /\.(?:js|css)$/,
+  /\.(?:js|css|html)$/,
   // Use cache but update in the background.
   new workbox.strategies.NetworkFirst({
     // Use a custom cache name.
@@ -74,16 +74,3 @@ workbox.routing.registerRoute(
     ],
   })
 );
-
-workbox.routing.registerRoute(
-  new RegExp('/static/'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: 'my-cache', // Use the same cache name as before.
-  })
-);
-
-addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    skipWaiting();
-  }
-});
