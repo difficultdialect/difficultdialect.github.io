@@ -10,11 +10,11 @@ if (workbox) {
 
 workbox.routing.registerRoute(
   // Cache CSS files.
-  /\.(?:js|css)$/,
+  /\.(?:js|css|html)$/,
   // Use cache but update in the background.
   new workbox.strategies.NetworkFirst({
     // Use a custom cache name.
-    cacheName: 'css-js',
+    cacheName: 'html-css-js',
   })
 );
 
