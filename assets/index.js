@@ -161,10 +161,10 @@ function closekeyboard() {
 }
 function animateCSS(element, animationName, callback) {
     const node = document.querySelector(element)
-    node.classList.add('animated', animationName,'fast')
+    node.classList.add('animated', animationName,'faster')
 
     function handleAnimationEnd() {
-        node.classList.remove('animated', animationName,'fast')
+        node.classList.remove('animated', animationName,'faster')
         node.removeEventListener('animationend', handleAnimationEnd)
 
         if (typeof callback === 'function') callback()

@@ -133,6 +133,11 @@ body {
   animation-duration: 800ms;
 }
 
+.animated.faster {
+  -webkit-animation-duration: 500ms;
+  animation-duration: 500ms;
+}
+
 @media (print), (prefers-reduced-motion: reduce) {
   .animated {
     -webkit-animation-duration: 1ms !important;
