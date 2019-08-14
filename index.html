@@ -33,14 +33,6 @@
 </div>
   <script src="assets/index.js" async></script>
   <script>
-  // Check that service workers are supported
-  if ('serviceWorker' in navigator) {
-    // Use the window load event to keep the page load performant
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js');
-    });
-  }
-  </script>
   <script type="module">
   import {Workbox} from 'https://storage.googleapis.com/workbox-cdn/releases/4.1.0/workbox-window.prod.mjs';
 
