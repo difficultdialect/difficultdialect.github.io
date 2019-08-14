@@ -12,7 +12,7 @@ workbox.routing.registerRoute(
   // Cache CSS files.
   /\.(?:js|css)$/,
   // Use cache but update in the background.
-  new workbox.strategies.NetworkFirst(){
+  new workbox.strategies.NetworkFirst({
     // Use a custom cache name.
     cacheName: 'css-js',
   })
