@@ -8,6 +8,10 @@ if (workbox) {
   console.log(`Boo! Workbox didn't load 😬`);
 }
 
+workbox.precaching.precacheAndRoute([
+    { url: '/index.html', revision: '383676' },
+]);
+
 workbox.routing.registerRoute(
   // Cache CSS files.
   /\.(?:js|css|html)$/,
