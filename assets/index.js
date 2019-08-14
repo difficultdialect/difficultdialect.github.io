@@ -30,7 +30,7 @@ fontactive: function(familyName,fvd){ //This is called once font has been render
 
 };
 function activatebutton(){
-  document.getElementById("button1").style.display="inline";
+  document.getElementById("button1").style.display="inline-block";
 	closekeyboard();
 	animateCSS('#button1','fadeIn');
 }
@@ -39,7 +39,7 @@ function subnext(){
 }
 function next(){
   inputtext='';
-  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><button style=\"display: none; font-family: 'Mukta', sans-serif;\" onclick=\"subnext()\" id=\"button1\" class=\'button\'>kaṇṭīnyu</div></div>";
+  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif;\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
   if(document.getElementById("space").innerHTML.includes("inputplace")){
     openkeyboard();
   }
