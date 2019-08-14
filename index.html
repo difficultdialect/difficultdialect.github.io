@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Learn Sanskrit</title>
-  <link rel="stylesheet" type="text/css" href="/assets/style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
   <!-- Favicon/PWA stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,28 +16,10 @@
 <body>
 <div id="primarykeyboard" class="keyboard"></div>
 <div id="shiftkeyboard" class="keyboard" style="z-indez: 2; display: none"></div>
-<div id="q1" style="display: none">
-  लिखें - कमलनयनः। kamalanayanaḥ.
-  <div class="inputplace"></div>
-  <div class="answer">kamalanayanaḥ</div>
-</div>
-<div id="q2" style="display: none">
-  रामः। rāmaḥ.
-  <div class="inputplace"></div>
-  <div class="answer">rāmaḥ</div>
-</div>
-<div id="q3" style="display: none">
-  लक्ष्मणः। lakṣmaṇaḥ.
-  <div class="inputplace"></div>
-  <div class="answer">lakṣmaṇaḥ</div>
-</div>
-<div id="q4" style="display: none">
-  bāḍham!
-  <div class="answer">t</div>
-</div>
+<div id="slides"></div>
 <div id="space">
 </div>
-  <script src="assets/index.js" async></script>
+  <script src="index.js" async></script>
 <script>
 // Check that service workers are supported
 if ('serviceWorker' in navigator) {
