@@ -91,7 +91,7 @@ window.onload=function(){
 },
 fontactive: function(familyName,fvd){ //This is called once font has been rendered in browser
     // Your business logic goes here
-     document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\">   लिखें - कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q2\" style=\"display: none\">   दशरथनन्दनः। daśarathanandanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">daśarathanandanaḥ.</div> </div> <div id=\"q3\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ.</div> </div> <div id=\"q4\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   bāḍham!   <div class=\"answer\">t</div> </div>';
+     document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\">   लिखें - कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q2\" style=\"display: none\">   दशरथनन्दनः। daśarathanandanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">daśarathanandanaḥ</div> </div> <div id=\"q3\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q4\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   bāḍham!   <div class=\"answer\">t</div> </div>';
    redraw();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
