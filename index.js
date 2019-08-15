@@ -28,8 +28,12 @@ fontactive: function(familyName,fvd){ //This is called once font has been render
    redraw();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
+   {
      if(cookievalue<=silden)
-       slidei=cookievalue;
+       {
+         slidei=cookievalue;
+       }
+   }
    subnext();
   },
 });
