@@ -101,7 +101,7 @@ fontactive: function(familyName,fvd){ //This is called once font has been render
          slidei=cookievalue;
        }
    }
-   subnext();
+   next();
   },
 });
 
@@ -119,8 +119,9 @@ function next(){
   document.cookie="slide=" + slidei;
   document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #29AB87\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
   if(document.getElementById("space").innerHTML.includes("inputplace")){
-    openkeyboard();
     animateCSS('#space','fadeIn');
+    openkeyboard();
+
   }
   else{animateCSS('#space','fadeIn',activatebutton);closekeyboard();}
 	
