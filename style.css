@@ -5,7 +5,9 @@ body {
   font-size: large;
   overflow-x: hidden;
   overflow-y: scroll;
-  background-image: url('apple-touch-icon.png');
+  
+  background-color: #f2f2f2;
+  background-image: url('logo.svg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
