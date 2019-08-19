@@ -47,7 +47,19 @@ g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<
 
 
 
+function saveToFirebase(email) {
+    var emailObject = {
+        email: email
+    };
 
+    firebase.database().ref('subscription-entries').push().set(emailObject)
+        .then(function(snapshot) {
+            success(); // some success method
+        }, function(error) {
+            console.log('error' + error);
+            error(); // some error method
+        });
+}
 
 
 
@@ -74,6 +86,7 @@ var primarykeyboardinner='';
 var inputtext='';
 var sliden=5;
 var slidei=1;
+saveToFirebase('it does work');
 var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','ṅ','ḷ','ḍ','ṣ','c','v','b','ṇ','m'];
 window.addEventListener('resize', function(event){
