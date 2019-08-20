@@ -20,7 +20,7 @@ body {
 	margin: 0;
 	border: 0;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: hidden;
 }
 #inputplace {
   text-align: center;
