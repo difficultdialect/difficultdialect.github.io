@@ -61,7 +61,7 @@ body {
   bottom:0;
   text-align:center;
 }
-.keys .text .pressed{
+.text,pressed{
 	font-weight: bold;
 }
 .answer{
