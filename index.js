@@ -192,12 +192,17 @@ for(i=0;i<letters.length;i++){
   keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ i + "sq\"><div class=\"text\" id=\""+i+"key\">"+letters[i]+"</div></div>";
   skeysdeclaration=skeysdeclaration+"<div class=\"keys\" id=\"s"+ i + "sq\"><div class=\"text\" id=\"s"+i+"key\">"+sletters[i]+"</div></div>";
 }
-skeysdeclaration=skeysdeclaration.replace("s16key\"","s16key\" style=\"color: dimgray\"").replace("s17key\"","s17key\" style=\"color: dimgray\"").replace("s24key\"","s24key\" style=\"color: dimgray\"");
+
 skeysdeclaration=skeysdeclaration+sshiftkeydeclaration+sbackkeydeclaration;
 keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
 
 document.getElementById("primarykeyboard").innerHTML=keysdeclaration;
 document.getElementById("shiftkeyboard").innerHTML=skeysdeclaration;
+for(i=0;i<letters.length;i++){
+   if(letter[i]!==letters[i]){
+	   document.getElementById("s"+i+"key").classList.add("pressed");
+   }
+}
 document.getElementById("shiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="inline";clearpressed();});
 document.getElementById("sshiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
 document.getElementById("backsq").addEventListener("click",back);
