@@ -147,7 +147,7 @@ function back(){
 }
 function clearpressed(){
   if(pressed!==-1){
-    document.getElementById(pressed+"key").style.color="black";
+    document.getElementById(pressed+"key").classList.remove("pressed");
     document.getElementById(pressed+"key").innerHTML=letters[pressed];
     pressed=-1;
   }
@@ -159,7 +159,7 @@ function type(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   if(pressable[i] && pressed!==i){
     clearpressed();
-    e.currentTarget.children[0].style.color="#242424";
+    e.currentTarget.children[0].classList.add("pressed");
     e.currentTarget.children[0].innerHTML=sletters[i];
     pressed=i;
   }
