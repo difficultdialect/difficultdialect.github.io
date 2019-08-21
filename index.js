@@ -104,7 +104,7 @@ window.onload=function(){
 },
 fontactive: function(familyName,fvd){ //This is called once font has been rendered in browser
     // Your business logic goes here
-     document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\"> First of all, we will learn an easy method to input Sanskrit text. Learning a devanāgarī keyboard layout is a way, but as you are perhaps already familiar with QWERTY keyboard layout, we introduce the International Alphabet for Sanskrit Transliteration, which is based on the English Alphabet. Here is the first example. Simply type what you see, using the keyboard provided. कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q2\" style=\"display: none\"> <img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\">  हिमवान्। himavān.   <div class=\"inputplace\"></div>   <div class=\"answer\">himavān</div> </div> <div id=\"q3\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q4\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   bāḍham!   <div class=\"answer\">t</div> </div>';
+     document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\"> The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet shall be used to quickly begin Sanskrit text input here. Type what you see. कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q2\" style=\"display: none\"> <img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\">  हिमवान्। himavān.   <div class=\"inputplace\"></div>   <div class=\"answer\">himavān</div> </div> <div id=\"q3\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q4\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   bāḍham!   <div class=\"answer\">t</div> </div>';
    redraw();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
@@ -199,7 +199,7 @@ keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
 document.getElementById("primarykeyboard").innerHTML=keysdeclaration;
 document.getElementById("shiftkeyboard").innerHTML=skeysdeclaration;
 for(i=0;i<letters.length;i++){
-   if(letter[i]!==letters[i]){
+   if(sletters[i]!==letters[i]){
 	   document.getElementById("s"+i+"key").classList.add("pressed");
    }
 }
