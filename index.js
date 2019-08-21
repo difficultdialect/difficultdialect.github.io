@@ -130,7 +130,7 @@ function subnext(){
 function next(){
   inputtext='';
   document.cookie="slide=" + slidei;
-  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #29AB87\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
+  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
   if(document.getElementById("space").innerHTML.includes("inputplace")){
     animateCSS('#space','fadeIn');
     openkeyboard();
@@ -159,7 +159,7 @@ function type(e) {
   document.getElementById("inputplace").innerHTML=inputtext;
   if(pressable[i] && pressed!==i){
     clearpressed();
-    e.currentTarget.children[0].style.color="#ff2400";
+    e.currentTarget.children[0].style.color="#242424";
     e.currentTarget.children[0].innerHTML=sletters[i];
     pressed=i;
   }
