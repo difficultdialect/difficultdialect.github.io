@@ -266,7 +266,7 @@ for(i=0;i<letters.length;i++){
 }
 function openkeyboard() {
   document.getElementById("primarykeyboard").style.display = "inline";
-  document.getElementById("shiftkeyboard").style.display = "inline";
+  document.getElementById("shiftkeyboard").style.display = "none";
   document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
  /* document.getElementById("space").style.height=(window.innerHeight - w*1.3*0.3)+"px";*/
@@ -277,8 +277,8 @@ function openkeyboard() {
 function closekeyboard() {
   document.getElementById("primarykeyboard").style.height = "0";
   document.getElementById("shiftkeyboard").style.height="0";
-  setTimeout(function(){document.getElementById("primarykeyboard").style.display = "inline";
-			document.getElementById("shiftkeyboard").style.display = "inline";},
+  setTimeout(function(){document.getElementById("primarykeyboard").style.display = "none";
+			document.getElementById("shiftkeyboard").style.display = "none";},
 	     200);
   /*document.getElementById("space").style.height=window.innerHeight+"px";*/
   openedkb=0;
