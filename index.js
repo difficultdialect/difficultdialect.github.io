@@ -84,8 +84,17 @@ var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var primarykeyboardinner='';
 var inputtext='';
-var sliden=5;
+
 var slidei=1;
+var sildes=[
+	{img:0, input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
+	{img:0, input:1, q:"कमलनयनः। kamalanayanaḥ.", a:"kamalanayanaḥ"},
+	{img:1, input:1, q:"<img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\"> हिमवान्। himavān", a:"himavān"},
+	{img:0, input:1, q:"रामः। rāmaḥ.", a:"rāmaḥ."},
+	{img:0, input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ."},
+	{img:0, input:0, q:"bāḍham."}
+];
+var sliden=slides.length;
 saveToFirebase('it does work');
 var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','ṅ','ḷ','ḍ','ṣ','c','v','b','ṇ','m'];
@@ -104,8 +113,8 @@ window.onload=function(){
 },
 fontactive: function(familyName,fvd){ //This is called once font has been rendered in browser
     // Your business logic goes here
-     document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\">The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see.</div><div id=\"q2\" style=\"display: none\"> कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q3\" style=\"display: none\"> <img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\">  हिमवान्। himavān.   <div class=\"inputplace\"></div>   <div class=\"answer\">himavān</div> </div> <div id=\"q4\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q6\" style=\"display: none\">   bāḍham!</div>';
-   redraw();
+     /*document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\">The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see.</div><div id=\"q2\" style=\"display: none\"> कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q3\" style=\"display: none\"> <img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\">  हिमवान्। himavān.   <div class=\"inputplace\"></div>   <div class=\"answer\">himavān</div> </div> <div id=\"q4\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q6\" style=\"display: none\">   bāḍham!</div>';
+   */redraw();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
    {
@@ -127,9 +136,21 @@ function activatebutton(){
 function subnext(){
   animateCSS('#space','fadeOut',next);
 }
+var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
+var inputdeclaration="<div id=\"inputplace\"></div>";
 function next(){
   inputtext='';
   document.cookie="slide=" + slidei;
+  if(slides[slidei-1].input==0){
+	  document.getElementById("space").innerHTML=slides[slidei-1].q + buttondeclaration;
+	  animateCSS('#space','fadeIn',activatebutton);
+	  closekeyboard();
+  }
+  else{
+	  document.getElementById("space").innerHTML=slides[slidei-1].q + inputdeclaration + buttondeclaration;
+	  animateCSS('#space','fadeIn');
+	  openkeyboard();
+  }/*
   document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
   if(document.getElementById("space").innerHTML.includes("inputplace")){
     animateCSS('#space','fadeIn');
@@ -137,7 +158,7 @@ function next(){
 
   }
   else{animateCSS('#space','fadeIn',activatebutton);closekeyboard();}
-	
+	*/
   if(slidei<sliden){slidei++;}
 }
 function back(){
@@ -164,13 +185,13 @@ function type(e) {
     pressed=i;
   }
   else clearpressed();
-  if(inputtext==document.getElementById("answer").innerHTML){activatebutton();}
+  if(inputtext==slides[slidei-2].a){activatebutton();}
 }
 function types(e) {
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
   document.getElementById("shiftkeyboard").style.display="none";
-  if(inputtext==document.getElementById("answer").innerHTML){activatebutton();}
+  if(inputtext==slides[slidei-2].a){activatebutton();}
 }
 
 var w=0;
