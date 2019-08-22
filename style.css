@@ -8,12 +8,10 @@ body {
 	padding:0;
 	margin: 0;
 	border: 0;
-  /*
-  background-color: #f2f2f2;
   background-image: url('logo.svg');
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: center;*/
+  background-position: center;
 }
 #space{
 	padding: 1em;
