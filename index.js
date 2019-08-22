@@ -90,8 +90,8 @@ var slides=[
 	{img:0, input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{img:0, input:1, q:"कमलनयनः। kamalanayanaḥ.", a:"kamalanayanaḥ"},
 	{img:1, input:1, q:"<img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\"> हिमवान्। himavān", a:"himavān"},
-	{img:0, input:1, q:"रामः। rāmaḥ.", a:"rāmaḥ."},
-	{img:0, input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ."},
+	{img:0, input:1, q:"रामः। rāmaḥ.", a:"rāmaḥ"},
+	{img:0, input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
 	{img:0, input:0, q:"bāḍham."}
 ];
 var sliden=slides.length;
