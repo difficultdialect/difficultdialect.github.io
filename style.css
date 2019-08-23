@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Mukta:400,700&display=swap&subset=devanagari,latin-ext');
+html{
+	height:100%;
+}
 body {
   word-wrap: break-word;
   font-family: 'Mukta', sans-serif;
   font-size: large;
   overflow-x: hidden;
   overflow-y: hidden;
+	height: 100%;
 	padding:0;
 	margin: 0;
 	border: 0;
