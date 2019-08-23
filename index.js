@@ -123,6 +123,7 @@ fontactive: function(familyName,fvd){ //This is called once font has been render
          slidei=cookievalue;
        }
    }
+	document.getElementById("space").style.display=block;
    next();
   },
 });
