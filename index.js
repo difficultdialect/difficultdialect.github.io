@@ -44,7 +44,7 @@ g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<
 
 
 
-
+/*
 
 
 function saveToFirebase(email) {
@@ -64,7 +64,7 @@ function saveToFirebase(email) {
 
 
 
-
+*/
 
 
 
@@ -95,7 +95,7 @@ var slides=[
 	{img:0, input:0, q:"bāḍham."}
 ];
 var sliden=slides.length;
-saveToFirebase('it does work');
+/*saveToFirebase('it does work');*/
 var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
 var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','ṅ','ḷ','ḍ','ṣ','c','v','b','ṇ','m'];
 window.addEventListener('resize', function(event){
