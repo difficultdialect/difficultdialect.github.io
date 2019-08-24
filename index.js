@@ -155,6 +155,7 @@ var imgereplace="#i";
 
 var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #ffffff\">.</span></div>";
 function next(){
+  if(slidei==sliden){slidei--;}
   document.getElementById("space").style.display="none";
   console.log("next"); 
   inputtext='';
@@ -220,7 +221,7 @@ function showspace(){
 	  animateCSS('#space','fadeIn');
 	  openkeyboard();
   }
-  if(slidei<sliden){slidei++;}
+  slidei++;
 }
 function back(){
   inputtext=inputtext.slice(0,-1);
