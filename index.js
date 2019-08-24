@@ -87,12 +87,12 @@ var inputtext='';
 
 var slidei=1;
 var slides=[
-	{img:0, input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
-	{img:0, input:1, q:"कमलनयनः। kamalanayanaḥ.", a:"kamalanayanaḥ"},
-	{img:1, input:1, q:"<img src=\"mteverest.jpg\" style=\"width: 100%\"> हिमवान्। himavān", a:"himavān"},
-	{img:0, input:1, q:"रामः। rāmaḥ.", a:"rāmaḥ"},
-	{img:0, input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
-	{img:0, input:0, q:"bāḍham."}
+	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
+	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
+	{input:1, q:"[himavan]हिमवान्। himavān", a:"himavān"},
+	{input:1, q:"[rajasadanam]राजसदनम्। rājasadanam.", a:"rājasadanam"},
+	{input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
+	{input:0, q:"bāḍham."}
 ];
 var sliden=slides.length;
 /*saveToFirebase('it does work');*/
@@ -111,10 +111,8 @@ window.onload=function(){
   WebFont.load({google: {
   families: ['Mukta:400, 700']
 },
-fontactive: function(familyName,fvd){ //This is called once font has been rendered in browser
-    // Your business logic goes here
-     /*document.getElementById("slides").innerHTML='<div id=\"q1\" style=\"display: none\">The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see.</div><div id=\"q2\" style=\"display: none\"> कमलनयनः। kamalanayanaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">kamalanayanaḥ</div> </div> <div id=\"q3\" style=\"display: none\"> <img src=\"martin-jernberg-oBX-b6ltYts-unsplash.jpg\" style=\"width: 100%\">  हिमवान्। himavān.   <div class=\"inputplace\"></div>   <div class=\"answer\">himavān</div> </div> <div id=\"q4\" style=\"display: none\">   रामः। rāmaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">rāmaḥ</div> </div> <div id=\"q5\" style=\"display: none\">   लक्ष्मणः। lakṣmaṇaḥ.   <div class=\"inputplace\"></div>   <div class=\"answer\">lakṣmaṇaḥ</div> </div> <div id=\"q6\" style=\"display: none\">   bāḍham!</div>';
-   */redraw();
+fontactive: function(familyName,fvd){
+   redraw();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
    {
@@ -135,21 +133,53 @@ function activatebutton(){
 	animateCSS('#button1','fadeIn');
 }
 function subnext(){
-	document.getElementBy
+	document.body.style.backgroundImage="";
   animateCSS('#space','fadeOut',next);
 }
 var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
-var inputdeclaration="<div id=\"inputplace\"></div>";
+var imgsreplace="i#";
+var imgereplace="#i";
+
+var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #ffffff\">.</span></div>";
 function next(){
   inputtext='';
   document.cookie="slide=" + slidei;
+  var q="";
+  var oq=slides[slidei-1].q;
+  var lastput=0;
+  for(i=0;i<oq.length;i++)
+  {
+  	if(oq.charAt(i)=="[")
+  	{
+  		q=q+oq.substring(lastput,i);
+  		lastput=i+1;
+  		while(i<oq.length && oq.charAt(i)!=="]")
+  		{
+  			i++;
+  		}
+  		imagename=oq.substring(lastput,i);
+  		lastput=i+1;
+  		var sizes=[144, 240, 360, 480, 720, 1080];
+  		q=q+"<img src=\"i/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" srcset=\"";
+  		for(j=0;j<sizes.length;j++)
+  		{
+  			q=q+"i/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
+  			if(j<sizes.length-1)
+  			{
+  				q=q+", ";
+  			}
+  		}
+  		q=q+"\">"
+  	}
+  }
+  q=q+oq.substring(lastput,i);
   if(slides[slidei-1].input==0){
-	  document.getElementById("space").innerHTML=slides[slidei-1].q + buttondeclaration;
+	  document.getElementById("space").innerHTML=q + buttondeclaration;
 	  animateCSS('#space','fadeIn',activatebutton);
 	  closekeyboard();
   }
   else{
-	  document.getElementById("space").innerHTML=slides[slidei-1].q + inputdeclaration + buttondeclaration;
+	  document.getElementById("space").innerHTML=q + inputdeclaration + buttondeclaration;
 	  animateCSS('#space','fadeIn');
 	  openkeyboard();
   }/*
