@@ -93,7 +93,7 @@ var slides=[
 	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
 	{input:1, q:"[rajasadanam]राजसदनम्। rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
-	{input:0, q:"[ajagarah]ajagaraḥ."}
+	{input:0, q:"[ajagarah]ajagaraḥ."},
 	{input:0, q:"bāḍham."}
 ];
 var sliden=slides.length;
