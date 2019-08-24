@@ -86,6 +86,8 @@ var primarykeyboardinner='';
 var inputtext='';
 
 var slidei=1;
+var nimages=0;
+var q="";
 var slides=[
 	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
@@ -153,11 +155,16 @@ var imgereplace="#i";
 
 var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #ffffff\">.</span></div>";
 function next(){
+  document.getElementById("space").style.display="none";
+  console.log("next"); 
   inputtext='';
+  nimages=0;
   document.cookie="slide=" + slidei;
-  var q="";
+  q="";
   var oq=slides[slidei-1].q;
   var lastput=0;
+  var hasimage=0;
+  var images=[];
   for(i=0;i<oq.length;i++)
   {
   	if(oq.charAt(i)=="[")
@@ -169,9 +176,12 @@ function next(){
   			i++;
   		}
   		imagename=oq.substring(lastput,i);
+  		images.push(imagename);
+  		nimages++;
+  		hasimage=1;
   		lastput=i+1;
   		var sizes=[144, 240, 360, 480, 720, 1080];
-  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" srcset=\"";
+  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" id=\"image" +imagename + "\" srcset=\"";
   		for(j=0;j<sizes.length;j++)
   		{
   			q=q+"images/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
@@ -181,27 +191,35 @@ function next(){
   			}
   		}
   		q=q+"\">"
+  		console.log("initiated");
   	}
   }
   q=q+oq.substring(lastput,i);
   if(slides[slidei-1].input==0){
 	  document.getElementById("space").innerHTML=q + buttondeclaration;
+  }
+  else{
+	  document.getElementById("space").innerHTML=q + inputdeclaration + buttondeclaration;
+  }
+  if(hasimage==0){
+  	showspace();
+  }
+  for(i=0;i<images.length;i++)
+  {
+  	$("#image"+images[i]).on("load",function(){console.log("loaded");nimages--;if(nimages==0){showspace();}});
+  }
+}
+function showspace(){
+  document.getElementById("space").style.display="block";
+  console.log("showing");
+  if(slides[slidei-1].input==0){
 	  animateCSS('#space','fadeIn',activatebutton);
 	  closekeyboard();
   }
   else{
-	  document.getElementById("space").innerHTML=q + inputdeclaration + buttondeclaration;
 	  animateCSS('#space','fadeIn');
 	  openkeyboard();
-  }/*
-  document.getElementById("space").innerHTML=document.getElementById("q"+slidei).innerHTML.replace("class=\"inputplace\"","id=\"inputplace\"").replace("class=\"answer\"","class=\"answer\" id=\"answer\"")+"<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
-  if(document.getElementById("space").innerHTML.includes("inputplace")){
-    animateCSS('#space','fadeIn');
-    openkeyboard();
-
   }
-  else{animateCSS('#space','fadeIn',activatebutton);closekeyboard();}
-	*/
   if(slidei<sliden){slidei++;}
 }
 function back(){
