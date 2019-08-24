@@ -89,7 +89,8 @@ var slidei=1;
 var slides=[
 	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
-	{input:0, q:"[ajagarah]ajagaraḥ."},
+	{input:1, q:"[sikhi]शिखी। śikhī.", a:"śikhī"},
+	{input:1, q:"[ajagarah]ajagaraḥ.", a:"ajagaraḥ"},
 	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
 	{input:1, q:"[rajasadanam]राजसदनम्। rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
@@ -161,10 +162,10 @@ function next(){
   		imagename=oq.substring(lastput,i);
   		lastput=i+1;
   		var sizes=[144, 240, 360, 480, 720, 1080];
-  		q=q+"<img src=\"i/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" srcset=\"";
+  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" srcset=\"";
   		for(j=0;j<sizes.length;j++)
   		{
-  			q=q+"i/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
+  			q=q+"images/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
   			if(j<sizes.length-1)
   			{
   				q=q+", ";
