@@ -89,11 +89,10 @@ var slidei=1;
 var slides=[
 	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
-	{input:1, q:"[vyoma]व्योम। vyoma.", a:"vyoma"},
+	{input:0, q:"[ajagarah]ajagaraḥ."},
 	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
 	{input:1, q:"[rajasadanam]राजसदनम्। rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
-	{input:0, q:"[ajagarah]ajagaraḥ."},
 	{input:0, q:"bāḍham."}
 ];
 var sliden=slides.length;
