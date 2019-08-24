@@ -55,6 +55,13 @@ body {
   -webkit-user-select: none;
   -o-user-select: none;
 }
+.nonselectable{
+   user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
 .keyboard .keys {
   position: absolute;
   width: 10%;

@@ -90,13 +90,20 @@ var slides=[
 	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
 	{input:1, q:"[sikhi]शिखी। śikhī.", a:"śikhī"},
+	{input:1, q:"[simhah]सिंहः। siṃhaḥ.", a:"siṃhaḥ"},
 	{input:1, q:"[vyaghrah]व्याघ्रः। vyāghraḥ.", a:"vyāghraḥ"},
 	{input:1, q:"[sitavyaghrah]सितव्याघ्रः। sitavyāghraḥ.", a:"sitavyāghraḥ"},
+	{input:1, q:"[harinah]हरिणः। hariṇaḥ.", a:"hariṇaḥ"},
 	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
-	{input:1, q:"[ajagarah]ajagaraḥ.", a:"ajagaraḥ"},
+	{input:1, q:"[ajagarah]अजगरः। ajagaraḥ.", a:"ajagaraḥ"},
+	{input:1, q:"[odanam]ओदनम्। odanam.", a:"odanam"},
+	{input:1, q:"[hamsah]हंसः। haṃsaḥ.", a:"haṃsaḥ"},
+	{input:1, q:"[dhama]धाम। dhāma.", a:"dhāma"},
 	{input:1, q:"[rajasadanam]राजसदनम्। rājasadanam.", a:"rājasadanam"},
-	{input:1, q:"लक्ष्मणः। lakṣmaṇaḥ.", a:"lakṣmaṇaḥ"},
-	{input:0, q:"bāḍham."}
+	{input:1, q:"[kapih]कपिः। kapiḥ.", a:"kapiḥ"},
+	{input:1, q:"[kapi]कपी। kapī.", a:"kapī"},
+	{input:1, q:"[kapayah]कपयः। kapayaḥ.", a:"kapayaḥ"},
+	{input:1, q:"[nauh]नौः। nauḥ.", a:"nauḥ"},
 ];
 var sliden=slides.length;
 /*saveToFirebase('it does work');*/
@@ -140,7 +147,7 @@ function subnext(){
 	document.body.style.backgroundImage="";
   animateCSS('#space','fadeOut',next);
 }
-var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
+var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
 var imgsreplace="i#";
 var imgereplace="#i";
 
