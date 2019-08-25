@@ -156,7 +156,7 @@ var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: 
 var imgsreplace="i#";
 var imgereplace="#i";
 
-var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #c0c0c0\">—</span></div>";
+var inputdeclaration="<div id=\"inputplace\"><span class=\"nonselectable\">style=\"color: #c0c0c0\">—</span></div>";
 function next(){
   document.getElementById("shiftkeyboard").style.display="none";
   if(slidei>sliden){slidei--;}
