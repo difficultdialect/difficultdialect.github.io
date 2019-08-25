@@ -170,7 +170,7 @@ var inputdeclaration="<div id=\"inputplacebuffer\">" + inputalt + "</div>";
 function next(){
   nimages=0;
   console.log("next"); 
-  if(slidei>sliden){ready();}
+  if(slidei>sliden){slidei=sliden;ready();}
   else{
   q="";
   var oq=slides[slidei-1].q;
