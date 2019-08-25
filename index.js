@@ -158,7 +158,7 @@ var imgereplace="#i";
 var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #c0c0c0\">—</span></div>";
 function next(){
   document.getElementById("shiftkeyboard").style.display="none";
-  if(slidei==sliden){slidei--;}
+  if(slidei>sliden){slidei--;}
   document.getElementById("space").style.display="none";
   console.log("next"); 
   inputtext='';
