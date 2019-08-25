@@ -151,6 +151,7 @@ function activatebutton(){
 }
 function subnext(){
 	$("#shiftkeyboard").hide();
+	clearpressed();
 	$("#space").fadeOut(500,ready);
 	slideover=1;
 }
