@@ -186,7 +186,7 @@ function next(){
   		hasimage=1;
   		lastput=i+1;
   		var sizes=[144, 240, 360, 480, 720, 1080];
-  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" width=\"100%\" sizes=\"100vw\" id=\"image" +imagename + "\" srcset=\"";
+  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" sizes=\"100vw\" id=\"image" +imagename + "\" srcset=\"";
   		for(j=0;j<sizes.length;j++)
   		{
   			q=q+"images/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";

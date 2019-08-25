@@ -45,6 +45,12 @@ body {
 	overflow-y: hidden;
 	display: none;
 }
+#space img{
+	margin-left: -1em;
+	margin-right: -1em;
+	margin-top: 0;
+	width: 100vw;
+}
 #inputplace {
   text-align: center;
   font-size: x-large;
@@ -67,11 +73,6 @@ body {
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
     -ms-transition: 0.2s;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
 }
 .nonselectable{
    user-select: none;
