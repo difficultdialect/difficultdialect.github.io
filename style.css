@@ -38,7 +38,8 @@ body {
     -ms-transition: 0.2s;
 }
 #space{
-	padding: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
 	margin: 0;
 	border: 0;
 	overflow-x: hidden;
