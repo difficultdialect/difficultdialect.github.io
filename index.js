@@ -90,7 +90,7 @@ var nimages=0;
 var q="";
 var slideover=0;
 var slides=[
-	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
+	{input:0, q:"<br>The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
 	{input:1, q:"[himavan]हिमालयः। himālayaḥ.", a:"himālayaḥ"},
 	{input:1, q:"[sikhi]शिखी। śikhī.", a:"śikhī"},
