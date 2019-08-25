@@ -13,7 +13,12 @@ body {
 	margin: 0;
 	border: 0;
   background-image: url('logo.svg');
-  background-size: 4em 4em;
+  background-size: 4em;
+  transition: background-size 0.2s linear;
+  -webkit-transition: background-size 0.2s linear;
+    -moz-transition: background-size 0.2s linear;
+    -o-transition: background-size 0.2s linear;
+    -ms-transition: background-size 0.2s linear;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -32,16 +37,12 @@ body {
 	border: 0;
 	overflow-x: hidden;
 	overflow-y: hidden;
-	background-color: #ffffff;
-	min-height: 100vh;
 	display: none;
 }
 #inputplace {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
-  color: black;
-  background-color: #ffffff;
 }
 .keyboard {
   height: 0;
@@ -56,6 +57,10 @@ body {
   padding-bottom: 0;
   padding-left: 0;
   transition: 0.2s;
+  -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -ms-transition: 0.2s;
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;

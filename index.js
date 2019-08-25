@@ -135,6 +135,7 @@ fontactive: function(familyName,fvd){
          slidei=cookievalue;
        }
    }
+   document.body.style.backgroundSize="0px";
 	document.getElementById("space").style.display="block";
    next();
   },
@@ -147,8 +148,7 @@ function activatebutton(){
 	animateCSS('#button1','fadeIn');
 }
 function subnext(){
-	document.body.style.backgroundImage="none";
-	document.getElementById("space").style.minHeight="0px";
+	
   animateCSS('#space','fadeOut',next);
 }
 var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
