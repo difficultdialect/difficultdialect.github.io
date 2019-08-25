@@ -229,7 +229,7 @@ function showspace(){
 function back(){
   inputtext=inputtext.slice(0,-1);
   document.getElementById("inputplace").innerHTML=inputtext;
-  document.getElementById("outerspace").scrollIntoView(true);
+  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   clearpressed();
 }
 function clearpressed(){
@@ -244,7 +244,7 @@ function type(e) {
   if(pressed==i){inputtext=inputtext.slice(0,-1);}
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
-  document.getElementById("outerspace").scrollIntoView(true);
+  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   if(pressable[i] && pressed!==i){
     clearpressed();
     e.currentTarget.children[0].classList.add("pressed");
@@ -257,7 +257,7 @@ function type(e) {
 function types(e) {
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
   document.getElementById("inputplace").innerHTML=inputtext;
-  document.getElementById("outerspace").scrollIntoView(true);
+  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   document.getElementById("shiftkeyboard").style.display="none";
   if(inputtext==slides[slidei-2].a){activatebutton();}
 }
