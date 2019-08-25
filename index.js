@@ -288,9 +288,21 @@ function redrawkeyboard()
 var skeysdeclaration='';
   w=document.getElementById("primarykeyboard").clientWidth;
   
-var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.5*w/10.0 +',' + 0.5*0.3*w/10.0 + ' ' + 1.866*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 +' ' + 0.134*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
+var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + 1.0*w/10.0 + 'px\"><polygon points=\"'
+ + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
+ + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
+  + 1.0*1.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
+  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
+  + 1.0*0.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 +
+   '\" style=\"fill:#a0a0a0\"/></svg></div>';
 var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.5*w/10.0 +',' + 0.5*0.3*w/10.0 + ' ' + 1.866*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 +' ' + 0.134*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 + '\" style=\"fill:#404040\"/></svg></div>';
-var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3-0.866)*w/10.0 +' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3+0.866)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
+var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + 1.0*w/10.0 + 'px\"><polygon points=\"'
+ + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
+ + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
+  + 1.0*1.0*w/10.0 +',' + 0.5*0.3*w/10.0 + ' '
+  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
+  + 1.0*0.5*w/10.0 + ',' + (1.3-0.5*0.3)*w/10.0 +
+   '\" style=\"fill:#a0a0a0\"/></svg></div>';
 var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3-0.866)*w/10.0 +' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3+0.866)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
 
 for(i=0;i<letters.length;i++){
