@@ -95,6 +95,7 @@ var slides=[
 	{input:1, q:"[simhah]सिंहः। siṃhaḥ.", a:"siṃhaḥ"},
 	{input:1, q:"[vyaghrah]व्याघ्रः। vyāghraḥ.", a:"vyāghraḥ"},
 	{input:1, q:"[sitavyaghrah]सितव्याघ्रः। sitavyāghraḥ.", a:"sitavyāghraḥ"},
+	{input:1, q:"[payah]पयः। payaḥ.", a:"payaḥ"},
 	{input:1, q:"[harinah]हरिणः। hariṇaḥ.", a:"hariṇaḥ"},
 	{input:1, q:"[ajah]अजः। ajaḥ.", a:"ajaḥ"},
 	{input:1, q:"[ajagarah]अजगरः। ajagaraḥ.", a:"ajagaraḥ"},
@@ -146,14 +147,15 @@ function activatebutton(){
 	animateCSS('#button1','fadeIn');
 }
 function subnext(){
-	document.body.style.backgroundImage="";
+	document.body.style.backgroundImage="none";
+	document.getElementById("space").style.minHeight="0px";
   animateCSS('#space','fadeOut',next);
 }
 var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
 var imgsreplace="i#";
 var imgereplace="#i";
 
-var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #ffffff\">.</span></div>";
+var inputdeclaration="<div id=\"inputplace\"><span style=\"color: #c0c0c0\">—</span></div>";
 function next(){
   document.getElementById("shiftkeyboard").style.display="none";
   if(slidei==sliden){slidei--;}
@@ -332,7 +334,7 @@ function openkeyboard() {
   document.getElementById("shiftkeyboard").style.display = "none";
   document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
   document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
- /* document.getElementById("space").style.height=(window.innerHeight - w*1.3*0.3)+"px";*/
+  document.getElementById("outerspace").style.height = (w*1.3*0.3)+"px";
   openedkb=1;
 }
 
@@ -343,7 +345,7 @@ function closekeyboard() {
   setTimeout(function(){document.getElementById("primarykeyboard").style.display = "none";
 			document.getElementById("shiftkeyboard").style.display = "none";},
 	     200);
-  /*document.getElementById("space").style.height=window.innerHeight+"px";*/
+  document.getElementById("outerspace").style.height = (0)+"px";
   openedkb=0;
 }
 function animateCSS(element, animationName, callback) {
