@@ -168,11 +168,10 @@ var imgereplace="#i";
 var inputalt="<span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span>";
 var inputdeclaration="<div id=\"inputplacebuffer\">" + inputalt + "</div>";
 function next(){
-  if(slidei>sliden){slidei--;}
-  console.log("next"); 
-  inputtext='';
   nimages=0;
-  document.cookie="slide=" + slidei;
+  console.log("next"); 
+  if(slidei>sliden){slidei--;ready();}
+  else{
   q="";
   var oq=slides[slidei-1].q;
   var lastput=0;
@@ -221,11 +220,14 @@ function next(){
   {
   	$("#image"+images[i]+"buffer").on("load",function(){console.log("loaded");nimages--;ready();});
   }
+  }
 }
 function showspace(){
+  document.cookie="slide=" + slidei-1;
   console.log("showing");
   slideover=0;
   $("#space").html($("#spacebuffer").html().replace(/buffer/g,""));
+  inputtext='';
   if(slides[slidei-1].input==0){
 	  $('#space').fadeIn(500,activatebutton);
 	  closekeyboard();
