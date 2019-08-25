@@ -223,7 +223,7 @@ function next(){
   }
 }
 function showspace(){
-  document.cookie="slide=" + (slidei-1);
+  document.cookie="slide=" + slidei;
   console.log("showing");
   slideover=0;
   $("#space").html($("#spacebuffer").html().replace(/buffer/g,""));
