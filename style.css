@@ -94,7 +94,7 @@ body {
   color:black;
   position: absolute;
   bottom:0;
-  text-align:center;
+  text-align: center;
 }
 .text.pressed{
 	font-weight: bold;

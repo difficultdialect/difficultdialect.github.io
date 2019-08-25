@@ -152,8 +152,8 @@ function activatebutton(){
 function subnext(){
 	$("#shiftkeyboard").hide();
 	clearpressed();
-	$("#space").fadeOut(500,ready);
 	slideover=1;
+	$("#space").fadeOut(500,ready);
 }
 function ready(){
 	console.log("ready, slideover:" + slideover + ", nimages:" + nimages);
@@ -279,7 +279,6 @@ function types(e) {
   $("#shiftkeyboard").hide();
   if(inputtext==slides[slidei-2].a){activatebutton();}
 }
-
 var w=0;
 
 
@@ -329,6 +328,18 @@ for(i=0;i<letters.length;i++){
     csq.style.top=w*1.3/10.0+"px";
     cssq.style.left=(i-9.5)*w/10.0+"px";
     cssq.style.top=w*1.3/10.0+"px";
+    if(i==10){
+    	csq.style.left="0";
+    	csq.style.paddingLeft=0.5*w/10.0+"px";
+    	csq.style.width=1.0*w/10.0+"px";
+    	cssq.style.left="0";
+    	cssq.style.paddingLeft=0.5*w/10.0+"px";
+    	cssq.style.width=1.0*w/10.0+"px";
+    }
+    else if(i==18){
+    	csq.style.width=2.0*w/10.0+"px";
+    	cssq.style.width=2.0*w/10.0+"px";
+    }
   }
   else{
     csq.style.left=(i-17.5)*w/10.0+"px";
