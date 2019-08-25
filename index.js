@@ -82,12 +82,13 @@ var E=document.body.offsetWidth;
 var openedkb=0;
 var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
-var primarykeyboardinner='';
 var inputtext='';
 
 var slidei=1;
+var imagesloaded=0;
 var nimages=0;
 var q="";
+var slideover=0;
 var slides=[
 	{input:0, q:"The International Alphabet for Sanskrit Transliteration, based on the Roman alphabet, shall be used to quickly begin Sanskrit text input here. From next slide onwards, type what you see."},
 	{input:1, q:"[himavan]हिमवान्। himavān.", a:"himavān"},
@@ -118,16 +119,16 @@ window.addEventListener('resize', function(event){
 	if(E!=document.body.offsetWidth)
 	{
 		E=document.body.offsetWidth;
-		redraw();
+		redrawkeyboard();
     if(openedkb==1){openkeyboard();}
 	}
 });
-window.onload=function(){
+$(document).ready(function(){
   WebFont.load({google: {
   families: ['Mukta:400, 700']
 },
 fontactive: function(familyName,fvd){
-   redraw();
+   redrawkeyboard();
    var cookievalue=parseInt(document.cookie.substring(6));
    if(cookievalue!=='NaN')
    {
@@ -137,30 +138,36 @@ fontactive: function(familyName,fvd){
        }
    }
    document.body.style.backgroundSize="0px";
-	document.getElementById("space").style.display="block";
+   slideover=1;
    next();
+   ready();
   },
 });
+});
 
-};
 function activatebutton(){
-  document.getElementById("button1").style.display="inline-block";
 	closekeyboard();
-	animateCSS('#button1','fadeIn');
+	$("#button1").fadeIn(500);
 }
 function subnext(){
-	
-  animateCSS('#space','fadeOut',next);
+	$("#shiftkeyboard").hide();
+	$("#space").fadeOut(500,ready);
+	slideover=1;
 }
-var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-family: 'Mukta', sans-serif; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1\">❯</div></div>";
+function ready(){
+	console.log("ready, slideover:" + slideover + ", nimages:" + nimages);
+	if(slideover==1 && nimages==0){
+		showspace();
+		next();
+	}
+}
+var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1buffer\">❯</div></div>";
 var imgsreplace="i#";
 var imgereplace="#i";
-
-var inputdeclaration="<div id=\"inputplace\"><span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span></div>";
+var inputalt="<span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span>";
+var inputdeclaration="<div id=\"inputplacebuffer\">" + inputalt + "</div>";
 function next(){
-  document.getElementById("shiftkeyboard").style.display="none";
   if(slidei>sliden){slidei--;}
-  document.getElementById("space").style.display="none";
   console.log("next"); 
   inputtext='';
   nimages=0;
@@ -186,7 +193,7 @@ function next(){
   		hasimage=1;
   		lastput=i+1;
   		var sizes=[144, 240, 360, 480, 720, 1080];
-  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" sizes=\"100vw\" id=\"image" +imagename + "\" srcset=\"";
+  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" sizes=\"100vw\" id=\"image" +imagename + "buffer\" srcset=\"";
   		for(j=0;j<sizes.length;j++)
   		{
   			q=q+"images/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
@@ -201,28 +208,29 @@ function next(){
   }
   q=q+oq.substring(lastput,i);
   if(slides[slidei-1].input==0){
-	  document.getElementById("space").innerHTML=q + buttondeclaration;
+	  $("#spacebuffer").html(q + buttondeclaration);
   }
   else{
-	  document.getElementById("space").innerHTML=q + inputdeclaration + buttondeclaration;
+	  $("#spacebuffer").html(q + inputdeclaration + buttondeclaration);
   }
   if(hasimage==0){
-  	showspace();
+  	ready();
   }
   for(i=0;i<images.length;i++)
   {
-  	$("#image"+images[i]).on("load",function(){console.log("loaded");nimages--;if(nimages==0){showspace();}});
+  	$("#image"+images[i]+"buffer").on("load",function(){console.log("loaded");nimages--;ready();});
   }
 }
 function showspace(){
-  document.getElementById("space").style.display="block";
   console.log("showing");
+  slideover=0;
+  $("#space").html($("#spacebuffer").html().replace(/buffer/g,""));
   if(slides[slidei-1].input==0){
-	  animateCSS('#space','fadeIn',activatebutton);
+	  $('#space').fadeIn(500,activatebutton);
 	  closekeyboard();
   }
   else{
-	  animateCSS('#space','fadeIn');
+	  $('#space').fadeIn(500);
 	  openkeyboard();
   }
   slidei++;
@@ -230,18 +238,18 @@ function showspace(){
 function back(){
   inputtext=inputtext.slice(0,-1);
   if(inputtext==""){
-  	document.getElementById("inputplace").innerHTML="<span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span>";
+  	$("#inputplace").html(inputalt);
   }
   else{
-  	document.getElementById("inputplace").innerHTML=inputtext;
+  	$("#inputplace").html(inputtext);
   }
   document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   clearpressed();
 }
 function clearpressed(){
   if(pressed!==-1){
-    document.getElementById(pressed+"key").classList.remove("pressed");
-    document.getElementById(pressed+"key").innerHTML=letters[pressed];
+    $("#"+pressed+"key").removeClass("pressed");
+    $("#"+pressed+"key").html(letters[pressed]);
     pressed=-1;
   }
 }
@@ -249,7 +257,7 @@ function type(e) {
   var i=parseInt(e.currentTarget.id.slice(-4,-2));
   if(pressed==i){inputtext=inputtext.slice(0,-1);}
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
-  document.getElementById("inputplace").innerHTML=inputtext;
+  $("#inputplace").html(inputtext);
   document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   if(pressable[i] && pressed!==i){
     clearpressed();
@@ -262,18 +270,17 @@ function type(e) {
 }
 function types(e) {
   inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
-  document.getElementById("inputplace").innerHTML=inputtext;
+  $("#inputplace").html(inputtext);
   document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
-  document.getElementById("shiftkeyboard").style.display="none";
+  $("#shiftkeyboard").hide();
   if(inputtext==slides[slidei-2].a){activatebutton();}
 }
 
 var w=0;
 
 
-function redraw()
+function redrawkeyboard()
 {
-  if(openedkb==0){document.getElementById("space").style.height=window.innerHeight;}
   var keysdeclaration='';
 var skeysdeclaration='';
   w=document.getElementById("primarykeyboard").clientWidth;
@@ -291,17 +298,17 @@ for(i=0;i<letters.length;i++){
 skeysdeclaration=skeysdeclaration+sshiftkeydeclaration+sbackkeydeclaration;
 keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
 
-document.getElementById("primarykeyboard").innerHTML=keysdeclaration;
-document.getElementById("shiftkeyboard").innerHTML=skeysdeclaration;
+$("#primarykeyboard").html(keysdeclaration);
+$("#shiftkeyboard").html(skeysdeclaration);
 for(i=0;i<letters.length;i++){
    if(sletters[i]!==letters[i]){
-	   document.getElementById("s"+i+"key").classList.add("pressed");
+	   $("#s"+i+"key").addClass("pressed");
    }
 }
-document.getElementById("shiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="inline";clearpressed();});
-document.getElementById("sshiftsq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
-document.getElementById("backsq").addEventListener("click",back);
-document.getElementById("sbacksq").addEventListener("click",function() {document.getElementById("shiftkeyboard").style.display="none";});
+$("#shiftsq").on("click",function(){$("#shiftkeyboard").show();clearpressed();});
+$("#sshiftsq").on("click",function(){$("#shiftkeyboard").hide();});
+$("#backsq").on("click",back);
+$("#sbacksq").on("click",function(){$("#shiftkeyboard").hide();});
 
 
 for(i=0;i<letters.length;i++){
@@ -339,34 +346,21 @@ for(i=0;i<letters.length;i++){
 }
 }
 function openkeyboard() {
-  document.getElementById("primarykeyboard").style.display = "inline";
-  document.getElementById("shiftkeyboard").style.display = "none";
-  document.getElementById("primarykeyboard").style.height = w*1.3*0.3+"px";
-  document.getElementById("shiftkeyboard").style.height = w*1.3*0.3+"px";
-  document.getElementById("outerspace").style.height = (w*1.3*0.3)+"px";
+  $("#primarykeyboard").show();
+  $("#shiftkeyboard").hide();
+  $("#primarykeyboard").height(w*1.3*0.3);
+  $("#shiftkeyboard").height(w*1.3*0.3);
+  $("#outerspace").height(w*1.3*0.3);
   openedkb=1;
 }
 
 /* Set the width of the side navigation to 0 */
 function closekeyboard() {
-  document.getElementById("primarykeyboard").style.height = "0";
-  document.getElementById("shiftkeyboard").style.height="0";
-  setTimeout(function(){document.getElementById("primarykeyboard").style.display = "none";
-			document.getElementById("shiftkeyboard").style.display = "none";},
-	     200);
-  document.getElementById("outerspace").style.height = (0)+"px";
+  $("#primarykeyboard").height(0);
+  $("#shiftkeyboard").height(0);
+  setTimeout(function(){$("#primarykeyboard").hide();
+			$("#shiftkeyboard").hide();},
+	     		200);
+  $("#outerspace").height(0);
   openedkb=0;
-}
-function animateCSS(element, animationName, callback) {
-    const node = document.querySelector(element)
-    node.classList.add('animated', animationName,'faster')
-
-    function handleAnimationEnd() {
-        node.classList.remove('animated', animationName,'faster')
-        node.removeEventListener('animationend', handleAnimationEnd)
-
-        if (typeof callback === 'function') callback()
-    }
-
-    node.addEventListener('animationend', handleAnimationEnd)
 }
