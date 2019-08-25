@@ -228,7 +228,12 @@ function showspace(){
 }
 function back(){
   inputtext=inputtext.slice(0,-1);
-  document.getElementById("inputplace").innerHTML=inputtext;
+  if(inputtext==""){
+  	document.getElementById("inputplace").innerHTML="<span style=\"color: #c0c0c0\">—</span>";
+  }
+  else{
+  	document.getElementById("inputplace").innerHTML=inputtext;
+  }
   document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
   clearpressed();
 }
