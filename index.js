@@ -156,7 +156,7 @@ var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: 
 var imgsreplace="i#";
 var imgereplace="#i";
 
-var inputdeclaration="<div id=\"inputplace\"><span class=\"nonselectable\">style=\"color: #c0c0c0\">—</span></div>";
+var inputdeclaration="<div id=\"inputplace\"><span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span></div>";
 function next(){
   document.getElementById("shiftkeyboard").style.display="none";
   if(slidei>sliden){slidei--;}
@@ -230,7 +230,7 @@ function showspace(){
 function back(){
   inputtext=inputtext.slice(0,-1);
   if(inputtext==""){
-  	document.getElementById("inputplace").innerHTML="<span style=\"color: #c0c0c0\">—</span>";
+  	document.getElementById("inputplace").innerHTML="<span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span>";
   }
   else{
   	document.getElementById("inputplace").innerHTML=inputtext;
@@ -278,10 +278,10 @@ function redraw()
 var skeysdeclaration='';
   w=document.getElementById("primarykeyboard").clientWidth;
   
-var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B5B5B5\"></svg></div>';
-var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B5B5B5\"></svg></div>';
-var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B5B5B5\"></svg></div>';
-var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><circle cx=\"' + 0.5*w/10.0 + 'px\" cy=\"' + 0.5*1.3*w/10.0 + 'px\" r=\"' + 0.5*w/10.0 + 'px\" fill=\"#B5B5B5\"></svg></div>';
+var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.5*w/10.0 +',' + 0.5*0.3*w/10.0 + ' ' + 1.866*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 +' ' + 0.134*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
+var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.5*w/10.0 +',' + 0.5*0.3*w/10.0 + ' ' + 1.866*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 +' ' + 0.134*0.5*w/10.0 + ',' + 0.5*(1.3+0.5)*w/10.0 + '\" style=\"fill:#404040\"/></svg></div>';
+var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3-0.866)*w/10.0 +' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3+0.866)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
+var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"' + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3-0.866)*w/10.0 +' ' + 1.5*0.5*w/10.0 + ',' + 0.5*(1.3+0.866)*w/10.0 + '\" style=\"fill:#a0a0a0\"/></svg></div>';
 
 for(i=0;i<letters.length;i++){
   keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ i + "sq\"><div class=\"text\" id=\""+i+"key\">"+letters[i]+"</div></div>";
