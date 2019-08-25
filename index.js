@@ -170,7 +170,7 @@ var inputdeclaration="<div id=\"inputplacebuffer\">" + inputalt + "</div>";
 function next(){
   nimages=0;
   console.log("next"); 
-  if(slidei>sliden){slidei=sliden;ready();}
+  if(slidei>sliden){ready();}
   else{
   q="";
   var oq=slides[slidei-1].q;
@@ -223,6 +223,7 @@ function next(){
   }
 }
 function showspace(){
+  if(slidei>sliden){slidei=sliden;}
   document.cookie="slide=" + slidei;
   console.log("showing");
   slideover=0;
@@ -236,7 +237,7 @@ function showspace(){
 	  $('#space').fadeIn(500);
 	  openkeyboard();
   }
-  if(slidei<sliden+1){slidei++;}
+  slidei++;
 }
 function back(){
   inputtext=inputtext.slice(0,-1);
