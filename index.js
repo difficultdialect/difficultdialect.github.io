@@ -153,7 +153,7 @@ function subnext(){
 	$("#shiftkeyboard").hide();
 	clearpressed();
 	slideover=1;
-	$("#space").fadeOut(500,ready);
+	$("#space").fadeOut(500).promise.done(ready);
 }
 function ready(){
 	console.log("ready, slideover:" + slideover + ", nimages:" + nimages);
