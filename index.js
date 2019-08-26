@@ -120,8 +120,7 @@ function activatebutton() {
 function subnext() {
 	$('#shiftkeyboard').hide();
 	clearpressed();
-	slideover = 1;
-	$('#space').fadeOut(500).promise().done(ready);
+	$('#space').fadeOut(500).promise().done(function() {sildeover=1; ready();});
 }
 
 function ready() {
