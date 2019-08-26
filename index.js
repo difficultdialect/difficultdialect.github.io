@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Small Batch, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 /* Web Font Loader v1.6.26 - (c) Adobe Systems, Google. License: Apache 2.0 */(function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function p(a,b,c){p=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return p.apply(null,arguments)}var q=Date.now||function(){return+new Date};function ca(a,b){this.a=a;this.m=b||a;this.c=this.m.document}var da=!!window.FontFace;function t(a,b,c,d){b=a.c.createElement(b);if(c)for(var e in c)c.hasOwnProperty(e)&&("style"==e?b.style.cssText=c[e]:b.setAttribute(e,c[e]));d&&b.appendChild(a.c.createTextNode(d));return b}function u(a,b,c){a=a.c.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}function v(a){a.parentNode&&a.parentNode.removeChild(a)}
 function w(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function y(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
 function z(a){if("string"===typeof a.f)return a.f;var b=a.m.location.protocol;"about:"==b&&(b=a.a.location.protocol);return"https:"==b?"https:":"http:"}function ea(a){return a.m.location.hostname||a.a.location.hostname}
@@ -31,14 +16,6 @@ var Aa={latin:"BESbswy","latin-ext":"\u00e7\u00f6\u00fc\u011f\u015f",cyrillic:"\
 Da=/^(thin|(?:(?:extra|ultra)-?)?light|regular|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
 function Ea(a){for(var b=a.f.length,c=0;c<b;c++){var d=a.f[c].split(":"),e=d[0].replace(/\+/g," "),f=["n4"];if(2<=d.length){var g;var k=d[1];g=[];if(k)for(var k=k.split(","),h=k.length,m=0;m<h;m++){var l;l=k[m];if(l.match(/^[\w-]+$/)){var n=Da.exec(l.toLowerCase());if(null==n)l="";else{l=n[2];l=null==l||""==l?"n":Ca[l];n=n[1];if(null==n||""==n)n="4";else var r=Ba[n],n=r?r:isNaN(n)?"4":n.substr(0,1);l=[l,n].join("")}}else l="";l&&g.push(l)}0<g.length&&(f=g);3==d.length&&(d=d[2],g=[],d=d?d.split(","):
 g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<f.length;d+=1)a.a.push(new H(e,f[d]))}};function Fa(a,b){this.c=a;this.a=b}var Ga={Arimo:!0,Cousine:!0,Tinos:!0};Fa.prototype.load=function(a){var b=new C,c=this.c,d=new va(this.a.api,z(c),this.a.text),e=this.a.families;xa(d,e);var f=new za(e);Ea(f);A(c,ya(d),D(b));F(b,function(){a(f.a,f.c,Ga)})};function Ha(a,b){this.c=a;this.a=b}Ha.prototype.load=function(a){var b=this.a.id,c=this.c.m;b?B(this.c,(this.a.api||"https://use.typekit.net")+"/"+b+".js",function(b){if(b)a([]);else if(c.Typekit&&c.Typekit.config&&c.Typekit.config.fn){b=c.Typekit.config.fn;for(var e=[],f=0;f<b.length;f+=2)for(var g=b[f],k=b[f+1],h=0;h<k.length;h++)e.push(new H(g,k[h]));try{c.Typekit.load({events:!1,classes:!1,async:!0})}catch(m){}a(e)}},2E3):a([])};function Ia(a,b){this.c=a;this.f=b;this.a=[]}Ia.prototype.load=function(a){var b=this.f.id,c=this.c.m,d=this;b?(c.__webfontfontdeckmodule__||(c.__webfontfontdeckmodule__={}),c.__webfontfontdeckmodule__[b]=function(b,c){for(var g=0,k=c.fonts.length;g<k;++g){var h=c.fonts[g];d.a.push(new H(h.name,ga("font-weight:"+h.weight+";font-style:"+h.style)))}a(d.a)},B(this.c,z(this.c)+(this.f.api||"//f.fontdeck.com/s/css/js/")+ea(this.c)+"/"+b+".js",function(b){b&&a([])})):a([])};var Y=new pa(window);Y.a.c.custom=function(a,b){return new ua(b,a)};Y.a.c.fontdeck=function(a,b){return new Ia(b,a)};Y.a.c.monotype=function(a,b){return new sa(b,a)};Y.a.c.typekit=function(a,b){return new Ha(b,a)};Y.a.c.google=function(a,b){return new Fa(b,a)};var Z={load:p(Y.load,Y)};"function"===typeof define&&define.amd?define(function(){return Z}):"undefined"!==typeof module&&module.exports?module.exports=Z:(window.WebFont=Z,window.WebFontConfig&&Y.load(window.WebFontConfig));}());
-
-
-
-
-
-
-
-
 
 
 
@@ -65,13 +42,6 @@ function saveToFirebase(email) {
 
 
 */
-
-
-
-
-
-
-
 
 
 
@@ -110,296 +80,318 @@ var slides=[
 	{input:1, q:"[kapayah]		कपयः। kapayaḥ.", a:"kapayaḥ"},
 	{input:1, q:"[nauh]		नौः। nauḥ.", a:"nauḥ"},
 ];
-var sliden=slides.length;
-/*saveToFirebase('it does work');*/
-var letters=['ṃ','ś','e','r','t','y','u','i','o','p','a','s','d','ṭ','g','h','j','k','l','ḍ','ṣ','c','v','b','n','m'];
-var sletters=['ṃ','ś','e','ṛ','t','y','ū','ī','o','p','ā','s','d','ṭ','g','ḥ','ñ','ṅ','ḷ','ḍ','ṣ','c','v','b','ṇ','m'];
-window.addEventListener('resize', function(event){
-  
-	if(E!=document.body.offsetWidth)
-	{
-		E=document.body.offsetWidth;
+var sliden = slides.length;
+var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
+var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
+window.addEventListener('resize', function(event) {
+
+	if (E != document.body.offsetWidth) {
+		E = document.body.offsetWidth;
 		redrawkeyboard();
-    if(openedkb==1){openkeyboard();}
+		if (kbdstate == 1) openkeyboard();
 	}
 });
-$(document).ready(function(){
-  WebFont.load({google: {
-  families: ['Mukta:400, 700']
-},
-fontactive: function(familyName,fvd){
-   redrawkeyboard();
-   var cookievalue=parseInt(document.cookie.substring(6));
-   if(cookievalue!=='NaN')
-   {
-     if(cookievalue<=sliden)
-       {
-         slidei=cookievalue;
-       }
-   }
-   document.body.style.backgroundSize="0px";
-   slideover=1;
-   next();
-   ready();
-  },
-});
+$(document).ready(function() {
+	WebFont.load({
+		google: {
+			families: ['Mukta:400, 700']
+		},
+		fontactive: function(familyName, fvd) {
+			redrawkeyboard();
+			var cookievalue = parseInt(document.cookie.substring(6));
+			if (cookievalue !== 'NaN') {
+				if (cookievalue <= sliden) {
+					slidei = cookievalue;
+				}
+			}
+			document.body.style.backgroundSize = '0px';
+			slideover = 1;
+			next();
+			ready();
+		},
+	});
 });
 
-function activatebutton(){
+function activatebutton() {
 	closekeyboard();
-	$("#button1").fadeIn(500);
+	$('#button1').fadeIn(500);
 }
-function subnext(){
-	$("#shiftkeyboard").hide();
+
+function subnext() {
+	$('#shiftkeyboard').hide();
 	clearpressed();
-	slideover=1;
-	$("#space").fadeOut(500).promise().done(ready);
+	slideover = 1;
+	$('#space').fadeOut(500).promise().done(ready);
 }
-function ready(){
-	console.log("ready, slideover:" + slideover + ", nimages:" + nimages);
-	if(slideover==1 && nimages==0){
+
+function ready() {
+	console.log('ready, slideover:' + slideover + ', nimages:' + nimages);
+	if (slideover == 1 && nimages == 0) {
 		showspace();
 		next();
 	}
 }
-var buttondeclaration="<div style=\"text-align: center;\"><div style=\"display: none; font-size: xx-large; color: #404040\" class=\"nonselectable\" onclick=\"subnext()\" id=\"button1buffer\">❯</div></div>";
-var imgsreplace="i#";
-var imgereplace="#i";
-var inputalt="<span class=\"nonselectable\" style=\"color: #c0c0c0\">—</span>";
-var inputdeclaration="<div id=\"inputplacebuffer\">" + inputalt + "</div>";
-function next(){
-  nimages=0;
-  console.log("next"); 
-  if(slidei>sliden){ready();}
-  else{
-  q="";
-  var oq=slides[slidei-1].q;
-  var lastput=0;
-  var hasimage=0;
-  var images=[];
-  for(i=0;i<oq.length;i++)
-  {
-  	if(oq.charAt(i)=="[")
-  	{
-  		q=q+oq.substring(lastput,i);
-  		lastput=i+1;
-  		while(i<oq.length && oq.charAt(i)!=="]")
-  		{
-  			i++;
-  		}
-  		imagename=oq.substring(lastput,i);
-  		images.push(imagename);
-  		nimages++;
-  		hasimage=1;
-  		lastput=i+1;
-  		var sizes=[144, 240, 360, 480, 720, 1080];
-  		q=q+"<img src=\"images/" + imagename + "-360.jpeg\" sizes=\"100vw\" id=\"image" +imagename + "buffer\" srcset=\"";
-  		for(j=0;j<sizes.length;j++)
-  		{
-  			q=q+"images/"+imagename+"-" + sizes[j] + ".jpeg " + sizes[j] + "w";
-  			if(j<sizes.length-1)
-  			{
-  				q=q+", ";
-  			}
-  		}
-  		q=q+"\">"
-  		console.log("initiated");
-  	}
-  }
-  q=q+oq.substring(lastput,i);
-  if(slides[slidei-1].input==0){
-	  $("#spacebuffer").html(q + buttondeclaration);
-  }
-  else{
-	  $("#spacebuffer").html(q + inputdeclaration + buttondeclaration);
-  }
-  if(hasimage==0){
-  	ready();
-  }
-  for(i=0;i<images.length;i++)
-  {
-  	$("#image"+images[i]+"buffer").on("load",function(){console.log("loaded");nimages--;ready();});
-  }
-  }
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large; color: #404040\' class=\'nonselectable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
+var imgsreplace = 'i#';
+var imgereplace = '#i';
+var inputalt = '<span class=\'nonselectable\' style=\'color: #c0c0c0\'>—</span>';
+var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
+
+function next() {
+	nimages = 0;
+	console.log('next');
+	if (slidei > sliden) {
+		ready();
+	} else {
+		q = '';
+		var oq = slides[slidei - 1].q;
+		var lastput = 0;
+		var hasimage = 0;
+		var images = [];
+		for (i = 0; i < oq.length; i++) {
+			if (oq.charAt(i) == '[') {
+				q = q + oq.substring(lastput, i);
+				lastput = i + 1;
+				while (i < oq.length && oq.charAt(i) !== ']') {
+					i++;
+				}
+				imagename = oq.substring(lastput, i);
+				images.push(imagename);
+				nimages++;
+				hasimage = 1;
+				lastput = i + 1;
+				var sizes = [144, 240, 360, 480, 720, 1080];
+				q = q + '<img src=\'images/' + imagename + '-360.jpeg\' sizes=\'100vw\' id=\'image' + imagename + 'buffer\' srcset=\'';
+				for (j = 0; j < sizes.length; j++) {
+					q = q + 'images/' + imagename + '-' + sizes[j] + '.jpeg ' + sizes[j] + 'w';
+					if (j < sizes.length - 1) {
+						q = q + ', ';
+					}
+				}
+				q = q + '\'>'
+				console.log('initiated');
+			}
+		}
+		q = q + oq.substring(lastput, i);
+		if (slides[slidei - 1].input == 0) {
+			$('#spacebuffer').html(q + buttondeclaration);
+		} else {
+			$('#spacebuffer').html(q + inputdeclaration + buttondeclaration);
+		}
+		if (hasimage == 0) {
+			ready();
+		}
+		for (i = 0; i < images.length; i++) {
+			$('#image' + images[i] + 'buffer').on('load', function() {
+				console.log('loaded');
+				nimages--;
+				ready();
+			});
+		}
+	}
 }
-function showspace(){
-  if(slidei>sliden){slidei=sliden;}
-  document.cookie="slide=" + slidei;
-  console.log("showing");
-  slideover=0;
-  $("#space").html($("#spacebuffer").html().replace(/buffer/g,""));
-  inputtext='';
-  if(slides[slidei-1].input==0){
-	  $('#space').fadeIn(500,activatebutton);
-	  closekeyboard();
-  }
-  else{
-	  $('#space').fadeIn(500);
-	  openkeyboard();
-  }
-  slidei++;
+
+function showspace() {
+	if (slidei > sliden) {
+		slidei = sliden;
+	}
+	document.cookie = 'slide=' + slidei;
+	console.log('showing');
+	slideover = 0;
+	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
+	inputtext = '';
+	if (slides[slidei - 1].input == 0) {
+		$('#space').fadeIn(500, activatebutton);
+		closekeyboard();
+	} else {
+		$('#space').fadeIn(500);
+		openkeyboard();
+	}
+	slidei++;
 }
-function back(){
-  inputtext=inputtext.slice(0,-1);
-  if(inputtext==""){
-  	$("#inputplace").html(inputalt);
-  }
-  else{
-  	$("#inputplace").html(inputtext);
-  }
-  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
-  clearpressed();
+
+function back() {
+	inputtext = inputtext.slice(0, -1);
+	if (inputtext == '') {
+		$('#inputplace').html(inputalt);
+	} else {
+		$('#inputplace').html(inputtext);
+	}
+	document.getElementById('outerspace').scrollIntoView({
+		block: 'end',
+		behavior: 'smooth'
+	});
+	clearpressed();
 }
-function clearpressed(){
-  if(pressed!==-1){
-    $("#"+pressed+"key").removeClass("pressed");
-    $("#"+pressed+"key").html(letters[pressed]);
-    pressed=-1;
-  }
+
+function clearpressed() {
+	if (pressed !== -1) {
+		$('#' + pressed + 'key').removeClass('pressed');
+		$('#' + pressed + 'key').html(letters[pressed]);
+		pressed = -1;
+	}
 }
+
 function type(e) {
-  var i=parseInt(e.currentTarget.id.slice(-4,-2));
-  if(pressed==i){inputtext=inputtext.slice(0,-1);}
-  inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
-  $("#inputplace").html(inputtext);
-  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
-  if(pressable[i] && pressed!==i){
-    clearpressed();
-    e.currentTarget.children[0].classList.add("pressed");
-    e.currentTarget.children[0].innerHTML=sletters[i];
-    pressed=i;
-  }
-  else clearpressed();
-  if(inputtext==slides[slidei-2].a){activatebutton();}
+	var i = parseInt(e.currentTarget.id.slice(-4, -2));
+	if (pressed == i) {
+		inputtext = inputtext.slice(0, -1);
+	}
+	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
+	$('#inputplace').html(inputtext);
+	document.getElementById('outerspace').scrollIntoView({
+		block: 'end',
+		behavior: 'smooth'
+	});
+	if (pressable[i] && pressed !== i) {
+		clearpressed();
+		e.currentTarget.children[0].classList.add('pressed');
+		e.currentTarget.children[0].innerHTML = sletters[i];
+		pressed = i;
+	} else clearpressed();
+	if (inputtext == slides[slidei - 2].a) {
+		activatebutton();
+	}
 }
+
 function types(e) {
-  inputtext=inputtext.concat(e.currentTarget.children[0].innerHTML);
-  $("#inputplace").html(inputtext);
-  document.getElementById("outerspace").scrollIntoView({ block: 'end',  behavior: 'smooth' });
-  $("#shiftkeyboard").hide();
-  if(inputtext==slides[slidei-2].a){activatebutton();}
+	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
+	$('#inputplace').html(inputtext);
+	document.getElementById('outerspace').scrollIntoView({
+		block: 'end',
+		behavior: 'smooth'
+	});
+	$('#shiftkeyboard').hide();
+	if (inputtext == slides[slidei - 2].a) {
+		activatebutton();
+	}
 }
-var w=0;
+var w = 0;
 
 
-function redrawkeyboard()
-{
-  var keysdeclaration='';
-var skeysdeclaration='';
-  w=document.getElementById("primarykeyboard").clientWidth;
-  
-var shiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"shiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + 1.0*w/10.0 + 'px\"><polygon points=\"'
- + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
- + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
-  + 1.0*1.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
-  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
-  + 1.0*0.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 +
-   '\" style=\"fill:#a0a0a0\"/></svg></div>';
-var sshiftkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sshiftsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"'
- + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
- + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
-  + 1.0*1.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
-  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
-  + 1.0*0.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 +
-   '\" style=\"fill:#404040\"/></svg></div>';
-var backkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"backsq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + 1.0*w/10.0 + 'px\"><polygon points=\"'
- + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
- + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
-  + 1.0*1.0*w/10.0 +',' + 0.5*0.3*w/10.0 + ' '
-  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
-  + 1.0*0.5*w/10.0 + ',' + (1.3-0.5*0.3)*w/10.0 +
-   '\" style=\"fill:#a0a0a0\"/></svg></div>';
-var sbackkeydeclaration='<div class=\"keys\" style=\"width: ' + 3.0*0.5*w/10.0 + 'px; right:0; top: ' + 1.3*w/5.0 + 'px; padding: 0;\" id=\"sbacksq\"><svg height=\"' + 1.3*w/10.0 + 'px\" width=\"' + w/10.0 + 'px\"><polygon points=\"'
- + 0.0*w/10.0 +',' + 0.5*1.3*w/10.0 + ' '
- + 1.0*0.5*w/10.0 + ',' + 0.5*0.3*w/10.0 +' '
-  + 1.0*1.0*w/10.0 +',' + 0.5*0.3*w/10.0 + ' '
-  + 1.0*1.0*w/10.0 +',' + (1.3-0.5*0.3)*w/10.0 + ' '
-  + 1.0*0.5*w/10.0 + ',' + (1.3-0.5*0.3)*w/10.0 +
-   '\" style=\"fill:#a0a0a0\"/></svg></div>';
+function redrawkeyboard() {
+	var keysdeclaration = '';
+	var skeysdeclaration = '';
+	w = document.getElementById('primarykeyboard').clientWidth;
 
-for(i=0;i<letters.length;i++){
-  keysdeclaration=keysdeclaration+"<div class=\"keys\" id=\""+ i + "sq\"><div class=\"text\" id=\""+i+"key\">"+letters[i]+"</div></div>";
-  skeysdeclaration=skeysdeclaration+"<div class=\"keys\" id=\"s"+ i + "sq\"><div class=\"text\" id=\"s"+i+"key\">"+sletters[i]+"</div></div>";
+	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		1.0 * 0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 +
+		'\' style=\'fill:#a0a0a0\'/></svg></div>';
+	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		1.0 * 0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 +
+		'\' style=\'fill:#404040\'/></svg></div>';
+	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'backsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 +
+		'\' style=\'fill:#a0a0a0\'/></svg></div>';
+	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
+		1.0 * 1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		1.0 * 0.5 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 +
+		'\' style=\'fill:#a0a0a0\'/></svg></div>';
+
+	for (i = 0; i < letters.length; i++) {
+		keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + letters[i] + '</div></div>';
+		skeysdeclaration = skeysdeclaration + '<div class=\'keys\' id=\'s' + i + 'sq\'><div class=\'text\' id=\'s' + i + 'key\'>' + sletters[i] + '</div></div>';
+	}
+
+	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration;
+	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration;
+
+	$('#primarykeyboard').html(keysdeclaration);
+	$('#shiftkeyboard').html(skeysdeclaration);
+	for (i = 0; i < letters.length; i++) {
+		if (sletters[i] !== letters[i]) {
+			$('#s' + i + 'key').addClass('pressed');
+		}
+	}
+	$('#shiftsq').on('click', function() {
+		$('#shiftkeyboard').show();
+		clearpressed();
+	});
+	$('#sshiftsq').on('click', function() {
+		$('#shiftkeyboard').hide();
+	});
+	$('#backsq').on('click', back);
+	$('#sbacksq').on('click', function() {
+		$('#shiftkeyboard').hide();
+	});
+
+
+	for (i = 0; i < letters.length; i++) {
+		var csq = document.getElementById(i + 'sq');
+		var cssq = document.getElementById('s' + i + 'sq');
+		var ck = document.getElementById(i + 'key');
+		var csk = document.getElementById('s' + i + 'key');
+		if (i < 10) {
+			csq.style.left = i * w / 10.0 + 'px';
+			cssq.style.left = i * w / 10.0 + 'px';
+		} else if (i < 19) {
+			csq.style.left = (i - 9.5) * w / 10.0 + 'px';
+			csq.style.top = w * 1.3 / 10.0 + 'px';
+			cssq.style.left = (i - 9.5) * w / 10.0 + 'px';
+			cssq.style.top = w * 1.3 / 10.0 + 'px';
+			if (i == 10) {
+				csq.style.left = '0';
+				csq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
+				csq.style.width = 1.0 * w / 10.0 + 'px';
+				cssq.style.left = '0';
+				cssq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
+				cssq.style.width = 1.0 * w / 10.0 + 'px';
+			} else if (i == 18) {
+				csq.style.width = 2.0 * w / 10.0 + 'px';
+				cssq.style.width = 2.0 * w / 10.0 + 'px';
+			}
+		} else {
+			csq.style.left = (i - 17.5) * w / 10.0 + 'px';
+			csq.style.top = w * 1.3 / 5.0 + 'px';
+			cssq.style.left = (i - 17.5) * w / 10.0 + 'px';
+			cssq.style.top = w * 1.3 / 5.0 + 'px';
+		}
+		ck.style.bottom = 0.0 + 'px';
+		ck.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
+		ck.style.width = Math.floor(w / 10.0) + 'px';
+		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
+		csq.addEventListener('click', type);
+
+		csk.style.bottom = 0.0 + 'px';
+		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
+		csk.style.width = Math.floor(w / 10.0) + 'px';
+		csk.style.fontSize = Math.floor(w / 15.0) + 'px';
+		cssq.addEventListener('click', types);
+	}
 }
 
-skeysdeclaration=skeysdeclaration+sshiftkeydeclaration+sbackkeydeclaration;
-keysdeclaration=keysdeclaration+shiftkeydeclaration+backkeydeclaration;
-
-$("#primarykeyboard").html(keysdeclaration);
-$("#shiftkeyboard").html(skeysdeclaration);
-for(i=0;i<letters.length;i++){
-   if(sletters[i]!==letters[i]){
-	   $("#s"+i+"key").addClass("pressed");
-   }
-}
-$("#shiftsq").on("click",function(){$("#shiftkeyboard").show();clearpressed();});
-$("#sshiftsq").on("click",function(){$("#shiftkeyboard").hide();});
-$("#backsq").on("click",back);
-$("#sbacksq").on("click",function(){$("#shiftkeyboard").hide();});
-
-
-for(i=0;i<letters.length;i++){
-  var csq=document.getElementById(i+"sq");
-  var cssq=document.getElementById("s"+i+"sq");
-  var ck=document.getElementById(i+"key");
-  var csk=document.getElementById("s"+i+"key");
-  if(i<10){
-    csq.style.left=i*w/10.0+"px";
-    cssq.style.left=i*w/10.0+"px";
-  }
-  else if(i<19){
-    csq.style.left=(i-9.5)*w/10.0+"px";
-    csq.style.top=w*1.3/10.0+"px";
-    cssq.style.left=(i-9.5)*w/10.0+"px";
-    cssq.style.top=w*1.3/10.0+"px";
-    if(i==10){
-    	csq.style.left="0";
-    	csq.style.paddingLeft=0.5*w/10.0+"px";
-    	csq.style.width=1.0*w/10.0+"px";
-    	cssq.style.left="0";
-    	cssq.style.paddingLeft=0.5*w/10.0+"px";
-    	cssq.style.width=1.0*w/10.0+"px";
-    }
-    else if(i==18){
-    	csq.style.width=2.0*w/10.0+"px";
-    	cssq.style.width=2.0*w/10.0+"px";
-    }
-  }
-  else{
-    csq.style.left=(i-17.5)*w/10.0+"px";
-    csq.style.top=w*1.3/5.0+"px";
-    cssq.style.left=(i-17.5)*w/10.0+"px";
-    cssq.style.top=w*1.3/5.0+"px";
-  }
-  ck.style.bottom=0.0+"px";
-  ck.style.lineHeight=Math.floor(w*1.3/10.0)+"px";
-  ck.style.width=Math.floor(w/10.0)+"px";
-  ck.style.fontSize=Math.floor(w/15.0)+"px";
-  csq.addEventListener("click",type);
-  
-  csk.style.bottom=0.0+"px";
-  csk.style.lineHeight=Math.floor(w*1.3/10.0)+"px";
-  csk.style.width=Math.floor(w/10.0)+"px";
-  csk.style.fontSize=Math.floor(w/15.0)+"px";
-  cssq.addEventListener("click",types);
-}
-}
 function openkeyboard() {
-  $("#primarykeyboard").show();
-  $("#shiftkeyboard").hide();
-  $("#primarykeyboard").height(w*1.3*0.3);
-  $("#shiftkeyboard").height(w*1.3*0.3);
-  $("#outerspace").height(w*1.3*0.3);
-  openedkb=1;
+	$('#primarykeyboard').show();
+	$('#shiftkeyboard').hide();
+	$('#primarykeyboard').height(w * 1.3 * 0.3);
+	$('#shiftkeyboard').height(w * 1.3 * 0.3);
+	$('#outerspace').height(w * 1.3 * 0.3);
+	kbdstate = 1;
 }
 
-/* Set the width of the side navigation to 0 */
 function closekeyboard() {
-  $("#primarykeyboard").height(0);
-  $("#shiftkeyboard").height(0);
-  setTimeout(function(){$("#primarykeyboard").hide();
-			$("#shiftkeyboard").hide();},
-	     		200);
-  $("#outerspace").height(0);
-  openedkb=0;
+	$('#primarykeyboard').height(0);
+	$('#shiftkeyboard').height(0);
+	setTimeout(function() {
+			$('#primarykeyboard').hide();
+			$('#shiftkeyboard').hide();
+		},
+		200);
+	$('#outerspace').height(0);
+	kbdstate = 0;
 }
