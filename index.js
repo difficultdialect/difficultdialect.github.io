@@ -120,6 +120,7 @@ function activatebutton() {
 function subnext() {
 	$('#shiftkeyboard').hide();
 	clearpressed();
+	document.cookie = 'slide=' + slidei;
 	$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
 }
 
@@ -194,7 +195,6 @@ function showspace() {
 	if (slidei > sliden) {
 		slidei = sliden;
 	}
-	document.cookie = 'slide=' + slidei;
 	console.log('showing');
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
