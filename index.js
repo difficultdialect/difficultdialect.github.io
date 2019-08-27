@@ -141,6 +141,7 @@ var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 function next() {
 	nimages = 0;
 	console.log('next');
+	if(1==2){}
 	else {
 		q = '';
 		var oq = slides[order[1]].q;
