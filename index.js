@@ -58,8 +58,15 @@ var nimages=0;
 var q="";
 var slideover=0;
 var slides=[
-	{input:1, q:"[kapayah]		कपयः। kapayaḥ.", a:"kapayaḥ"},
-	{input:1, q:"[nauh]		नौः। nauḥ.", a:"nauḥ"},
+	{input:1, q:"[jalam]		जलम्।<br>jalam.", a:"jalam"},
+	{input:1, q:"[jalam2]		जालम्।<br>jālam.", a:"jālam"},
+	{input:1, q:"[patram]		पत्रम्।<br>patram.", a:"patram"},
+	{input:1, q:"[patram2]		पात्रम्।<br>pātram.", a:"pātram"},
+	{input:1, q:"[sastram2]		शस्त्रम्।<br>śastram.", a:"śastram"},
+	{input:1, q:"[dhara]		धरा।<br>dharā.", a:"dharā"},
+	{input:1, q:"[sastram]		शास्त्रम्।<br>śāstram.", a:"śāstram"},
+	{input:1, q:"[dhara2]		धारा।<br>dhārā.", a:"dhārā"},
+	{input:1, q:"[sagaratatam]	सागरतटम्।<br>sāgarataṭam.", a:"sāgarataṭam"},
 ];
 
 var order=[0];
