@@ -201,8 +201,7 @@ function showspace() {
 		$('#space').fadeIn(500);
 		openkeyboard();
 	}
-	if(order.length>2)
-		order.shift();
+	if (order.length>2) order.shift();
 }
 
 function back() {
