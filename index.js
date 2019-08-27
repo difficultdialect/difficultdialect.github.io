@@ -80,7 +80,11 @@ var slides=[
 	{input:1, q:"[kapayah]		कपयः। kapayaḥ.", a:"kapayaḥ"},
 	{input:1, q:"[nauh]		नौः। nauḥ.", a:"nauḥ"},
 ];
+var order=[];
 var sliden = slides.length;
+for(i=0;i<sliden;i++){
+	order.push(i);
+}
 var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
 var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
 window.addEventListener('resize', function(event) {
@@ -99,11 +103,9 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			var cookievalue = parseInt(document.cookie.substring(6));
+			var cookievalue = JSON.parse(document.cookie.substring(6));
 			if (cookievalue !== 'NaN') {
-				if (cookievalue <= sliden) {
-					slidei = cookievalue;
-				}
+				order=cookievalue;
 			}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
@@ -121,7 +123,7 @@ function activatebutton() {
 function subnext() {
 	$('#shiftkeyboard').hide();
 	clearpressed();
-	document.cookie = 'slide=' + slidei;
+	document.cookie = 'order=' + order;
 	$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
 }
 
@@ -141,11 +143,11 @@ var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 function next() {
 	nimages = 0;
 	console.log('next');
-	if (slidei > sliden) {
+	if (1==2 && order.length<2) {
 		ready();
 	} else {
 		q = '';
-		var oq = slides[slidei - 1].q;
+		var oq = slides[order[1]].q;
 		var lastput = 0;
 		var hasimage = 0;
 		var images = [];
@@ -174,7 +176,7 @@ function next() {
 			}
 		}
 		q = q + oq.substring(lastput, i);
-		if (slides[slidei - 1].input == 0) {
+		if (slides[order[1]].input == 0) {
 			$('#spacebuffer').html(q + buttondeclaration);
 		} else {
 			$('#spacebuffer').html(q + inputdeclaration + buttondeclaration);
@@ -193,21 +195,19 @@ function next() {
 }
 
 function showspace() {
-	if (slidei > sliden) {
-		slidei = sliden;
-	}
 	console.log('showing');
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
 	inputtext = '';
-	if (slides[slidei - 1].input == 0) {
+	if (slides[order[1]].input == 0) {
 		$('#space').fadeIn(500, activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').fadeIn(500);
 		openkeyboard();
 	}
-	slidei++;
+	if(order.length>2)
+		order.shift();
 }
 
 function back() {
@@ -249,7 +249,7 @@ function type(e) {
 		e.currentTarget.children[0].innerHTML = sletters[i];
 		pressed = i;
 	} else clearpressed();
-	if (inputtext == slides[slidei - 2].a) {
+	if (inputtext == slides[order[0]].a) {
 		activatebutton();
 	}
 }
@@ -262,7 +262,7 @@ function types(e) {
 		behavior: 'smooth'
 	});
 	$('#shiftkeyboard').hide();
-	if (inputtext == slides[slidei - 2].a) {
+	if (inputtext == slides[order[0]].a) {
 		activatebutton();
 	}
 }
