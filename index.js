@@ -49,7 +49,7 @@ function saveToFirebase(email) {
 
 
 var E=document.body.offsetWidth;
-var openedkb=0;
+var kbdstate=0;
 var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var inputtext='';
@@ -123,7 +123,7 @@ function activatebutton() {
 function subnext() {
 	$('#shiftkeyboard').hide();
 	clearpressed();
-	document.cookie = 'order=' + order;
+	document.cookie = 'order=' + JSON.stringify(order);
 	$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
 }
 
