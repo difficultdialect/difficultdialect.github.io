@@ -97,6 +97,7 @@ $(document).ready(function() {
 			families: ['Mukta:400, 700']
 		},
 		fontactive: function(familyName, fvd) {
+			console.log('fontactive');
 			redrawkeyboard();
 			var cookievalue = parseInt(document.cookie.substring(6));
 			if (cookievalue !== 'NaN') {
