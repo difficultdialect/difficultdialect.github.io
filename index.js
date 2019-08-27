@@ -54,8 +54,6 @@ var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var inputtext='';
 
-var slidei=1;
-var imagesloaded=0;
 var nimages=0;
 var q="";
 var slideover=0;
@@ -80,13 +78,16 @@ var slides=[
 	{input:1, q:"[kapayah]		कपयः। kapayaḥ.", a:"kapayaḥ"},
 	{input:1, q:"[nauh]		नौः। nauḥ.", a:"nauḥ"},
 ];
+
 var order=[0];
-var sliden = slides.length;
-for(i=0;i<sliden;i++){
+
+for(i=0;i<slides.length;i++){
 	order.push(i);
 }
+
 var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
 var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
+
 window.addEventListener('resize', function(event) {
 
 	if (E != document.body.offsetWidth) {
@@ -95,6 +96,7 @@ window.addEventListener('resize', function(event) {
 		if (kbdstate == 1) openkeyboard();
 	}
 });
+
 $(document).ready(function() {
 	WebFont.load({
 		google: {
@@ -103,10 +105,7 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			try{var cookievalue = JSON.parse(document.cookie.substring(6));
-			if (cookievalue !== 'NaN') {
-				order=cookievalue;
-			}} catch(e){}
+			try {order=JSON.parse(document.cookie.substring(6));} catch(e) {}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
@@ -134,18 +133,15 @@ function ready() {
 		next();
 	}
 }
+
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large; color: #404040\' class=\'nonselectable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
-var imgsreplace = 'i#';
-var imgereplace = '#i';
 var inputalt = '<span class=\'nonselectable\' style=\'color: #c0c0c0\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 
 function next() {
 	nimages = 0;
 	console.log('next');
-	if (1==2 && order.length<2) {
-		ready();
-	} else {
+	else {
 		q = '';
 		var oq = slides[order[1]].q;
 		var lastput = 0;
@@ -181,9 +177,7 @@ function next() {
 		} else {
 			$('#spacebuffer').html(q + inputdeclaration + buttondeclaration);
 		}
-		if (hasimage == 0) {
-			ready();
-		}
+		if (hasimage == 0) ready();
 		for (i = 0; i < images.length; i++) {
 			$('#image' + images[i] + 'buffer').on('load', function() {
 				console.log('loaded');
