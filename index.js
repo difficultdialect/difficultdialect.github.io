@@ -103,10 +103,10 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			var cookievalue = JSON.parse(document.cookie.substring(6));
+			try{var cookievalue = JSON.parse(document.cookie.substring(6));
 			if (cookievalue !== 'NaN') {
 				order=cookievalue;
-			}
+			}} catch(e){}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
