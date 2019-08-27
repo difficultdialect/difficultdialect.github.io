@@ -80,7 +80,7 @@ var slides=[
 	{input:1, q:"[kapayah]		कपयः। kapayaḥ.", a:"kapayaḥ"},
 	{input:1, q:"[nauh]		नौः। nauḥ.", a:"nauḥ"},
 ];
-var order=[];
+var order=[0];
 var sliden = slides.length;
 for(i=0;i<sliden;i++){
 	order.push(i);
