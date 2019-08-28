@@ -58,7 +58,7 @@ var nimages=0;
 var q="";
 var slideover=0;
 var slides=[
-	{input:1, q:"[jalam]		जलम्।<br>jalam.", a:"jalam"},
+	{input:1, q:"[jalam]		जलम्।<br>jalam.<p>Type this.</p>", a:"jalam"},
 	{input:1, q:"[jalam2]		जालम्।<br>jālam.", a:"jālam"},
 	{input:1, q:"[patram]		पत्रम्।<br>patram.", a:"patram"},
 	{input:1, q:"[patram2]		पात्रम्।<br>pātram.", a:"pātram"},
@@ -100,7 +100,15 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			try {order=JSON.parse(localStorage.getItem('order'));} catch(e) {}
+			var savedorder;
+			try {
+				savedorder=JSON.parse(localStorage.getItem('order'));
+				var lastentry=savedorder[savedorder.length-1];
+				for(i=0;i<slides.length;i++) {
+					if(i>lastentry) savedorder.push(i);
+				}
+				order=savedorder;
+			} catch(e) {}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
