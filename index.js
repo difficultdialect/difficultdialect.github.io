@@ -230,6 +230,10 @@ function type(e) {
 	}
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 	$('#inputplace').html(inputtext);
+	if(inputtext='nivartanam') {
+		document.cookie='';
+		document.location.reload(true);
+	}
 	document.getElementById('outerspace').scrollIntoView({
 		block: 'end',
 		behavior: 'smooth'
