@@ -231,7 +231,7 @@ function type(e) {
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 	$('#inputplace').html(inputtext);
 	if(inputtext=='nivartanam') {
-		document.cookie='';
+		document.cookie='order=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
 		document.location.reload(true);
 	}
 	document.getElementById('outerspace').scrollIntoView({
