@@ -71,6 +71,7 @@ var slides=[
 	{input:1, q:"[rajasadanam]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"[himavan]		हिमवान्।<br>himavān.", a:"himavān"},
 	{input:1, q:"[sagaratatam]	सागरतटम्।<br>sāgarataṭam.", a:"sāgarataṭam"},
+	{input:1, q:"[vyaghrah]		व्याघ्रः।<br>vyāghraḥ.", a:"vyāghraḥ"},
 ];
 
 var order=[0];
