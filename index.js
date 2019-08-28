@@ -81,7 +81,7 @@ var order=[0];
 for(i=0;i<slides.length;i++){
 	order.push(i);
 }
-
+var answered=new Set([]);
 var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
 var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
 
@@ -110,6 +110,7 @@ $(document).ready(function() {
 					if(i>lastentry) savedorder.push(i);
 				}
 				order=savedorder;
+				answered=new Set(JSON.parse(localStorage.getItem('answered')));
 			} catch(e) {}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
@@ -122,6 +123,8 @@ $(document).ready(function() {
 function activatebutton() {
 	closekeyboard();
 	$('#button1').fadeIn(500);
+	answered.add(order[0]);
+	localStorage.setItem('answered',JSON.stringify(Array.from(answered)));
 }
 
 function subnext() {
