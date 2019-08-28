@@ -100,7 +100,7 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			try {order=JSON.parse(localStorage.getItem('order');} catch(e) {}
+			try {order=JSON.parse(localStorage.getItem('order'));} catch(e) {}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
