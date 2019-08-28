@@ -100,7 +100,7 @@ $(document).ready(function() {
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
 			redrawkeyboard();
-			try {order=JSON.parse(document.cookie.substring(6));} catch(e) {}
+			try {order=JSON.parse(localStorage.getItem('order');} catch(e) {}
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
@@ -117,7 +117,7 @@ function activatebutton() {
 function subnext() {
 	$('#shiftkeyboard').hide();
 	clearpressed();
-	document.cookie = 'order=' + JSON.stringify(order);
+	localStorage.setItem('order',JSON.stringify(order));
 	$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
 }
 
@@ -231,7 +231,7 @@ function type(e) {
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 	$('#inputplace').html(inputtext);
 	if(inputtext=='nivartanam') {
-		document.cookie='order=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+		localStorage.setItem('order','');
 		document.location.reload(true);
 	}
 	document.getElementById('outerspace').scrollIntoView({
