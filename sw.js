@@ -15,16 +15,16 @@ workbox.precaching.precacheAndRoute([
 
 workbox.routing.registerRoute(
   // Cache CSS files.
-  /\.(?:js|css|html)$/,
+  /\.(?:js|cssl)$/,
   // Use cache but update in the background.
   new workbox.strategies.NetworkFirst({
     // Use a custom cache name.
-    cacheName: 'html-css-js',
+    cacheName: 'css-js',
   })
 );
 
 workbox.routing.registerRoute(
-  /\.(?:png|gif|jpg|jpeg|webp|svg)$/,
+  /\.(?:png|gif|jpg|jpeg|webp|svg|html)$/,
   new workbox.strategies.CacheFirst({
     cacheName: 'images',
     plugins: [
