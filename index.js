@@ -223,6 +223,7 @@ function clearpressed() {
 }
 
 function type(e) {
+	if(kbdstate==1){
 	var i = parseInt(e.currentTarget.id.slice(-4, -2));
 	if (pressed == i) {
 		inputtext = inputtext.slice(0, -1);
@@ -242,9 +243,11 @@ function type(e) {
 	if (inputtext == slides[order[0]].a) {
 		activatebutton();
 	}
+	}
 }
 
 function types(e) {
+	if(kbdstate==1){
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 	$('#inputplace').html(inputtext);
 	document.getElementById('outerspace').scrollIntoView({
@@ -254,6 +257,7 @@ function types(e) {
 	$('#shiftkeyboard').hide();
 	if (inputtext == slides[order[0]].a) {
 		activatebutton();
+	}
 	}
 }
 var w = 0;
