@@ -66,7 +66,7 @@ var slides=[
 	{input:1, q:"[vatayanam]	वातायनम्।<br>vātāyanam.", a:"vātāyanam"},
 	{input:1, q:"[dhara5]		धारा।<br>dhārā.", a:"dhārā"},
 	{input:1, q:"[sagaratatam]	सागरतटम्।<br>sāgarataṭam.", a:"sāgarataṭam"},
-	{input:1, q:"[rajasadanam2]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
+	{input:1, q:"[rajasadanam2]	राजसदनम्।<br>rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"[himavan]		हिमवान्।<br>himavān.", a:"himavān"},
 	{input:1, q:"[sopanam]		सोपानम्।<br>sopānam.", a:"sopānam"},
 	{input:1, q:"[minah]		मीनः।<br>mīnaḥ.<p>Press the up arrow at the bottom left corner for more characters.</p>", a:"mīnaḥ"},
