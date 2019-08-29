@@ -59,11 +59,11 @@ var nimages=0;
 var q="";
 var slideover=0;
 var slides=[
-	{input:1, q:"[patram]		एतत्पत्रम्। etatpatram.<br>एतत्किम्? etatkim? (What is this?)<p>Type: patram.</p>", a:"patram"},
+	{input:1, q:"[patram]		एतत्पत्रम्। etatpatram. (This is a leaf.)<br>एतत्किम्? etatkim? (What is this?)<p>Type: patram.</p>", a:"patram"},
 	{input:1, q:"[patram2]		एतत्पात्रम्। etatpātram.<br>etatkim?<p>Type the answer.</p>", a:"pātram"},
-	{input:1, q:"[jalam3]		एतज्जलम्। etajjalam. (This is water.)<br>etatkim?<p>Type: jalam.</p>", a:"jalam"},
+	{input:1, q:"[jalam3]		एतज्जलम्। etajjalam.<br>etatkim?<p>Type: jalam.</p>", a:"jalam"},
 	{input:1, q:"[jalam2]		एतज्जालम्। etajjālam.<br>etatkim? <p>Type the answer.</p>", a:"jālam"},
-	{input:1, q:"[dhara4]		एषाधरा। eṣādharā.<br>एषाका? eṣākā? (What is this?)<p>Type: dharā.</p>", a:"dharā"},
+	{input:1, q:"[dhara4]		एषाधरा। eṣādharā. (This is the earth.)<br>एषाका? eṣākā? (What is this?)<p>Type: dharā.</p>", a:"dharā"},
 	{input:1, q:"[vatayanam]	एतद्वातायनम्। etadvātāyanam.<br>etatkim?<p>Type: vātāyanam.</p>", a:"vātāyanam"},
 	{input:1, q:"[dhara5]		एषाधारा। eṣādhārā.<br>eṣākā?<p>Type the answer.</p>", a:"dhārā"},
 	{input:1, q:"[sagaratatam]	एतत्सागरतटम्। etatsāgarataṭam.<br>etatkim?", a:"sāgarataṭam"},
