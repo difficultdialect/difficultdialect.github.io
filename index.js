@@ -50,6 +50,7 @@ function saveToFirebase(email) {
 
 var E=document.body.offsetWidth;
 var kbdstate=0;
+var buttonstate=0;
 var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var inputtext='';
@@ -135,16 +136,20 @@ $(document).ready(function() {
 
 function activatebutton() {
 	closekeyboard();
+	buttonstate=1;
 	$('#button1').fadeIn(500);
 	answered.add(order[0]);
 	localStorage.setItem('answered',JSON.stringify(Array.from(answered)));
 }
 
 function subnext() {
-	$('#shiftkeyboard').hide();
-	clearpressed();
-	localStorage.setItem('order',JSON.stringify(order));
-	$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
+	if(buttonstate==1) {
+		buttonstate=0;
+		$('#shiftkeyboard').hide();
+		clearpressed();
+		localStorage.setItem('order',JSON.stringify(order));
+		$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
+	}
 }
 
 function ready() {
