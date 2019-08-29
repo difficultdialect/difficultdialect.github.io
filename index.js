@@ -215,8 +215,10 @@ function showspace() {
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
 	inputtext = '';
-	if(answered.has(order[1])) inputtext=slides[order[1]].a;
-	$('#inputplace').html(inputtext);
+	if(answered.has(order[1])){
+		inputtext=slides[order[1]].a;
+		$('#inputplace').html(inputtext);
+	}
 	if (slides[order[1]].input == 0 || answered.has(order[1])) {
 		$('#space').fadeIn(500, activatebutton);
 		closekeyboard();
