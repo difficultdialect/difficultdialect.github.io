@@ -65,7 +65,6 @@ var slides=[
 	{input:1, q:"[vyoma]		व्योम।<br>vyoma.", a:"vyoma"},
 	{input:1, q:"[sastram2]		शस्त्रम्।<br>śastram.", a:"śastram"},
 	{input:1, q:"[dhara4]		धरा।<br>dharā.", a:"dharā"},
-	{input:1, q:"[sastram]		शास्त्रम्।<br>śāstram.", a:"śāstram"},
 	{input:1, q:"[dhara5]		धारा।<br>dhārā.", a:"dhārā"},
 	{input:1, q:"[dhama]		धाम।<br>dhāma.", a:"dhāma"},
 	{input:1, q:"[rajasadanam2]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
