@@ -70,6 +70,7 @@ var slides=[
 	{input:1, q:"[dhama]		धाम।<br>dhāma.", a:"dhāma"},
 	{input:1, q:"[rajasadanam2]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"[himavan]		हिमवान्।<br>himavān.", a:"himavān"},
+	{input:1, q:"[apanam]		विपणिः।<br>vipaṇiḥ.", a:"vipaṇiḥ"},
 	{input:1, q:"[sagaratatam]	सागरतटम्।<br>sāgarataṭam.", a:"sāgarataṭam"},
 	{input:1, q:"[vyaghrah]		व्याघ्रः।<br>vyāghraḥ.", a:"vyāghraḥ"},
 	{input:1, q:"[simhah]		सिंहः।<br>siṃhaḥ.", a:"siṃhaḥ"},
