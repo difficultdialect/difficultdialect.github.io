@@ -24,6 +24,9 @@ body {
   background-attachment: fixed;
   background-position: center;
 }
+p {
+	font-size: medium;
+}
 #outerspace{
 	padding: 0;
 	margin: 0;
