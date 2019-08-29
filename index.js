@@ -107,7 +107,7 @@ $(document).ready(function() {
 				for(i=0;i<slides.length;i++) {
 					if(i>lastentry) savedorder.push(i);
 				}
-				order=savedorder;
+				if(lastentry <slides.length) order =savedorder;
 				answered=new Set(JSON.parse(localStorage.getItem('answered')));
 			} catch(e) {}
 			document.body.style.backgroundSize = '0px';
