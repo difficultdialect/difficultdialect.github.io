@@ -58,17 +58,17 @@ var nimages=0;
 var q="";
 var slideover=0;
 var slides=[
-	{input:1, q:"[jalam]		जलम्।<br>jalam.<p>Type this.</p>", a:"jalam"},
+	{input:1, q:"[jalam3]		जलम्।<br>jalam.<p>Type this.</p>", a:"jalam"},
 	{input:1, q:"[jalam2]		जालम्।<br>jālam.", a:"jālam"},
 	{input:1, q:"[patram]		पत्रम्।<br>patram.", a:"patram"},
 	{input:1, q:"[patram2]		पात्रम्।<br>pātram.", a:"pātram"},
 	{input:1, q:"[vyoma]		व्योम।<br>vyoma.", a:"vyoma"},
 	{input:1, q:"[sastram2]		शस्त्रम्।<br>śastram.", a:"śastram"},
-	{input:1, q:"[dhara]		धरा।<br>dharā.", a:"dharā"},
+	{input:1, q:"[dhara4]		धरा।<br>dharā.", a:"dharā"},
 	{input:1, q:"[sastram]		शास्त्रम्।<br>śāstram.", a:"śāstram"},
-	{input:1, q:"[dhara2]		धारा।<br>dhārā.", a:"dhārā"},
+	{input:1, q:"[dhara5]		धारा।<br>dhārā.", a:"dhārā"},
 	{input:1, q:"[dhama]		धाम।<br>dhāma.", a:"dhāma"},
-	{input:1, q:"[rajasadanam]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
+	{input:1, q:"[rajasadanam2]	राजसजनम्।<br>rājasadanam.", a:"rājasadanam"},
 	{input:1, q:"[himavan]		हिमवान्।<br>himavān.", a:"himavān"},
 	{input:1, q:"[sagaratatam]	सागरतटम्।<br>sāgarataṭam.", a:"sāgarataṭam"},
 	{input:1, q:"[vyaghrah]		व्याघ्रः।<br>vyāghraḥ.", a:"vyāghraḥ"},
