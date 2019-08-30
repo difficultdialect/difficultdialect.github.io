@@ -21,7 +21,6 @@ g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<
 
 
 
-/*
 
 
 function saveToFirebase(email) {
@@ -41,7 +40,7 @@ function saveToFirebase(email) {
 
 
 
-*/
+
 
 
 
