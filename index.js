@@ -246,8 +246,8 @@ function showspace() {
 		$('#inputplace').html(inputtext);
 	}
 	if(order[1]==0) renderButton();
-	if (slides[order[1]].input == 0 || answered.has(order[1])) {
-		$('#space').fadeIn(500, function(){if(order[1]!==0) activatebutton();});
+	if (order[1]!==0 && (slides[order[1]].input == 0 || answered.has(order[1]))) {
+		$('#space').fadeIn(500, activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').fadeIn(500);
