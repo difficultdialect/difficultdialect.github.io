@@ -72,7 +72,7 @@ function onSignIn(googleUser) {
         console.log("ID Token: " + id_token);
       }
 var slides=[
-	{input:0, q:"Sign in to contiunue learning Sanskrit. <div class=\"g-signin2\" data-onsuccess=\"onSignIn\"></div>"},
+	{input:0, q:"Sign in to contiunue learning Sanskrit. <div class=\"g-signin2\" data-onsuccess=\"onSignIn\">Sign in.</div>"},
 	{input:1, q:"[patram]		एतत्पत्रम्। etatpatram. (This is a leaf.)<br>एतत्किम्? etatkim? (What is this?)<p>Type: patram.</p>", a:"patram"},
 	{input:1, q:"[patram2]		एतत्पात्रम्। etatpātram.<br>etatkim?<p>Type the answer.</p>", a:"pātram"},
 	{input:1, q:"[jalam3]		एतज्जलम्। etajjalam.<br>etatkim?<p>Type: jalam.</p>", a:"jalam"},
