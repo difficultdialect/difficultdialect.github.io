@@ -80,9 +80,10 @@ function onSignIn(googleUser) {
         // The ID token you need to pass to your backend:
         var id_token = googleUser.getAuthResponse().id_token;
         console.log("ID Token: " + id_token);
+	activatebutton();
       }
 var slides=[
-	{input:0, q:"Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\">Sign in.</div>"},
+	{input:0, q:"<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>"},
 	{input:1, q:"[patram]		एतत्पत्रम्। etatpatram. (This is a leaf.)<br>एतत्किम्? etatkim? (What is this?)<p>Type: patram.</p>", a:"patram"},
 	{input:1, q:"[patram2]		एतत्पात्रम्। etatpātram.<br>etatkim?<p>Type the answer.</p>", a:"pātram"},
 	{input:1, q:"[jalam3]		एतज्जलम्। etajjalam.<br>etatkim?<p>Type: jalam.</p>", a:"jalam"},
@@ -250,7 +251,7 @@ function showspace() {
 	}
 	if(order[1]==0) renderButton();
 	if (slides[order[1]].input == 0 || answered.has(order[1])) {
-		$('#space').fadeIn(500, activatebutton);
+		$('#space').fadeIn(500, function(){if(order[1]!==0) activatebutton();});
 		closekeyboard();
 	} else {
 		$('#space').fadeIn(500);
