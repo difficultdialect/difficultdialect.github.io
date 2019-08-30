@@ -64,8 +64,7 @@ function renderButton() {
         'height': 50,
         'longtitle': true,
         'theme': 'dark',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure
+        'onsuccess': onSignIn,
       });
     }
 function onSignIn(googleUser) {
