@@ -111,7 +111,7 @@ var slides=[
 	{input:1, q:"[vrkah]		एषवृकः। eṣavṛkaḥ.<br>eṣakaḥ?", a:"vṛkaḥ"},
 ];
 
-var order=[0];
+var order=[];
 
 for(i=0;i<slides.length;i++){
 	order.push(i);
