@@ -41,6 +41,7 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
+	padding-top: 1em;
 	text-align: center;
 	padding-left: 1em;
 	padding-right: 1em;
@@ -55,6 +56,15 @@ p {
 	margin-right: -1em;
 	margin-top: 0;
 	width: 100vw;
+}
+.hintbutton {
+	color: #808080;
+	font-size: medium;
+	font-weight: bold;
+	display: none;
+}
+.hint {
+	font-size: medium;
 }
 #inputplace {
   text-align: center;

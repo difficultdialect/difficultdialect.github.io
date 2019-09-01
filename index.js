@@ -57,6 +57,7 @@ var inputtext='';
 var nimages=0;
 var q="";
 var slideover=0;
+var hintasked=false;
 function renderButton() {
       gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
@@ -78,20 +79,32 @@ function onSignIn(googleUser) {
         console.log("ID Token: " + id_token);
 	activatebutton();
       }
-var skillsstr="";
-var slides=[
+var skills;
+var slide=[
 	
-	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
-	{q:'<br>{🙏}नमोनमः स्वागतम्<br>namonamaḥ svāgatam', a:''},
-	
+	{q:'Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
+	{q:'{🙏}नमोनमः स्वागतम्<br>namonamaḥ svāgatam', a:''},
+	{q:'{🐕}एषकः?<br>eṣakaḥ?', a:'@śvā', ad:'श्वा'},
+	{q:'{🐎}एषकः?<br>eṣakaḥ?', a:'@aśvaḥ', ad:'अश्वः'},
+	{q:'{🐘}एषकः?<br>eṣakaḥ?', a:'@hastī', ad:'हस्ती'},
+	{q:'{🐃}एषकः?<br>eṣakaḥ?', a:'@mahiṣaḥ', ad:'महिषः'}
 ];
-
+var state=[];
+var prof=[];
+var int=[];
 var order=[];
+var reached=0;
 
-for(i=0;i<slides.length;i++){
+for(i=0;i<slide.length;i++){
 	order.push(i);
+	if(slide[i].a.charAt(0)=='@'){
+		slide[i].a=slide[i].a.substr(1);
+		state.push(0);
+	}
+	else state.push(1);
+	prof.push(-1);
+	int.push(1);
 }
-var answered=new Set([]);
 var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
 var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
 
@@ -113,15 +126,14 @@ $(document).ready(function() {
 			console.log('fontactive');
 			redrawkeyboard();
 			var savedorder;
-			try {
+			/*try {
 				savedorder=JSON.parse(localStorage.getItem('order'));
 				var lastentry=savedorder[savedorder.length-1];
-				for(i=0;i<slides.length;i++) {
+				for(i=0;i<slide.length;i++) {
 					if(i>lastentry) savedorder.push(i);
 				}
-				if(lastentry <slides.length) order =savedorder;
-				answered=new Set(JSON.parse(localStorage.getItem('answered')));
-			} catch(e) {}
+				if(lastentry <slide.length) order =savedorder;
+			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
 			slideover = 1;
 			next();
@@ -134,8 +146,11 @@ function activatebutton() {
 	closekeyboard();
 	buttonstate=1;
 	$('#button1').fadeIn(500);
-	answered.add(order[0]);
-	localStorage.setItem('answered',JSON.stringify(Array.from(answered)));
+	state[order[0]]=2;
+	if(hintasked) int[order[0]]=int[order[0]]/2;
+	else int[order[0]]=int[order[0]]*2;
+	if(int[order[0]]<1) int[order[0]]=1;
+	prof[order[0]]=int[order[0]]-2;
 }
 
 function subnext() {
@@ -159,56 +174,59 @@ function ready() {
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large; color: #404040\' class=\'nonselectable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable\' style=\'color: #c0c0c0\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
-
+var hintbutton = '<p class=\'hintbuttonbuffer\'>SHOW HINT</div>';
+function showhint() {
+	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});
+	hintasked=true;
+}
 function next() {
 	nimages = 0;
 	console.log('next');
-	if(1==2){}
-	else {
-		q = '';
-		var oq = slides[order[1]].q;
-		var lastput = 0;
-		var hasimage = 0;
-		var images = [];
-		for (i = 0; i < oq.length; i++) {
-			if (oq.charAt(i) == '[') {
-				q = q + oq.substring(lastput, i);
-				lastput = i + 1;
-				while (i < oq.length && oq.charAt(i) !== ']') {
-					i++;
-				}
-				imagename = oq.substring(lastput, i);
-				images.push(imagename);
-				nimages++;
-				hasimage = 1;
-				lastput = i + 1;
-				var sizes = [144, 240, 360, 480, 720, 1080];
-				q = q + '<img src=\'images/' + imagename + '-360.jpeg\' sizes=\'100vw\' id=\'image' + imagename + 'buffer\' srcset=\'';
-				for (j = 0; j < sizes.length; j++) {
-					q = q + 'images/' + imagename + '-' + sizes[j] + '.jpeg ' + sizes[j] + 'w';
-					if (j < sizes.length - 1) {
-						q = q + ', ';
-					}
-				}
-				q = q + '\'>'
-				console.log('initiated');
+	q = '';
+	var oq = slide[order[1]].q;
+	var lastput = 0;
+	var hasimage = 0;
+	var images = [];
+	for (i = 0; i < oq.length; i++) {
+		if (oq.charAt(i) == '[') {
+			q = q + oq.substring(lastput, i);
+			lastput = i + 1;
+			while (i < oq.length && oq.charAt(i) !== ']') {
+				i++;
 			}
+			imagename = oq.substring(lastput, i);
+			images.push(imagename);
+			nimages++;
+			hasimage = 1;
+			lastput = i + 1;
+			var sizes = [144, 240, 360, 480, 720, 1080];
+			q = q + '<img src=\'images/' + imagename + '-360.jpeg\' sizes=\'100vw\' id=\'image' + imagename + 'buffer\' srcset=\'';
+			for (j = 0; j < sizes.length; j++) {
+				q = q + 'images/' + imagename + '-' + sizes[j] + '.jpeg ' + sizes[j] + 'w';
+				if (j < sizes.length - 1) {
+					q = q + ', ';
+				}
+			}
+			q = q + '\'>'
+			console.log('initiated');
 		}
-		q = q + oq.substring(lastput, i);
-		q=q.replace('{','<div class=\'emoji\'>').replace('}','</div>');
-		if (slides[order[1]].a == '') {
-			$('#spacebuffer').html(q + buttondeclaration);
-		} else {
-			$('#spacebuffer').html(q + inputdeclaration + buttondeclaration);
-		}
-		if (hasimage == 0) ready();
-		for (i = 0; i < images.length; i++) {
-			$('#image' + images[i] + 'buffer').on('load', function() {
-				console.log('loaded');
-				nimages--;
-				ready();
-			});
-		}
+	}
+	q = q + oq.substring(lastput, i);
+	q=q.replace('{','<div class=\'emoji\'>').replace('}','</div>');
+	q=q+hintbutton;
+	if (slide[order[1]].a !== ''){
+		q=q+'<p class=\'hintbuffer\'><b>ENTER: </b>'+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
+		q=q+inputdeclaration;
+	}
+	q=q+buttondeclaration;
+	$('#spacebuffer').html(q);
+	if (hasimage == 0) ready();
+	for (i = 0; i < images.length; i++) {
+		$('#image' + images[i] + 'buffer').on('load', function() {
+			console.log('loaded');
+			nimages--;
+			ready();
+		});
 	}
 }
 
@@ -216,14 +234,16 @@ function showspace() {
 	console.log('showing');
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
-	inputtext = '';
-	if(answered.has(order[1])){
-		inputtext=slides[order[1]].a;
-		$('#inputplace').html(inputtext);
+	if(slide[order[1]].a!=='' && state[order[1]]>0){
+		$('.hint').hide();
+		$('.hintbutton').show();
+		$('.hintbutton').on('click',showhint);
 	}
+	inputtext = '';
+	hintasked=false;
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
 		closekeyboard ();}
-	else if (slides[order[1]].a == '' || answered.has(order[1])) {
+	else if (slide[order[1]].a == '') {
 		$('#space').fadeIn(500, activatebutton);
 		closekeyboard();
 	} else {
@@ -231,6 +251,22 @@ function showspace() {
 		openkeyboard();
 	}
 	order.shift();
+	var c=order.shift();
+	var toput=-1;
+	for(i=2; i<=reached; i++) {
+		prof[i]--;
+		var smallest=0;
+		if(prof[i]<0 && (toput<0 || int[i]<smallest)) {
+			smallest=int[i];
+			toput=i;
+		}
+	}
+	if(toput>-1){
+		order.unshift(toput);
+		prof[toput]=4;
+	}
+	order.unshift(c);
+	if(c>reached) reached=c;
 	if(order.length < 2) order.push(order[0]);
 }
 
@@ -278,7 +314,7 @@ function type(e) {
 		e.currentTarget.children[0].innerHTML = sletters[i];
 		pressed = i;
 	} else clearpressed();
-	if (inputtext == slides[order[0]].a) {
+	if (inputtext == slide[order[0]].a) {
 		activatebutton();
 	}
 	}
@@ -293,7 +329,7 @@ function types(e) {
 		behavior: 'smooth'
 	});
 	$('#shiftkeyboard').hide();
-	if (inputtext == slides[order[0]].a) {
+	if (inputtext == slide[order[0]].a) {
 		activatebutton();
 	}
 	}
