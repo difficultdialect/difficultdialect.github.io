@@ -41,6 +41,7 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
+	text-align: center;
 	padding-left: 1em;
 	padding-right: 1em;
 	margin: 0;
@@ -59,6 +60,10 @@ p {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
+}
+.emoji{
+	text-align: center;
+	font-size: xx-large;
 }
 .keyboard {
   height: 0;

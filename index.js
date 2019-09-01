@@ -78,37 +78,12 @@ function onSignIn(googleUser) {
         console.log("ID Token: " + id_token);
 	activatebutton();
       }
+var skillsstr="";
 var slides=[
-	{input:0, q:"<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>"},
-	{input:1, q:"[patram]		एतत्पत्रम्। etatpatram. (This is a leaf.)<br>एतत्किम्? etatkim? (What is this?)<p>Type: patram.</p>", a:"patram"},
-	{input:1, q:"[patram2]		एतत्पात्रम्। etatpātram.<br>etatkim?<p>Type the answer.</p>", a:"pātram"},
-	{input:1, q:"[jalam3]		एतज्जलम्। etajjalam.<br>etatkim?<p>Type: jalam.</p>", a:"jalam"},
-	{input:1, q:"[jalam2]		एतज्जालम्। etajjālam.<br>etatkim? <p>Type the answer.</p>", a:"jālam"},
-	{input:1, q:"[dhara4]		एषाधरा। eṣādharā. (This is the earth.)<br>एषाका? eṣākā? (What is this?)<p>Type: dharā.</p>", a:"dharā"},
-	{input:1, q:"[vatayanam]	एतद्वातायनम्। etadvātāyanam.<br>etatkim?<p>Type: vātāyanam.</p>", a:"vātāyanam"},
-	{input:1, q:"[dhara5]		एषाधारा। eṣādhārā.<br>eṣākā?<p>Type the answer.</p>", a:"dhārā"},
-	{input:1, q:"[sagaratatam]	एतत्सागरतटम्। etatsāgarataṭam.<br>etatkim?", a:"sāgarataṭam"},
-	{input:1, q:"[rajasadanam2]	एतद्राजसदनम्। etadrājasadanam.<br>etatkim?", a:"rājasadanam"},
-	{input:1, q:"[himavan]		एषहिमवान्। eṣahimavān.<br>एषकः? eṣakaḥ? (What is this?)<p>Type: himavān.</p>", a:"himavān"},
-	{input:1, q:"[sopanam]		एतत्सोपानम्। etatsopānam.<br>etatkim?", a:"sopānam"},
-	{input:1, q:"[minah]		एषमीनः। eṣamīnaḥ.<br>eṣakaḥ?<p>Press the up arrow at the bottom left corner for more characters.</p>", a:"mīnaḥ"},
-	{input:1, q:"[dipah]		एषदीपः। eṣadīpaḥ.<br>eṣakaḥ?", a:"dīpaḥ"},
-	{input:1, q:"[apanam]		एषाविपणिः। eṣāvipaṇiḥ.<br>eṣākā?", a:"vipaṇiḥ"},
-	{input:1, q:"[surabhih]		एषसुरभिः। eṣasurabhiḥ.<br>eṣakaḥ?", a:"surabhiḥ"},
-	{input:1, q:"[harinah]		एषहरिणः। eṣahariṇaḥ.<br>eṣakaḥ?", a:"hariṇaḥ"},
-	{input:1, q:"[vyaghrah]		एषव्याघ्रः। eṣavyāghraḥ.<br>eṣakaḥ?", a:"vyāghraḥ"},
-	{input:1, q:"[darpanah]		एषदर्पणः। eṣadarpaṇaḥ.<br>eṣakaḥ?", a:"darpaṇaḥ"},
-	{input:1, q:"[sukah]		एषशुकः। eṣaśukaḥ.<br>eṣakaḥ?", a:"śukaḥ"},
-	{input:1, q:"[sikhi]		एषशिखी। eṣaśikhī.<br>eṣakaḥ?", a:"śikhī"},
-	{input:1, q:"[sastram2]		एतदायुधम्। etadāyudham.<br>etatkim?<p>Type: āyudham.</p>", a:"āyudham"},
-	{input:1, q:"[amram]		एतदाम्रम्। etadāmram.<br>etatkim?", a:"āmram"},
-	{input:1, q:"[puspam]		एतत्पुष्पम्। etatpuṣpam.<br>etatkim?", a:"puṣpam"},
-	{input:1, q:"[simhah]		एषसिंहः। eṣasiṃhaḥ.<br>eṣakaḥ?", a:"siṃhaḥ"},
-	{input:1, q:"[kamalam]		एतत्कमलम्। etatkamalam.<br>etatkim?", a:"kamalam"},
-	{input:1, q:"[ulukah]		एषयुलूकः। eṣayulūkaḥ.<br>eṣakaḥ?<p>Type: ulūkaḥ.</p>", a:"ulūkaḥ"},
-	{input:1, q:"[hamsah]		एषहंसः। eṣahaṃsaḥ.<br>eṣakaḥ?", a:"haṃsaḥ"},
-	{input:1, q:"[odanam]		एतदोदनम्। etadodanam.<br>etatkim?<p>Type: odanam.</p>", a:"odanam"},
-	{input:1, q:"[vrkah]		एषवृकः। eṣavṛkaḥ.<br>eṣakaḥ?", a:"vṛkaḥ"},
+	
+	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
+	{q:'<br>{🙏}नमोनमः स्वागतम्<br>namonamaḥ svāgatam', a:''},
+	
 ];
 
 var order=[];
@@ -220,7 +195,8 @@ function next() {
 			}
 		}
 		q = q + oq.substring(lastput, i);
-		if (slides[order[1]].input == 0) {
+		q=q.replace('{','<div class=\'emoji\'>').replace('}','</div>');
+		if (slides[order[1]].a == '') {
 			$('#spacebuffer').html(q + buttondeclaration);
 		} else {
 			$('#spacebuffer').html(q + inputdeclaration + buttondeclaration);
@@ -247,7 +223,7 @@ function showspace() {
 	}
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
 		closekeyboard ();}
-	else if (slides[order[1]].input == 0 || answered.has(order[1])) {
+	else if (slides[order[1]].a == '' || answered.has(order[1])) {
 		$('#space').fadeIn(500, activatebutton);
 		closekeyboard();
 	} else {
