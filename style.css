@@ -64,6 +64,7 @@ p {
 	display: none;
 }
 .hint {
+	color: #808080;
 	font-size: medium;
 }
 #inputplace {
@@ -76,8 +77,8 @@ p {
 	font-size: xx-large;
 }
 #space .emojiplace img{
-	height: 72px;
-	width: 72px;
+	width: 2em;
+	height: auto;
 }
 .keyboard {
   height: 0;
