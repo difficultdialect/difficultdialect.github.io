@@ -71,9 +71,13 @@ p {
   font-size: x-large;
   font-weight: bold;
 }
-.emoji{
+.emojiplace{
 	text-align: center;
 	font-size: xx-large;
+}
+#space .emojiplace img{
+	height: 2em;
+	width: 2em;
 }
 .keyboard {
   height: 0;

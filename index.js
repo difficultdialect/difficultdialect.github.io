@@ -212,7 +212,9 @@ function next() {
 		}
 	}
 	q = q + oq.substring(lastput, i);
-	q=q.replace('{','<div class=\'emoji\'>').replace('}','</div>');
+	q=q.replace('{','<div class=\'emojiplace\'>').replace('}','</div>');
+	twemoji.size=72;
+	q=twemoji.parse(q);
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
 		q=q+'<p class=\'hintbuffer\'><b>ENTER: </b>'+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
@@ -234,6 +236,8 @@ function showspace() {
 	console.log('showing');
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
+	/*twemoji.size=72;
+	twemoji.parse(document.body);*/
 	if(slide[order[1]].a!=='' && state[order[1]]>0){
 		$('.hint').hide();
 		$('.hintbutton').show();
