@@ -81,9 +81,21 @@ function onSignIn(googleUser) {
       }
 var skills;
 var slide=[
-	
 	{q:'Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	{q:'This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
+	{q:'{🏊🏼‍♂️}देवोनद्यांतरति। devonadyāṃtarati.',a:''},
+	{q:'{🏊🏼‍♂️}देवःकुत्रतरति? devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
+	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति? devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
+	{q:'{🏫}देवःशालांगच्छति। devaḥśālāṃgacchati.{😴}शालायांशेते। śālāyāṃśete.',a:''},
+	{q:'{🏫}देवःशालांगच्छति। devaḥśālāṃgacchati.{😴}शालायांकिंकरोति? śālāyāṃkiṃkaroti?',a:'@śete',ad:'शेते'},
+	{q:'{🏫}देवःकुत्रशेते? devaḥkutraśete?',a:'@śālāyām',ad:'शालायाम्'},
+	{q:'{👨🏾}नमोनमः। ममनामरामः। <br> namonamaḥ. mamanāmarāmaḥ.', a:''},
+	{q:'{👨🏾}ममनामकिम्?<br>mamanāmakim?', a:'@rāmaḥ', ad:'रामः'},
+	{q:'{👴🏽}ममपिता mamapitā,<br>{👵🏼}मममाता mamamātā,<br>{🧑🏾}ममानुजः mamānujaḥ,<br>{👩🏾‍🦱}ममजाया mamajāyā,<br>{👧🏽}ममदुहिता mamaduhitā,<br>{🧒🏾}ममसूनुः mamasūnuḥ,<br>एतन्ममकुटुम्बम् etanmamakuṭumbam.', a:''},
+	{q:'{👴🏽}ममपितुर्नामरामदासः।<br>mamapiturnāmarāmadāsaḥ.', a:''},
+	{q:'{👴🏽}ममपितुर्नामकिम्?<br>mamapiturnāmakim?', a:'@rāmadāsaḥ', ad:'रामदासः'},
+	{q:'{👵🏼}मममातुर्नामगीता।<br>mamamāturnāmagītā.', a:''},
+	{q:'{👵🏼}मममातुर्नामकिम्?<br>mamamāturnāmakim?', a:'@gītā', ad:'गीता'},
 	{q:'{🐕}एषकः?<br>eṣakaḥ?', a:'@śvā', ad:'श्वा'},
 	{q:'{🐎}एषकः?<br>eṣakaḥ?', a:'@aśvaḥ', ad:'अश्वः'},
 	{q:'{🐘}एषकः?<br>eṣakaḥ?', a:'@hastī', ad:'हस्ती'},
@@ -212,7 +224,7 @@ function next() {
 		}
 	}
 	q = q + oq.substring(lastput, i);
-	q=q.replace('{','<div class=\'emojiplace\'>').replace('}','</div>');
+	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>');
 	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
@@ -257,7 +269,7 @@ function showspace() {
 	for(i=2; i<=reached; i++) {
 		prof[i]--;
 		var smallest=0;
-		if(prof[i]<0 && (toput<0 || int[i]<smallest)) {
+		if(slide[i].a!=='' && prof[i]<0 && (toput<0 || int[i]<smallest)) {
 			smallest=int[i];
 			toput=i;
 		}
