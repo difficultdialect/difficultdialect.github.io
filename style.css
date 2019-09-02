@@ -51,34 +51,34 @@ p {
 	overflow-y: hidden;
 	display: none;
 }
-#space img{
+#space img, #spacebuffer img{
 	margin-left: -1em;
 	margin-right: -1em;
 	margin-top: 0;
 	width: 100vw;
 }
-.hintbutton {
+.hintbutton, .hintbuttonbuffer {
 	color: #808080;
 	font-size: medium;
 	font-weight: bold;
 	display: none;
 }
-.hint {
+.hint, .hintbuffer {
 	color: #808080;
 	font-size: medium;
 }
-#inputplace {
+#inputplace, #inputplacebuffer {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
 }
-.emojiplace{
+.emojiplace, .emojiplacebuffer{
 	text-align: center;
 	padding-top: 1em;
 	margin: 0;
 	border: 0;
 }
-#space .emojiplace img{
+#space .emojiplace img, #spacebuffer .emojiplacebuffer img{
 	margin: 0;
 	display: inline-block;
 	width: 4em;

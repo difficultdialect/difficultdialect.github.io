@@ -55,6 +55,7 @@ var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var inputtext='';
 
 var nimages=0;
+var nmoji=0;
 var q="";
 var slideover=0;
 var hintasked=false;
@@ -86,12 +87,12 @@ var slide=[
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
-	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖 📖 📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
-	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖 📖 📖}छात्राःशालायांकिंकुर्वन्ति?<br>chātrāḥśālāyāṃkiṃkurvanti?',a:'@paṭhanti',ad:'पठन्ति'},
+	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
+	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?<br>chātrāḥśālāyāṃkiṃkurvanti?',a:'@paṭhanti',ad:'पठन्ति'},
 	{q:'{🏫}छात्राःकुत्रपठन्ति?<br>chātrāḥkutrapaṭhanti?',a:'@śālāyām',ad:'शालायाम्'},
 	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?<br>keśālāyāṃpaṭhanti?',a:'@chātrāḥ',ad:'छात्राः'},
 	{q:'{🏫🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
-	{q:'{🏫🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांकिंकरोति?<br>śālāyāṃkiṃkaroti?',a:'@śete',ad:'शेते'},
+	{q:'{😴}देवःशालायांकिंकरोति?<br>śālāyāṃkiṃkaroti?',a:'@śete',ad:'शेते'},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।<br>lokārātrauśerate.',a:''},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौकिंकुर्वन्ति?<br>lokārātraukiṃkuranti?',a:'@śerate',ad:'शेरते'},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकाःकदाशेरते?<br>lokāḥkadāśerat?',a:'@rātrau',ad:'रात्रौ'},
@@ -201,6 +202,7 @@ function showhint() {
 }
 function next() {
 	nimages = 0;
+	
 	console.log('next');
 	q = '';
 	var oq = slide[order[1]].q;
@@ -241,6 +243,13 @@ function next() {
 	}
 	q=q+buttondeclaration;
 	$('#spacebuffer').html(q);
+	nmoji=$('#spacebuffer').find('img').length;
+	console.log('nmoji:'+nmoji);
+	/*
+	var emojiplaces=document.getElementsByClassName('emojiplacebuffer');
+	for (i=0;i<emojiplaces.length;i++) {
+		while(emojiplaces[i].offsetHeight>2*parseInt(window.getComputedStyle(emojiplaces[i], null).getPropertyValue('line-height'))
+	}*/
 	if (hasimage == 0) ready();
 	for (i = 0; i < images.length; i++) {
 		$('#image' + images[i] + 'buffer').on('load', function() {
@@ -260,6 +269,10 @@ function showspace() {
 		$('.hintbutton').show();
 		$('.hintbutton').on('click',showhint);
 	}
+	/*if(order[1]==2) $('img').css('max-width','1em');
+	else $('img').width('4em');*/
+	
+	//$('img').css('max-width',$('#space').width()/nmoji+'px');
 	inputtext = '';
 	hintasked=false;
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
@@ -271,6 +284,11 @@ function showspace() {
 		$('#space').fadeIn(500);
 		openkeyboard();
 	}
+	$('#space .emojiplace').each(function(){
+		var w=$(this).width();
+		var nml=$(this).find('img').length;
+		$(this).find('img').css('max-width',w/nml+'px');
+	});
 	order.shift();
 	var c=order.shift();
 	var toput=-1;
