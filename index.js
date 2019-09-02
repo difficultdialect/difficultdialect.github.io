@@ -83,7 +83,7 @@ var skills;
 var slide=[
 	
 	{q:'Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
-	{q:'This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap right arrow to continue.', a:''},
+	{q:'This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
 	{q:'{🐕}एषकः?<br>eṣakaḥ?', a:'@śvā', ad:'श्वा'},
 	{q:'{🐎}एषकः?<br>eṣakaḥ?', a:'@aśvaḥ', ad:'अश्वः'},
 	{q:'{🐘}एषकः?<br>eṣakaḥ?', a:'@hastī', ad:'हस्ती'},
