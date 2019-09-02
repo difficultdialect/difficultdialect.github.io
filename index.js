@@ -82,12 +82,13 @@ function onSignIn(googleUser) {
       }
 var skills;
 var slide=[
-	{q:'Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
-	{q:'This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
+	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
+	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
 	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
+	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःकुत्रगच्छन्ति?<br>chātrāḥkutragacchanti?',a:'@śālām',ad:'शालाम्'},
 	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?<br>chātrāḥśālāyāṃkiṃkurvanti?',a:'@paṭhanti',ad:'पठन्ति'},
 	{q:'{🏫}छात्राःकुत्रपठन्ति?<br>chātrāḥkutrapaṭhanti?',a:'@śālāyām',ad:'शालायाम्'},
 	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?<br>keśālāyāṃpaṭhanti?',a:'@chātrāḥ',ad:'छात्राः'},
@@ -186,7 +187,7 @@ function subnext() {
 
 function ready() {
 	console.log('ready, slideover:' + slideover + ', nimages:' + nimages);
-	if (slideover == 1 && nimages == 0) {
+	if (slideover == 1 && nimages < 1) {
 		showspace();
 		next();
 	}
@@ -244,6 +245,7 @@ function next() {
 	q=q+buttondeclaration;
 	$('#spacebuffer').html(q);
 	nmoji=$('#spacebuffer').find('img').length;
+	nimages=nmoji;
 	console.log('nmoji:'+nmoji);
 	/*
 	var emojiplaces=document.getElementsByClassName('emojiplacebuffer');
@@ -251,13 +253,16 @@ function next() {
 		while(emojiplaces[i].offsetHeight>2*parseInt(window.getComputedStyle(emojiplaces[i], null).getPropertyValue('line-height'))
 	}*/
 	if (hasimage == 0) ready();
-	for (i = 0; i < images.length; i++) {
+	$('#spacebuffer').find('img').on('load',function() {
+		nimages--;ready();
+	});
+	/*for (i = 0; i < images.length; i++) {
 		$('#image' + images[i] + 'buffer').on('load', function() {
 			console.log('loaded');
 			nimages--;
 			ready();
 		});
-	}
+	}*/
 }
 
 function showspace() {
