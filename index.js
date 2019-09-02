@@ -174,7 +174,7 @@ function ready() {
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large; color: #404040\' class=\'nonselectable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable\' style=\'color: #c0c0c0\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
-var hintbutton = '<p class=\'hintbuttonbuffer\'>SHOW HINT</div>';
+var hintbutton = '<p class=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});
 	hintasked=true;
@@ -217,7 +217,7 @@ function next() {
 	q=twemoji.parse(q);
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\'><b>ENTER: </b>'+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
+		q=q+'<p class=\'hintbuffer\'>ENTER: '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
 		q=q+inputdeclaration;
 	}
 	q=q+buttondeclaration;
