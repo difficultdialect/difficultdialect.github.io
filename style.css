@@ -127,6 +127,7 @@ p {
   text-align: center;
   vertical-align: middle;
   padding-top: 13%;
+  overflow: visible;
 }
 
 .keys .text {
@@ -141,12 +142,11 @@ p {
 	/*color: black;*/
 	background-color: white;
 	z-index: 2;
-	
+	box-shadow: 2px 2px #404040, 2px -2px #404040, -2px 2px #404040, -2px -2px #404040;
 }
 #displaysq, #sdisplaysq {
         display: none;
         z-index: 2;
-        box-shadow: 2px 2px #404040, 2px -2px #404040, -2px 2px #404040, -2px -2px #404040;
 }
 .text.pressed{
 	font-weight: bold;
