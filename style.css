@@ -127,8 +127,8 @@ p {
 }
 #displaykey, #sdisplaykey {
 	font-weight: bold;
-	color: white;
-	background-color: black;
+	color: black;
+	background-color: white;
 	z-index: 2;
 }
 .text.pressed{
