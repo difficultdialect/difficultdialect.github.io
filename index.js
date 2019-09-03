@@ -472,6 +472,18 @@ function redrawkeyboard() {
 
 	$('#primarykeyboard').html(keysdeclaration);
 	$('#shiftkeyboard').html(skeysdeclaration);
+	/*
+	dk=document.getElementById('displaykey');
+	sdk=document.getElementById('sdisplaykey');
+	dk.style.bottom = 0.0 + 'px';
+	dk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
+	dk.style.width = Math.floor(w / 10.0) + 'px';
+	dk.style.fontSize = Math.floor(w / 15.0) + 'px';
+	sk.style.bottom = 0.0 + 'px';
+	sk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
+	sk.style.width = Math.floor(w / 10.0) + 'px';
+	sk.style.fontSize = Math.floor(w / 15.0) + 'px';
+	*/
 	for (i = 0; i < letters.length; i++) {
 		if (sletters[i] !== letters[i]) {
 			$('#s' + i + 'key').addClass('pressed');
@@ -492,18 +504,15 @@ function redrawkeyboard() {
 		var ck = document.getElementById(i + 'key');
 		var csk = document.getElementById('s' + i + 'key');
 		if (i < 10) {
-			csq.style.left = i * w / 10.0 + 'px';
-			cssq.style.left = i * w / 10.0 + 'px';
+			lefts.push(i * w / 10.0);
+			tops.push(0);
 		} else if (i < 19) {
-			csq.style.left = (i - 9.5) * w / 10.0 + 'px';
-			csq.style.top = w * 1.3 / 10.0 + 'px';
-			cssq.style.left = (i - 9.5) * w / 10.0 + 'px';
-			cssq.style.top = w * 1.3 / 10.0 + 'px';
+			lefts.push((i - 9.5) * w / 10.0);
+			tops.push(w * 1.3 / 10.0);
 			if (i == 10) {
-				csq.style.left = '0';
+				lefts[i] = '0';
 				csq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
 				csq.style.width = 1.0 * w / 10.0 + 'px';
-				cssq.style.left = '0';
 				cssq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
 				cssq.style.width = 1.0 * w / 10.0 + 'px';
 			} else if (i == 18) {
@@ -511,24 +520,34 @@ function redrawkeyboard() {
 				cssq.style.width = 2.0 * w / 10.0 + 'px';
 			}
 		} else {
-			csq.style.left = (i - 17.5) * w / 10.0 + 'px';
-			csq.style.top = w * 1.3 / 5.0 + 'px';
-			cssq.style.left = (i - 17.5) * w / 10.0 + 'px';
-			cssq.style.top = w * 1.3 / 5.0 + 'px';
+			lefts.push((i - 17.5) * w / 10.0);
+			tops.push(w * 1.3 / 5.0);
 		}
+		csq.style.left = lefts[i] + 'px';
+		csq.style.top = tops[i] + 'px';
+		cssq.style.left = lefts[i] + 'px';
+		cssq.style.top = tops[i] + 'px';
+		/*
 		ck.style.bottom = 0.0 + 'px';
 		ck.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
 		ck.style.width = Math.floor(w / 10.0) + 'px';
 		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
+		*/
 		assign(csq,'up',type);
-		assign(csq,'down',function(){console.log('down again');});
-		       
+		assign(csq,'down',showdisplay);
+		
+		/*
 		csk.style.bottom = 0.0 + 'px';
 		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
 		csk.style.width = Math.floor(w / 10.0) + 'px';
 		csk.style.fontSize = Math.floor(w / 15.0) + 'px';
+		*/
 		assign(cssq,'up',types);
 	}
+	$('.keys .text').css('bottom', '0px');
+	$('.keys .text').css('line-height', Math.floor(w * 1.3 / 10.0) + 'px');
+	$('.keys .text').css('width', Math.floor(w / 10.0) + 'px');
+	$('.keys .text').css('font-size', Math.floor(w / 15.0) + 'px');
 }
 
 function openkeyboard() {
