@@ -130,6 +130,9 @@ p {
 	color: black;
 	background-color: white;
 	z-index: 2;
+	border-width: 2px;
+	border-color: black;
+	border-style: solid;
 }
 .text.pressed{
 	font-weight: bold;
