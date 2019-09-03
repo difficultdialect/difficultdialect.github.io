@@ -96,6 +96,7 @@ p {
   padding-right: 0;
   padding-bottom: 0;
   padding-left: 0;
+  overflow: visible;
   transition: 0.2s;
   -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
