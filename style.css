@@ -41,6 +41,8 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
+   color: #202020;
+   font-weight: bold;
 	padding-top: 1em;
 	text-align: center;
 	padding-left: 1em;
