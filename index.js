@@ -439,15 +439,41 @@ function redrawkeyboard() {
 		$('#shiftkeyboard').hide();
 	});
 	var backaction;
-	$('#backsq').on('mousedown', function(){backaction=setInterval(back,100);});
-	$('#backsq').on('mouseup', function(){back();clearInterval(backaction);});
-	//$('#backsq').on('click', back);
-	$('#sbacksq').on('mousedown', function() {
-		$('#shiftkeyboard').hide();
-	});
-	$('#sbacksq').on('click', function() {
-		$('#shiftkeyboard').hide();
-	});
+	
+	function assign(element,event,callback) {
+		if(window.PointerEvent) {
+			if(event=='down') element.addEventListener('pointerdown',callback);
+			else if(event=='up') {
+				element.addEventListener('pointerup',callback);
+				element.addEventListener('pointercancel',callback);
+			}
+			else if(event=='move') {
+				element.addEventListener('pointermove',callback);
+			}
+			else throw 'invalid event'
+		}
+		else {
+			if(event=='down') {
+				element.addEventListener('touchstart',callback);
+				element.addEventListener('mousedown',callback);
+			}
+			else if(event=='up') {
+				element.addEventListener('touchend',callback);
+				element.addEventListener('mouseup',callback);
+				element.addEventListener('touchcancel',callback);
+			}
+			else if(event=='move') {
+				element.addEventListener('touchmove',callback);
+				element.addEventListener('mousemove',callback);
+			}
+			else throw 'invalid event'
+		}
+	}
+	
+	assign(document.getElementById('backsq'),'down',function(){backaction=setInterval(back,100);});
+	assign(document.getElementById('backsq'),'up',function(){back();clearInterval(backaction);});
+	
+	/*
 	if(window.PointerEvent){
 		$('#sbacksq').on('pointerdown', function() {
 			$('#shiftkeyboard').hide();
@@ -463,8 +489,14 @@ function redrawkeyboard() {
 		$('#backsq').on('touchdown', function(){backaction=setInterval(back,100);});
 		$('#backsq').on('touchup', function(){clearInterval(backaction);});
 		$('#backsq').on('touchcancel', function(){clearInterval(backaction);});
+		
+		$('#sbacksq').on('mousedown', function() {
+			$('#shiftkeyboard').hide();
+		});
+		$('#backsq').on('mousedown', function(){backaction=setInterval(back,100);});
+		$('#backsq').on('mouseup', function(){back();clearInterval(backaction);});
 	}
-
+	*/
 
 	for (i = 0; i < letters.length; i++) {
 		var csq = document.getElementById(i + 'sq');
