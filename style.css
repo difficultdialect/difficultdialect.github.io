@@ -3,6 +3,7 @@ html{
 	height:100%;
 }
 body {
+  color: #404040;
   word-wrap: break-word;
   font-family: 'Mukta', sans-serif;
   font-size: large;
@@ -42,7 +43,7 @@ p {
 }
 #space, #spacebuffer{
    color: #404040;
-   font-weight: bold;
+   font-weight: normal;
 	padding-top: 1em;
 	text-align: center;
 	padding-left: 1em;
@@ -67,22 +68,29 @@ p {
 }
 .hint, .hintbuffer {
 	color: #808080;
-   font-weight: Normal;
+   font-weight: normal;
 	font-size: medium;
 }
+.clickable {
+	color: #808080;
+}
 #inputplace, #inputplacebuffer {
+  background-color: #f0f0f0;
   text-align: center;
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
+  margin-left: -1em;
+  width: 100vw;
 }
 .emojiplace, .emojiplacebuffer{
 	text-align: center;
 	padding-top: 1em;
+	padding-bottom: 1em;
 	margin: 0;
 	border: 0;
 }
 #space .emojiplace img, #spacebuffer .emojiplacebuffer img{
-	margin: 0;
+	margin: 0 0.2em 0 0.2em; /*keep total margin 0.1 of width*/
 	display: inline-block;
 	width: 4em;
 	height: auto;
@@ -123,14 +131,14 @@ p {
 
 .keys .text {
   font-weight: normal;
-  color:black;
+  /*color: black;*/
   position: absolute;
   bottom:0;
   text-align: center;
 }
 #displaykey, #sdisplaykey {
 	font-weight: bold;
-	color: black;
+	/*color: black;*/
 	background-color: white;
 	z-index: 2;
 	
@@ -138,7 +146,7 @@ p {
 #displaysq, #sdisplaysq {
         display: none;
         z-index: 2;
-        box-shadow: 2px 2px black, 2px -2px black, -2px 2px black, -2px -2px black;
+        box-shadow: 2px 2px #404040, 2px -2px #404040, -2px 2px #404040, -2px -2px #404040;
 }
 .text.pressed{
 	font-weight: bold;

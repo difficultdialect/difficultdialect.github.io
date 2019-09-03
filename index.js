@@ -120,6 +120,7 @@ var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
+	{q:'{🏫🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
@@ -232,8 +233,8 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large; color: #404040\' class=\'nonselectable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
-var inputalt = '<span class=\'nonselectable\' style=\'color: #c0c0c0\'>—</span>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
+var inputalt = '<span class=\'nonselectable\' style=\'color: #808080\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
@@ -313,10 +314,6 @@ function showspace() {
 		$('.hintbutton').show();
 		$('.hintbutton').on('click',showhint);
 	}
-	/*if(order[1]==2) $('img').css('max-width','1em');
-	else $('img').width('4em');*/
-	
-	//$('img').css('max-width',$('#space').width()/nmoji+'px');
 	inputtext = '';
 	hintasked=false;
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
@@ -330,8 +327,10 @@ function showspace() {
 	}
 	$('#space .emojiplace').each(function(){
 		var w=$(this).width();
+		var em=($('body').width()-w)/2;
+		console.log('em: '+em+' w: '+w);
 		var nml=$(this).find('img').length;
-		$(this).find('img').css('max-width',w/nml+'px');
+		$(this).find('img').css('max-width',(Math.floor(w/nml)-Math.ceil(0.4*em))+'px');
 	});
 	order.shift();
 	var c=order.shift();
