@@ -511,7 +511,7 @@ function redrawkeyboard() {
 		ck.style.width = Math.floor(w / 10.0) + 'px';
 		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
 		assign(csq,'up',type);
-		assign(csq,'down',function(){console.log('down again')});
+		assign(csq,'down',function(){console.log('down again');});
 		       
 		csk.style.bottom = 0.0 + 'px';
 		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
