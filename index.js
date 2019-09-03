@@ -510,14 +510,13 @@ function redrawkeyboard() {
 		ck.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
 		ck.style.width = Math.floor(w / 10.0) + 'px';
 		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
-		//csq.addEventListener('click', type);
 		assign(csq,'up',type);
+		assign(csq,'down',function(){console.log('down again')});
 		       
 		csk.style.bottom = 0.0 + 'px';
 		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
 		csk.style.width = Math.floor(w / 10.0) + 'px';
 		csk.style.fontSize = Math.floor(w / 15.0) + 'px';
-		//cssq.addEventListener('click', types);
 		assign(cssq,'up',types);
 	}
 }
