@@ -117,7 +117,7 @@ p {
   vertical-align: middle;
   padding-top: 13%;
 }
-#display, #sdisplay {
+#display .text, #sdisplay .text {
 	color: white;
 	background-color: black;
 	z-index: 2;
