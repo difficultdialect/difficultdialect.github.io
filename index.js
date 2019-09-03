@@ -20,6 +20,42 @@ g,0<d.length&&(d=Aa[d[0]])&&(a.c[e]=d))}a.c[e]||(d=Aa[e])&&(a.c[e]=d);for(d=0;d<
 
 
 
+
+function assign(element,event,callback) {
+	if(window.PointerEvent) {
+		if(event=='down') element.addEventListener('pointerdown',callback);
+		else if(event=='up') {
+			element.addEventListener('pointerup',callback);
+			element.addEventListener('pointercancel',callback);
+		}
+		else if(event=='move') {
+			element.addEventListener('pointermove',callback);
+		}
+		else throw 'invalid event'
+	}
+	else {
+		if(event=='down') {
+			element.addEventListener('touchstart',callback);
+			element.addEventListener('mousedown',callback);
+		}
+		else if(event=='up') {
+			element.addEventListener('touchend',callback);
+			element.addEventListener('mouseup',callback);
+			element.addEventListener('touchcancel',callback);
+		}
+		else if(event=='move') {
+			element.addEventListener('touchmove',callback);
+			element.addEventListener('mousemove',callback);
+		}
+		else throw 'invalid event'
+	}
+}
+
+
+
+
+
+
 /*
 
 
@@ -431,48 +467,14 @@ function redrawkeyboard() {
 			$('#s' + i + 'key').addClass('pressed');
 		}
 	}
-	$('#shiftsq').on('click', function() {
-		$('#shiftkeyboard').show();
-		clearpressed();
-	});
-	$('#sshiftsq').on('click', function() {
-		$('#shiftkeyboard').hide();
-	});
-	var backaction;
+	assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
+	assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
 	
-	function assign(element,event,callback) {
-		if(window.PointerEvent) {
-			if(event=='down') element.addEventListener('pointerdown',callback);
-			else if(event=='up') {
-				element.addEventListener('pointerup',callback);
-				element.addEventListener('pointercancel',callback);
-			}
-			else if(event=='move') {
-				element.addEventListener('pointermove',callback);
-			}
-			else throw 'invalid event'
-		}
-		else {
-			if(event=='down') {
-				element.addEventListener('touchstart',callback);
-				element.addEventListener('mousedown',callback);
-			}
-			else if(event=='up') {
-				element.addEventListener('touchend',callback);
-				element.addEventListener('mouseup',callback);
-				element.addEventListener('touchcancel',callback);
-			}
-			else if(event=='move') {
-				element.addEventListener('touchmove',callback);
-				element.addEventListener('mousemove',callback);
-			}
-			else throw 'invalid event'
-		}
-	}
+	var backaction;
 	
 	assign(document.getElementById('backsq'),'down',function(){backaction=setInterval(back,150);});
 	assign(document.getElementById('backsq'),'up',function(){back();clearInterval(backaction);});
-	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();backaction=setInterval(back,150);});
+	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
 	
 	for (i = 0; i < letters.length; i++) {
 		var csq = document.getElementById(i + 'sq');
@@ -509,7 +511,7 @@ function redrawkeyboard() {
 		ck.style.width = Math.floor(w / 10.0) + 'px';
 		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
 		csq.addEventListener('click', type);
-
+		       
 		csk.style.bottom = 0.0 + 'px';
 		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
 		csk.style.width = Math.floor(w / 10.0) + 'px';
