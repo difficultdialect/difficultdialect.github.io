@@ -440,7 +440,7 @@ function redrawkeyboard() {
 	});
 	var backaction;
 	$('#backsq').on('mousedown', function(){backaction=setInterval(back,100);});
-	$('#backsq').on('mouseup', function(){clearInterval(backaction);});
+	$('#backsq').on('mouseup', function(){back();clearInterval(backaction);});
 	$('#sbacksq').on('mousedown', function() {
 		$('#shiftkeyboard').hide();
 	});
@@ -449,8 +449,8 @@ function redrawkeyboard() {
 			$('#shiftkeyboard').hide();
 		});
 		$('#backsq').on('pointerdown', function(){backaction=setInterval(back,100);});
-		$('#backsq').on('pointerup', function(){clearInterval(backaction);});
-		$('#backsq').on('pointercancel', function(){clearInterval(backaction);});
+		$('#backsq').on('pointerup', function(){back();clearInterval(backaction);});
+		$('#backsq').on('pointercancel', function(){back();clearInterval(backaction);});
 	}
 	else{
 		$('#sbacksq').on('touchdown', function() {
