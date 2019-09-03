@@ -467,23 +467,12 @@ function redrawkeyboard() {
 	var displaykey = '<div class=\'keys\' id=\'displaysq\'><div class=\'text\' id=\'displaykey\'></div></div>';
 	var sdisplaykey = '<div class=\'keys\' id=\'sdisplaysq\'><div class=\'text\' id=\'sdisplaykey\'></div></div>';
 	
-	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + displaykey;
-	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + sdisplaykey;
+	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey;
+	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey;
 
 	$('#primarykeyboard').html(keysdeclaration);
 	$('#shiftkeyboard').html(skeysdeclaration);
-	/*
-	dk=document.getElementById('displaykey');
-	sdk=document.getElementById('sdisplaykey');
-	dk.style.bottom = 0.0 + 'px';
-	dk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
-	dk.style.width = Math.floor(w / 10.0) + 'px';
-	dk.style.fontSize = Math.floor(w / 15.0) + 'px';
-	sk.style.bottom = 0.0 + 'px';
-	sk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
-	sk.style.width = Math.floor(w / 10.0) + 'px';
-	sk.style.fontSize = Math.floor(w / 15.0) + 'px';
-	*/
+	
 	for (i = 0; i < letters.length; i++) {
 		if (sletters[i] !== letters[i]) {
 			$('#s' + i + 'key').addClass('pressed');
@@ -527,21 +516,8 @@ function redrawkeyboard() {
 		csq.style.top = tops[i] + 'px';
 		cssq.style.left = lefts[i] + 'px';
 		cssq.style.top = tops[i] + 'px';
-		/*
-		ck.style.bottom = 0.0 + 'px';
-		ck.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
-		ck.style.width = Math.floor(w / 10.0) + 'px';
-		ck.style.fontSize = Math.floor(w / 15.0) + 'px';
-		*/
 		assign(csq,'up',type);
 		assign(csq,'down',showdisplay);
-		
-		/*
-		csk.style.bottom = 0.0 + 'px';
-		csk.style.lineHeight = Math.floor(w * 1.3 / 10.0) + 'px';
-		csk.style.width = Math.floor(w / 10.0) + 'px';
-		csk.style.fontSize = Math.floor(w / 15.0) + 'px';
-		*/
 		assign(cssq,'up',types);
 	}
 	$('.keys .text').css('bottom', '0px');
