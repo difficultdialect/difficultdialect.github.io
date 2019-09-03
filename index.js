@@ -289,7 +289,7 @@ function showspace() {
 	for(i=2; i<=reached; i++) {
 		prof[i]--;
 		var smallest=0;
-		if(slide[order[0]].state!==0 && slide[i].a!=='' && prof[i]<0 && (toput<0 || int[i]<smallest)) {
+		if(slide[c].a!=='' && slide[i].a!=='' && prof[i]<0 && (toput<0 || int[i]<smallest)) {
 			smallest=int[i];
 			toput=i;
 		}
