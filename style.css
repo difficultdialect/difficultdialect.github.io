@@ -125,7 +125,7 @@ p {
   bottom:0;
   text-align: center;
 }
-#display .text, #sdisplay .text {
+#displaykey, #sdisplaykey {
 	font-weight: bold;
 	color: white;
 	background-color: black;
