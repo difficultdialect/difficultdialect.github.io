@@ -509,16 +509,6 @@ function redrawkeyboard() {
 		} else if (i < 19) {
 			lefts.push((i - 9.5) * w / 10.0);
 			tops.push(w * 1.3 / 10.0);
-			if (i == 10) {
-				lefts[i] = '0';
-				csq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
-				csq.style.width = 1.0 * w / 10.0 + 'px';
-				cssq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
-				cssq.style.width = 1.0 * w / 10.0 + 'px';
-			} else if (i == 18) {
-				csq.style.width = 2.0 * w / 10.0 + 'px';
-				cssq.style.width = 2.0 * w / 10.0 + 'px';
-			}
 		} else {
 			lefts.push((i - 17.5) * w / 10.0);
 			tops.push(w * 1.3 / 5.0);
@@ -527,6 +517,17 @@ function redrawkeyboard() {
 		csq.style.top = tops[i] + 'px';
 		cssq.style.left = lefts[i] + 'px';
 		cssq.style.top = tops[i] + 'px';
+		if (i == 10) {
+			csq.style.left = '0px';
+			csq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
+			csq.style.width = 1.0 * w / 10.0 + 'px';
+			cssq.style.left = '0px';
+			cssq.style.paddingLeft = 0.5 * w / 10.0 + 'px';
+			cssq.style.width = 1.0 * w / 10.0 + 'px';
+		} else if (i == 18) {
+			csq.style.width = 2.0 * w / 10.0 + 'px';
+			cssq.style.width = 2.0 * w / 10.0 + 'px';
+		}
 		assign(csq,'up',type);
 		assign(csq,'down',showdisplay);
 		assign(cssq,'up',types);
