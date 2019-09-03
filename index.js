@@ -166,6 +166,8 @@ for(i=0;i<slide.length;i++){
 }
 var letters = ['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'];
 var sletters = ['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'];
+var lefts=[];
+var tops=[];
 
 window.addEventListener('resize', function(event) {
 
@@ -373,6 +375,12 @@ function clearpressed() {
 	}
 }
 
+function showdisplay(e) {
+	document.getElementById('displaysq').style.left=lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
+	document.getElementById('displaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-w * 1.3 / 10.0) + 'px';
+	$('#displaysq').show();
+}
+
 function type(e) {
 	if(kbdstate==1){
 	var i = parseInt(e.currentTarget.id.slice(-4, -2));
@@ -456,9 +464,11 @@ function redrawkeyboard() {
 		keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + letters[i] + '</div></div>';
 		skeysdeclaration = skeysdeclaration + '<div class=\'keys\' id=\'s' + i + 'sq\'><div class=\'text\' id=\'s' + i + 'key\'>' + sletters[i] + '</div></div>';
 	}
-
-	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration;
-	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration;
+	var displaykey = '<div class=\'keys\' id=\'displaysq\'><div class=\'text\' id=\'displaykey\'></div></div>';
+	var sdisplaykey = '<div class=\'keys\' id=\'sdisplaysq\'><div class=\'text\' id=\'sdisplaykey\'></div></div>';
+	
+	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + displaykey;
+	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + sdisplaykey;
 
 	$('#primarykeyboard').html(keysdeclaration);
 	$('#shiftkeyboard').html(skeysdeclaration);
