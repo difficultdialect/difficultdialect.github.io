@@ -438,10 +438,28 @@ function redrawkeyboard() {
 	$('#sshiftsq').on('click', function() {
 		$('#shiftkeyboard').hide();
 	});
-	$('#backsq').on('click', back);
-	$('#sbacksq').on('click', function() {
+	var backaction;
+	$('#backsq').on('mousedown', function(){backaction=setInterval(back,100);});
+	$('#backsq').on('mouseup', function(){clearInterval(backaction);});
+	$('#sbacksq').on('mousedown', function() {
 		$('#shiftkeyboard').hide();
 	});
+	if(window.PointerEvent){
+		$('#sbacksq').on('pointerdown', function() {
+			$('#shiftkeyboard').hide();
+		});
+		$('#backsq').on('pointerdown', function(){backaction=setInterval(back,100);});
+		$('#backsq').on('pointerup', function(){clearInterval(backaction);});
+		$('#backsq').on('pointercancel', function(){clearInterval(backaction);});
+	}
+	else{
+		$('#sbacksq').on('touchdown', function() {
+			$('#shiftkeyboard').hide();
+		});
+		$('#backsq').on('touchdown', function(){backaction=setInterval(back,100);});
+		$('#backsq').on('touchup', function(){clearInterval(backaction);});
+		$('#backsq').on('touchcancel', function(){clearInterval(backaction);});
+	}
 
 
 	for (i = 0; i < letters.length; i++) {
