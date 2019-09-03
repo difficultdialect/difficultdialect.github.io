@@ -130,12 +130,12 @@ p {
 	color: black;
 	background-color: white;
 	z-index: 2;
-	border-width: 2px;
-	border-color: black;
-	border-style: solid;
+	
 }
 #displaysq, #sdisplaysq {
         display: none;
+        z-index: 2;
+        box-shadow: 2px 2px black, 2px -2px black, -2px 2px black, -2px -2px black;
 }
 .text.pressed{
 	font-weight: bold;
