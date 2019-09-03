@@ -133,6 +133,8 @@ p {
 	border-width: 2px;
 	border-color: black;
 	border-style: solid;
+}
+#displaysq, #sdisplaysq {
         display: none;
 }
 .text.pressed{
