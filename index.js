@@ -441,7 +441,7 @@ function redrawkeyboard() {
 	var backaction;
 	$('#backsq').on('mousedown', function(){backaction=setInterval(back,100);});
 	$('#backsq').on('mouseup', function(){back();clearInterval(backaction);});
-	$('#backsq').on('click', back);
+	//$('#backsq').on('click', back);
 	$('#sbacksq').on('mousedown', function() {
 		$('#shiftkeyboard').hide();
 	});
