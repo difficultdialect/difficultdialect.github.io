@@ -378,8 +378,17 @@ function clearpressed() {
 function showdisplay(e) {
 	document.getElementById('displaysq').style.left=lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
 	document.getElementById('displaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-w * 1.3 / 10.0) + 'px';
+	$('#displaykey').html(e.currentTarget.children[0].innerHTML);
 	$('#displaysq').show();
 }
+function showsdisplay(e) {
+	document.getElementById('sdisplaysq').style.left=lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
+	document.getElementById('sdisplaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-w * 1.3 / 10.0) + 'px';
+	$('#sdisplaykey').html(e.currentTarget.children[0].innerHTML);
+	$('#sdisplaysq').show();
+}
+function hidedisplay() {$('#displaysq').hide();}
+function hidesdisplay() {$('#sdisplaysq').hide();}
 
 function type(e) {
 	if(kbdstate==1){
@@ -407,6 +416,7 @@ function type(e) {
 		activatebutton();
 	}
 	}
+	hidedisplay();
 }
 
 function types(e) {
@@ -422,6 +432,7 @@ function types(e) {
 		activatebutton();
 	}
 	}
+	hidesdisplay();
 }
 var w = 0;
 
@@ -519,6 +530,7 @@ function redrawkeyboard() {
 		assign(csq,'up',type);
 		assign(csq,'down',showdisplay);
 		assign(cssq,'up',types);
+		assign(cssq,'down',showsdisplay);
 	}
 	$('.keys .text').css('bottom', '0px');
 	$('.keys .text').css('line-height', Math.floor(w * 1.3 / 10.0) + 'px');
