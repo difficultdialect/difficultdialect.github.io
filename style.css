@@ -117,17 +117,19 @@ p {
   vertical-align: middle;
   padding-top: 13%;
 }
-#display .text, #sdisplay .text {
-	color: white;
-	background-color: black;
-	z-index: 2;
-}
+
 .keys .text {
   font-weight: normal;
   color:black;
   position: absolute;
   bottom:0;
   text-align: center;
+}
+#display .text, #sdisplay .text {
+	font-weight: bold;
+	color: white;
+	background-color: black;
+	z-index: 2;
 }
 .text.pressed{
 	font-weight: bold;
