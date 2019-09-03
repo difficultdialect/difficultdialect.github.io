@@ -41,7 +41,7 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
-   color: #202020;
+   color: #404040;
    font-weight: bold;
 	padding-top: 1em;
 	text-align: center;
@@ -67,6 +67,7 @@ p {
 }
 .hint, .hintbuffer {
 	color: #808080;
+   font-weight: Normal;
 	font-size: medium;
 }
 #inputplace, #inputplacebuffer {
