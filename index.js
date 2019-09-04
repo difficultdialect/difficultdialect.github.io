@@ -415,7 +415,7 @@ function type(e) {
 		activatebutton();
 	}
 	}
-	//hidedisplay();
+	hidedisplay();
 }
 
 function types(e) {
