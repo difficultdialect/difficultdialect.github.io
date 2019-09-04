@@ -360,6 +360,7 @@ function back() {
 	inputtext = inputtext.slice(0, -1);
 	if (inputtext == '') {
 		$('#inputplace').html(inputalt);
+               $('#backsq').html(normalback);
                   try{clearInterval(backaction);}catch(e){}
 	} else {
 		$('#inputplace').html(inputtext);
