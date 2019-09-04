@@ -415,7 +415,7 @@ function type(e) {
 		activatebutton();
 	}
 	}
-	hidedisplay();
+	//hidedisplay();
 }
 
 function types(e) {
@@ -533,9 +533,10 @@ function redrawkeyboard() {
 		assign(cssq,'down',showsdisplay);
 	}
 	$('.keys .text').css('bottom', '0px');
-	$('.keys .text').css('line-height', Math.floor(w * 1.3 / 10.0) + 'px');
-	$('.keys .text').css('width', Math.floor(w / 10.0) + 'px');
-	$('.keys .text').css('font-size', Math.floor(w / 15.0) + 'px');
+	$('.keys .text').css('line-height', w * 1.3 / 10.0 + 'px');
+	$('.keys .text').css('width', w / 10.0 + 'px');
+	$('.keys .text').css('font-size', w / 15.0 + 'px');
+	$('.keys').css('padding-top', Math.floor(w * 1.3 / 10.0) + 'px');
 }
 
 function openkeyboard() {
