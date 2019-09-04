@@ -441,8 +441,19 @@ function redrawkeyboard() {
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
 
-	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; height: '+ 1.3 * w / 10.0 +'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>' +
-	          '<svg src=\'shift.svg\' style=\'width:' + w/10.0 + '; height: auto;\'></svg>' + '</div>';
+	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+		0.4 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
+	        0.2 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
+	        0.5 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
+	        0.8 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
+	        0.6 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
+	        0.6 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
+		'\' style=\'fill:#a0a0a0\'/></svg></div>';
 	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
 		1.0 * 0.5 * w / 10.0 + ',' + 0.5 * 0.3 * w / 10.0 + ' ' +
