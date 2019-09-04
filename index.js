@@ -96,6 +96,7 @@ var pressedback;
 var nimages=0;
 var nmoji=0;
 var q="";
+var backaction;
 var slideover=0;
 var hintasked=false;
 function renderButton() {
@@ -506,9 +507,7 @@ function redrawkeyboard() {
 	}
 	assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
 	assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
-	
-	var backaction;
-	
+		
 	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);backaction=setInterval(back,150);});
 	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();clearInterval(backaction);});
 	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
