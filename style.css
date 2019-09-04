@@ -139,6 +139,10 @@ p {
   bottom:0;
   text-align: center;
 }
+.keys svg {
+	width: 100%;
+	height: auto;
+}
 #displaykey, #sdisplaykey {
 	font-weight: bold;
 	/*color: black;*/
