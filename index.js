@@ -207,6 +207,7 @@ function activatebutton() {
 	closekeyboard();
 	buttonstate=1;
 	$('#button1').fadeIn(500);
+	assgin(document.getElementById('button1'),'down',subnext);
 	state[order[0]]=2;
 	if(hintasked) int[order[0]]=int[order[0]]/2;
 	else int[order[0]]=int[order[0]]*2;
@@ -232,7 +233,7 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' onclick=\'subnext()\' id=\'button1buffer\'>❯</div></div>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable\' style=\'color: #808080\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\'>REVEAL</div>';
@@ -311,7 +312,7 @@ function showspace() {
 	if(slide[order[1]].a!=='' && state[order[1]]>0){
 		$('.hint').hide();
 		$('.hintbutton').show();
-		$('.hintbutton').on('click',showhint);
+		assign(document.getElementById('.hintbutton','down',showhint);
 	}
 	inputtext = '';
 	hintasked=false;
