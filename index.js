@@ -89,7 +89,10 @@ var buttonstate=0;
 var pressed=-1;
 var pressable=[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
 var inputtext='';
-
+var normalshift;
+var pressedshift;
+var normalback;
+var pressedback;
 var nimages=0;
 var nmoji=0;
 var q="";
@@ -440,8 +443,7 @@ function redrawkeyboard() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
-
-	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
+	normalshift='<svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
 		0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
 		0.4 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
@@ -458,26 +460,9 @@ function redrawkeyboard() {
 	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
 	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
 	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        '\' style=\'fill:#c0c0c0\'/></svg></div>';
-	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
-		0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-		0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-		0.4 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.2 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.5 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        0.8 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.6 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.6 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-		'\' style=\'fill:#a0a0a0\'/><polygon points=\'' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        '\' style=\'fill:#a0a0a0\'/></svg></div>';
-	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'backsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
+	        '\' style=\'fill:#c0c0c0\'/></svg>';
+	pressedshift=normalshift.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
+	normalback='<svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
 		1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
 	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
 	        0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
@@ -492,23 +477,12 @@ function redrawkeyboard() {
 	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
 	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
 	        0.8 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/></svg></div>';
-	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
-		1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.2 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
-	        0.4 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/><polygon points=\'' +
-	        0.8 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.8 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/></svg></div>';
+		'\' style=\'fill:#c0c0c0\'/></svg>';
+	pressedback=normalback.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
+	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>'+normalshift+'</div>';
+	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'>'+pressedshift+'</div>';
+	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'backsq\'>'+normalback+'</div>';
+	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'>'+pressedback+'</div>';
 
 	for (i = 0; i < letters.length; i++) {
 		keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + letters[i] + '</div></div>';
@@ -533,8 +507,8 @@ function redrawkeyboard() {
 	
 	var backaction;
 	
-	assign(document.getElementById('backsq'),'down',function(){backaction=setInterval(back,150);});
-	assign(document.getElementById('backsq'),'up',function(){back();clearInterval(backaction);});
+	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);backaction=setInterval(back,150);});
+	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();clearInterval(backaction);});
 	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
 	
 	for (i = 0; i < letters.length; i++) {
