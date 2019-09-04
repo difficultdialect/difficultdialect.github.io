@@ -441,7 +441,7 @@ function redrawkeyboard() {
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
 
-	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>' +
+	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; height: '+ 3.0 * 0.5 * w / 10.0 +'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>' +
 	          '<svg src=\'shift.svg\'></svg>' + '</div>';
 	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'><svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + 0.5 * 1.3 * w / 10.0 + ' ' +
