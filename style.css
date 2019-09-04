@@ -76,6 +76,8 @@ p {
 }
 #inputplace, #inputplacebuffer {
   background-color: #f0f0f0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-align: center;
   font-size: large;
   font-weight: bold;

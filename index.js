@@ -207,7 +207,7 @@ function activatebutton() {
 	closekeyboard();
 	buttonstate=1;
 	$('#button1').fadeIn(500);
-	assgin(document.getElementById('button1'),'down',subnext);
+	assign(document.getElementById('button1'),'down',subnext);
 	state[order[0]]=2;
 	if(hintasked) int[order[0]]=int[order[0]]/2;
 	else int[order[0]]=int[order[0]]*2;
@@ -312,7 +312,7 @@ function showspace() {
 	if(slide[order[1]].a!=='' && state[order[1]]>0){
 		$('.hint').hide();
 		$('.hintbutton').show();
-		assign(document.getElementById('.hintbutton','down',showhint);
+		assign(document.getElementById('.hintbutton'),'down',showhint);
 	}
 	inputtext = '';
 	hintasked=false;
