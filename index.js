@@ -236,7 +236,7 @@ function ready() {
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable\' style=\'color: #808080\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
-var hintbutton = '<p class=\'hintbuttonbuffer\'>REVEAL</div>';
+var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});
 	hintasked=true;
