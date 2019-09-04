@@ -421,6 +421,7 @@ function type(e) {
 	}
 	hidedisplay();
 	try{clearInterval(backaction);}catch(e){}
+    $('#backsq').html(normalback);    
 }
 
 function types(e) {
@@ -438,6 +439,7 @@ function types(e) {
 	}
 	hidesdisplay();
 	try{clearInterval(backaction);}catch(e){}
+     $('#backsq').html(normalback);    
 }
 var w = 0;
 
