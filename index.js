@@ -531,12 +531,14 @@ function redrawkeyboard() {
 		assign(csq,'down',showdisplay);
 		assign(cssq,'up',types);
 		assign(cssq,'down',showsdisplay);
+                csq.style.paddingTop = Math.floor(w * 1.3 / 10.0) + 'px';
+                cssq.style.paddingTop = Math.floor(w * 1.3 / 10.0) + 'px';
 	}
 	$('.keys .text').css('bottom', '0px');
 	$('.keys .text').css('line-height', w * 1.3 / 10.0 + 'px');
 	$('.keys .text').css('width', w / 10.0 + 'px');
 	$('.keys .text').css('font-size', w / 15.0 + 'px');
-	$('.keys').css('padding-top', Math.floor(w * 1.3 / 10.0) + 'px');
+	//$('.keys').css('padding-top', Math.floor(w * 1.3 / 10.0) + 'px');
 }
 
 function openkeyboard() {
