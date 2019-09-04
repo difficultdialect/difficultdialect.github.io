@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta:400,700&display=swap&subset=devanagari,latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Martel:400,700&display=swap&subset=devanagari,latin-ext');
 html{
 	height:100%;
 }
 body {
   color: #606060;
   word-wrap: break-word;
-  font-family: 'Mukta', sans-serif;
+  font-family: 'Martel', serif;
   font-size: large;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -42,6 +42,7 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
+	/*color: #664500;*/
    font-weight: normal;
 	padding-top: 1em;
 	text-align: center;
@@ -91,7 +92,7 @@ p {
 	border: 0;
 }
 #space .emojiplace img, #spacebuffer .emojiplacebuffer img{
-	margin: 0 0.2em 0 0.2em; /*keep total margin 0.1 of width*/
+	margin: 0 0.4em 0 0.4em; /*keep total margin 0.2 of width*/
 	display: inline-block;
 	width: 4em;
 	height: auto;
