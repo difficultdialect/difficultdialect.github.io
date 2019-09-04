@@ -312,7 +312,7 @@ function showspace() {
 	if(slide[order[1]].a!=='' && state[order[1]]>0){
 		$('.hint').hide();
 		$('.hintbutton').show();
-		assign(document.getElementById('.hintbutton'),'down',showhint);
+		assign(document.getElementById('hintbutton'),'down',showhint);
 	}
 	inputtext = '';
 	hintasked=false;
