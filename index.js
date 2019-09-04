@@ -510,8 +510,8 @@ function redrawkeyboard() {
 	assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
 	assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
 		
-	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);backaction=setInterval(back,150);});
-	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();clearInterval(backaction);});
+	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);    try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
 	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
 	
 	for (i = 0; i < letters.length; i++) {
