@@ -419,6 +419,7 @@ function type(e) {
 	}
 	}
 	hidedisplay();
+	try{clearInterval(backaction);}catch(e){}
 }
 
 function types(e) {
@@ -435,6 +436,7 @@ function types(e) {
 	}
 	}
 	hidesdisplay();
+	try{clearInterval(backaction);}catch(e){}
 }
 var w = 0;
 
