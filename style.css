@@ -3,7 +3,7 @@ html{
 	height:100%;
 }
 body {
-  color: #404040;
+  color: #606060;
   word-wrap: break-word;
   font-family: 'Mukta', sans-serif;
   font-size: large;
@@ -42,7 +42,6 @@ p {
     -ms-transition: 0.2s;
 }
 #space, #spacebuffer{
-   color: #404040;
    font-weight: normal;
 	padding-top: 1em;
 	text-align: center;
@@ -134,17 +133,15 @@ p {
 
 .keys .text {
   font-weight: normal;
-  /*color: black;*/
   position: absolute;
   bottom:0;
   text-align: center;
 }
 #displaykey, #sdisplaykey {
 	font-weight: bold;
-	/*color: black;*/
 	background-color: white;
 	z-index: 2;
-	box-shadow: 2px 2px #404040, 2px -2px #404040, -2px 2px #404040, -2px -2px #404040;
+	box-shadow: 2px 2px #606060, 2px -2px #606060, -2px 2px #606060, -2px -2px #606060;
 }
 #displaysq, #sdisplaysq {
         display: none;
