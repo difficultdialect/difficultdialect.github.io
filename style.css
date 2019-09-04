@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Martel:400,700&display=swap&subset=devanagari,latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Mukta:400,700&display=swap&subset=devanagari,latin-ext');
 html{
 	height:100%;
 }
 body {
   color: #606060;
   word-wrap: break-word;
-  font-family: 'Martel', serif;
-  font-size: large;
+  font-family: 'Mukta', sans-serif;
+  font-size: x-large;
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-behavior: smooth;
@@ -62,14 +62,14 @@ p {
 }
 .hintbutton, .hintbuttonbuffer {
 	color: #808080;
-	font-size: medium;
+	font-size: small;
 	font-weight: bold;
 	display: none;
 }
 .hint, .hintbuffer {
 	color: #808080;
    font-weight: normal;
-	font-size: medium;
+	font-size: small;
 }
 .clickable {
 	color: #808080;
