@@ -202,9 +202,9 @@ $(document).ready(function() {
 
 function activatebutton() {
 	closekeyboard();
-	$('#inputplace').html(inputtext);
+	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
-	$('#button1').fadeIn(500);
+	TweenMax.to($('#button1'),0.5,{opacity: '1'});
 	assign(document.getElementById('button1'),'down',subnext);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
@@ -219,7 +219,9 @@ function subnext() {
 		$('#shiftkeyboard').hide();
 		clearpressed();
 		localStorage.setItem('order',JSON.stringify(order));
-		$('#space').fadeOut(500).promise().done(function() {slideover=1; ready();});
+		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
+		TweenMax.to($('#correct'),0.1,{opacity: '0'})
+			.to($('#inputplace'),0.4,{width: '0px'});
 	}
 }
 
@@ -231,12 +233,13 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
-	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});
+	TweenMax.to($('#hintbutton'),0.5,{opacity:'0'}).to($('#hint'),0.5,{opacity: '1'});/*
+	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
 function next() {
@@ -277,7 +280,7 @@ function next() {
 	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\'>ENTER: '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
+		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER: '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
 		q=q+inputdeclaration;
 	}
 	q=q+buttondeclaration;
@@ -314,14 +317,14 @@ function showspace() {
 	}
 	inputtext = '';
 	hintasked=false;
-	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
+	if(order[1]==0) { renderButton(); TweenMax.to($('#space'),0.5,{opacity: '1'});
 		closekeyboard ();}
 	else if (slide[order[1]].a == '') {
-		$('#space').fadeIn(500, activatebutton);
+		TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
 		closekeyboard();
 	} else {
-		$('#space').fadeIn(500);
-		$('#inputplace').animate({width: "100%"},500);
+		TweenMax.to($('#space'),0.5,{opacity: '1'});
+		TweenMax.to($('#inputplace'), 0.5, {width: '100%'});
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){

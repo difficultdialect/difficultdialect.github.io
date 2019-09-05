@@ -43,6 +43,7 @@ p {
 }
 #space, #spacebuffer{
 	/*color: #664500;*/
+	opacity: 0;
    font-weight: normal;
 	padding-top: 1em;
 	text-align: center;
@@ -52,6 +53,9 @@ p {
 	border: 0;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	display: block;
+}
+#spacebuffer{
 	display: none;
 }
 #space img, #spacebuffer img{
@@ -85,6 +89,9 @@ p {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
+  /*
+  animation: expand 0.5s forwards;
+  -webkit-animation: expand 0.5s forwards;*/
 }
 .cursor {
 	animation-name: cursorblink;
@@ -106,7 +113,6 @@ p {
 	50%	{opacity: 0;}
 	100%	{opacity: 1;}
 }
-
 .emojiplace, .emojiplacebuffer{
 	text-align: center;
 	padding-top: 1em;
