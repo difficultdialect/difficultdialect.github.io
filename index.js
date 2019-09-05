@@ -87,7 +87,6 @@ var nimages=0;
 var nmoji=0;
 var q="";
 var backaction;
-var cursorblinkaction;
 var slideover=0;
 var hintasked=false;
 function renderButton() {
@@ -311,12 +310,6 @@ function showspace() {
 		$('.hint').hide();
 		$('.hintbutton').show();
 		assign(document.getElementById('hintbutton'),'down',showhint);
-	}
-	function blinkcursor() {
-		try{
-			$('#cursor').animate({opacity: '0'}, 200);
-			$('#cursor').animate({opacity: '100%'}, 200, blinkcursor);
-		}catch(e){}
 	}
 	try {blinkcursor();}catch(e){}
 	inputtext = '';
