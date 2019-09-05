@@ -80,7 +80,7 @@ p {
 	padding-right: 1em;
 	border-radius: 4em;
   white-space: nowrap;
-  text-overflow: ellipsis;
+	overflow: hidden;
   text-align: center;
   font-size: x-large;
   font-weight: bold;
