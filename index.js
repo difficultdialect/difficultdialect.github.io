@@ -87,6 +87,7 @@ var nimages=0;
 var nmoji=0;
 var q="";
 var backaction;
+var cursorblinkaction;
 var slideover=0;
 var hintasked=false;
 function renderButton() {
@@ -231,7 +232,7 @@ function ready() {
 }
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
-var inputalt = '<span class=\'nonselectable\' style=\'color: #808080\'>—</span>';
+var inputalt = '<span class=\'nonselectable\' style=\'color: #808080\' id=\'cursor\'>—</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
@@ -311,6 +312,13 @@ function showspace() {
 		$('.hintbutton').show();
 		assign(document.getElementById('hintbutton'),'down',showhint);
 	}
+	function blinkcursor() {
+		try{
+			$('#cursor').animate({opacity: '0'}, 200);
+			$('#cursor').animate({opacity: '100%'}, 200, blinkcursor);
+		}catch(e){}
+	}
+	try {blinkcursor();}catch(e){}
 	inputtext = '';
 	hintasked=false;
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
