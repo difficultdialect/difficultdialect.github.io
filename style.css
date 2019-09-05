@@ -75,6 +75,7 @@ p {
 	color: #808080;
 }
 #inputplace, #inputplacebuffer {
+	width: 0px;
 	display: inline-block;
   background-color: #f0f0f0;
 	padding: 0;
