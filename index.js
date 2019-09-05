@@ -231,7 +231,7 @@ function ready() {
 }
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
-var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>—</span>';
+var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>_</span>';
 var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
