@@ -232,7 +232,7 @@ function ready() {
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>_</span>';
-var inputdeclaration = '<div id=\'inputplacebuffer\'>' + inputalt + '</div>';
+var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});
@@ -311,7 +311,6 @@ function showspace() {
 		$('.hintbutton').show();
 		assign(document.getElementById('hintbutton'),'down',showhint);
 	}
-	try {blinkcursor();}catch(e){}
 	inputtext = '';
 	hintasked=false;
 	if(order[1]==0) { renderButton(); $('#space').fadeIn(500);
@@ -321,7 +320,7 @@ function showspace() {
 		closekeyboard();
 	} else {
 		$('#space').fadeIn(500);
-		openkeyboard();
+		$('#inputplace').animate({width: 100%},500,openkeyboard);
 	}
 	$('#space .emojiplace').each(function(){
 		var w=$(this).width();
