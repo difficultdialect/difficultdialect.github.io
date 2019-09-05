@@ -189,7 +189,7 @@ window.addEventListener('resize', function(event) {
 $(document).ready(function() {
 	WebFont.load({
 		google: {
-			families: ['Mukta:400, 700']
+			families: ['Martel:400, 700']
 		},
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');

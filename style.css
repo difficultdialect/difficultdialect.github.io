@@ -78,15 +78,12 @@ p {
 	color: #808080;
 }
 #inputplace, #inputplacebuffer {
-  font-family: 'Montserrat', sans-serif;
   background-color: #f0f0f0;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
   font-size: x-large;
   font-weight: bold;
-  margin-left: -1em;
-  width: 100vw;
 }
 .emojiplace, .emojiplacebuffer{
 	text-align: center;
