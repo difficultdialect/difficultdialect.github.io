@@ -66,13 +66,11 @@ p {
 	font-size: small;
 	font-weight: bold;
 	display: none;
-	font-family: 'Montserrat', sans-serif;
 }
 .hint, .hintbuffer {
 	color: #808080;
    font-weight: normal;
 	font-size: small;
-	font-family: 'Montserrat', sans-serif;
 }
 .clickable {
 	color: #808080;
