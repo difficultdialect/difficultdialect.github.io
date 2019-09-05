@@ -95,14 +95,14 @@ p {
 	-webkit-animation-timing-function: linear;
 }
 @keyframes cursorblink {
-	0%	{opacity: 100%;}
-	50%	{opacity: 0%;}
-	100%	{opacity: 100%;}
+	0%	{opacity: 1;}
+	50%	{opacity: 0;}
+	100%	{opacity: 1;}
 }
 @-webkit-keyframes cursorblink {
-	0%	{opacity: 100%;}
-	50%	{opacity: 0%;}
-	100%	{opacity: 100%;}
+	0%	{opacity: 1;}
+	50%	{opacity: 0;}
+	100%	{opacity: 1;}
 }
 
 .emojiplace, .emojiplacebuffer{
