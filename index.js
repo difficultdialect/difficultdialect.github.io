@@ -114,9 +114,6 @@ var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
-	{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।<br>devaḥkandukenakrīḍati.',a:''},
-	{q:'{🏀}देवःकेनक्रीडति?<br>devaḥkenakrīḍati?',a:'@kandukena',ad:'कन्दुकेन'},
-	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?<br>devaḥkandukenakiṃkaroti?',a:'@krīḍati',ad:'क्रीडति'},
 	{q:'{🧍🏾}कःकन्दुकेनक्रीडति?<br>kaḥkandukenakrīḍati?',a:'@devaḥ',ad:'देवः'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
@@ -144,7 +141,10 @@ var slide=[
 	{q:'{✋}कपिर्देवायचपेटिकांददाति।<br>kapirdevāyacapeṭikāṃdadāti.',a:''},
 	{q:'{✋}कपिर्देवायकिंददाति?<br>kapirdevāyakiṃdadāti?',a:'@capeṭikām',ad:'चपेटिकाम्'},
 	{q:'{🐒}कोदेवायचपेटिकांददाति?<br>kodevāyacapeṭikāṃdadāti?',a:'@kapiḥ',ad:'कपिः'},
-	{q:'{🧍🏾}कपिःकस्मैचपेटिकांददाति?<br>kapiḥkasmaicapeṭikāṃdadāti?',a:'@devāya',ad:'देवाय'}
+	{q:'{🧍🏾}कपिःकस्मैचपेटिकांददाति?<br>kapiḥkasmaicapeṭikāṃdadāti?',a:'@devāya',ad:'देवाय'},
+	{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।<br>devaḥkandukenakrīḍati.',a:''},
+	{q:'{🏀}देवःकेनक्रीडति?<br>devaḥkenakrīḍati?',a:'@kandukena',ad:'कन्दुकेन'},
+	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?<br>devaḥkandukenakiṃkaroti?',a:'@krīḍati',ad:'क्रीडति'},
 ];
 var state=[];
 var prof=[];
@@ -179,7 +179,7 @@ window.addEventListener('resize', function(event) {
 $(document).ready(function() {
 	WebFont.load({
 		google: {
-			families: ['Martel:400,700']
+			families: ['Martel:400, 700']
 		},
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
