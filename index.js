@@ -114,7 +114,6 @@ var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
-	{q:'{🧍🏾}कःकन्दुकेनक्रीडति?<br>kaḥkandukenakrīḍati?',a:'@devaḥ',ad:'देवः'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
