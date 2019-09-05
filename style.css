@@ -76,8 +76,7 @@ p {
 }
 #inputplace, #inputplacebuffer {
   background-color: #f0f0f0;
-	padding-left: 1em;
-	padding-right: 1em;
+	padding: 0;
 	border-radius: 4em;
   white-space: nowrap;
 	overflow: hidden;
