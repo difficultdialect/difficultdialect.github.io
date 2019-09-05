@@ -84,6 +84,27 @@ p {
   font-size: x-large;
   font-weight: bold;
 }
+.cursor {
+	animation-name: cursorblink;
+	animation-iteration-count: infinite;
+	animation-duration: 0.5s;
+	animation-timing-function: linear;
+	-webkit-animation-name: cursorblink;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: linear;
+}
+@keyframes cursorblink {
+	0%	{opacity: 100%;}
+	50%	{opacity: 0%;}
+	100%	{opacity: 100%;}
+}
+@-webkit-keyframes cursorblink {
+	0%	{opacity: 100%;}
+	50%	{opacity: 0%;}
+	100%	{opacity: 100%;}
+}
+
 .emojiplace, .emojiplacebuffer{
 	text-align: center;
 	padding-top: 1em;
