@@ -220,8 +220,7 @@ function subnext() {
 		clearpressed();
 		localStorage.setItem('order',JSON.stringify(order));
 		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
-		TweenMax.to($('#correct'),0.1,{opacity: '0'})
-			.to($('#inputplace'),0.4,{width: '0px'});
+		TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 	}
 }
 
@@ -238,7 +237,7 @@ var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.<
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
-	TweenMax.to($('#hintbutton'),0.5,{opacity:'0'}).to($('#hint'),0.5,{opacity: '1'});/*
+	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
