@@ -87,11 +87,11 @@ p {
 .cursor {
 	animation-name: cursorblink;
 	animation-iteration-count: infinite;
-	animation-duration: 0.5s;
+	animation-duration: 1s;
 	animation-timing-function: linear;
 	-webkit-animation-name: cursorblink;
 	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-duration: 0.5s;
+	-webkit-animation-duration: 1s;
 	-webkit-animation-timing-function: linear;
 }
 @keyframes cursorblink {
