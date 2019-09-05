@@ -205,11 +205,11 @@ function activatebutton() {
 	buttonstate=1;
 	$('#button1').fadeIn(500);
 	assign(document.getElementById('button1'),'down',subnext);
-	state[order[0]]=2;
-	if(hintasked) int[order[0]]=int[order[0]]/2;
-	else int[order[0]]=int[order[0]]*2;
-	if(int[order[0]]<1) int[order[0]]=1;
-	prof[order[0]]=int[order[0]]-2;
+	state[order[0]] = 2;
+	if(hintasked) int[order[0]] = int[order[0]] / 2;
+	else int[order[0]] = int[order[0]] * 2;
+	if(int[order[0]]<1) int[order[0]] = 1;
+	prof[order[0]] = int[order[0]]-2;
 }
 
 function subnext() {
@@ -357,7 +357,7 @@ function back() {
                $('#backsq').html(normalback);
                   try{clearInterval(backaction);}catch(e){}
 	} else {
-		$('#inputplace').html(inputtext);
+		$('#inputplace').html(inputtext+inputalt);
 	}
 	document.getElementById('outerspace').scrollIntoView({
 		block: 'end',
@@ -396,7 +396,7 @@ function type(e) {
 		inputtext = inputtext.slice(0, -1);
 	}
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#inputplace').html(inputtext);
+	$('#inputplace').html(inputtext+inputalt);
 	if(inputtext=='nivartanam') {
 		localStorage.setItem('order','');
 		document.location.reload(true);
@@ -423,7 +423,7 @@ function type(e) {
 function types(e) {
 	if(kbdstate==1){
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#inputplace').html(inputtext);
+	$('#inputplace').html(inputtext+inputalt);
 	document.getElementById('outerspace').scrollIntoView({
 		block: 'end',
 		behavior: 'smooth'
