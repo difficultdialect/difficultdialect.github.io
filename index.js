@@ -320,7 +320,8 @@ function showspace() {
 		closekeyboard();
 	} else {
 		$('#space').fadeIn(500);
-		$('#inputplace').animate({width: "100%"},500,openkeyboard);
+		$('#inputplace').animate({width: "100%"},500);
+		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
 		var w=$(this).width();
