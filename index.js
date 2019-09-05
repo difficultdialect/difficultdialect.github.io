@@ -202,6 +202,7 @@ $(document).ready(function() {
 
 function activatebutton() {
 	closekeyboard();
+	$('#inputplace').html(inputtext);
 	buttonstate=1;
 	$('#button1').fadeIn(500);
 	assign(document.getElementById('button1'),'down',subnext);
@@ -231,7 +232,7 @@ function ready() {
 }
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
-var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>_</span>';
+var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
