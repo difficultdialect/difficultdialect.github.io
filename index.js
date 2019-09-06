@@ -232,7 +232,7 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable cursor\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
