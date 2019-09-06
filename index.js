@@ -193,7 +193,7 @@ $(document).ready(function() {
 				if(lastentry <slide.length) order =savedorder;
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
-			assign(document.getElementById('body'),'down',function() {if(buttonstate = 1) subnext();});
+			assign(document.getElementById('body'),'down',function() {if(buttonstate == 1) subnext();});
 			slideover = 1;
 			next();
 			ready();
