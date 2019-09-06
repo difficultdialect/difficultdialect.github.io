@@ -209,7 +209,7 @@ function activatebutton() {
 	var button=document.getElementById('button1');
 	buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
 	buttonblink.play(0);
-	assign(document.getElementById('space'),'down',subnext);
+	assign(document.getElementById('body'),'down',subnext);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
 	else int[order[0]] = int[order[0]] * 2;
