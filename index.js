@@ -113,7 +113,7 @@ function onSignIn(googleUser) {
 var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
-	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap the arrow to continue.', a:''},
+	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap to continue.', a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
@@ -209,7 +209,7 @@ function activatebutton() {
 	var button=document.getElementById('button1');
 	buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
 	buttonblink.play(0);
-	assign(document.getElementById('button1'),'down',subnext);
+	assign(document.getElementById('space'),'down',subnext);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
 	else int[order[0]] = int[order[0]] * 2;
