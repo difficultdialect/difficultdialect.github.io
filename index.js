@@ -206,7 +206,7 @@ function activatebutton() {
 	buttonstate=1;
 	var buttonblink=new TimelineMax({repeat: -1});
 	var button=document.getElementById('button1');
-	buttonblink.to(button,0.5,{ease: Power2.easeOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeIn, opacity: '0'});
+	buttonblink.to(button,1,{ease: Power2.easeOut, opacity: '1'}).to(button,1,{ease: Power2.easeIn, opacity: '0'});
 	buttonblink.play(0);
 	//TweenMax.to($('#button1'),0.5,{opacity: '1'});
 	//$('#button1').addClass('cursor');
