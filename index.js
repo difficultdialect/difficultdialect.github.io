@@ -242,7 +242,7 @@ var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.<
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
-	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
+	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
@@ -292,11 +292,6 @@ function next() {
 	nmoji=$('#spacebuffer').find('img').length;
 	nimages=nmoji;
 	console.log('nmoji:'+nmoji);
-	/*
-	var emojiplaces=document.getElementsByClassName('emojiplacebuffer');
-	for (i=0;i<emojiplaces.length;i++) {
-		while(emojiplaces[i].offsetHeight>2*parseInt(window.getComputedStyle(emojiplaces[i], null).getPropertyValue('line-height'))
-	}*/
 	if (hasimage == 0) ready();
 	$('#spacebuffer').find('img').on('load',function() {
 		nimages--;ready();
@@ -316,6 +311,7 @@ function showspace() {
 	$('#space').html($('#spacebuffer').html().replace(/buffer/g, ''));
 	if(slide[order[1]].a!=='' && state[order[1]]>0){
 		$('.hint').hide();
+		$('.hint').css('opacity','0');
 		$('.hintbutton').show();
 		assign(document.getElementById('hintbutton'),'down',showhint);
 	}
