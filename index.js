@@ -317,14 +317,14 @@ function showspace() {
 	}
 	inputtext = '';
 	hintasked=false;
-	if(order[1]==0) { renderButton(); TweenMax.to($('#space'),0.5,{opacity: '1'});
+	if(order[1]==0) { renderButton(); TweenMax.to($('#space'),1,{opacity: '1'});
 		closekeyboard ();}
 	else if (slide[order[1]].a == '') {
-		TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
+		TweenMax.to($('#space'),1,{opacity: '1', onComplete: activatebutton});
 		closekeyboard();
 	} else {
-		TweenMax.to($('#space'),0.5,{opacity: '1'});
-		TweenMax.to($('#inputplace'), 0.5, {width: '100%'});
+		TweenMax.to($('#space'),1,{opacity: '1'});
+		TweenMax.to($('#inputplace'),1, {width: '100%'});
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
