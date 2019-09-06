@@ -204,8 +204,12 @@ function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
+	var buttonblink=new TimelineMax({repeat: -1});
+	var button=document.getElementById('button1');
+	buttonblink.to(button,0.5,{ease: Power2.easeOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeIn, opacity: '0'});
+	buttonblink.play(0);
 	//TweenMax.to($('#button1'),0.5,{opacity: '1'});
-	$('#button1').addClass('cursor');
+	//$('#button1').addClass('cursor');
 	assign(document.getElementById('button1'),'down',subnext);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
