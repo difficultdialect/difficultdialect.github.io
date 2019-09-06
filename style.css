@@ -69,14 +69,14 @@ p {
 }
 .hintbutton, .hintbuttonbuffer {
 	color: #808080;
-	font-size: small;
+	font-size: medium;
 	font-weight: bold;
 	display: none;
 }
 .hint, .hintbuffer {
 	color: #808080;
    font-weight: normal;
-	font-size: small;
+	font-size: medium;
 }
 .clickable {
 	color: #808080;
