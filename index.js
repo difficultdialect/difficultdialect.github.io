@@ -90,8 +90,8 @@ var backaction;
 var slideover=0;
 var hintasked=false;
 
-assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(50);}catch(e){}});
-assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(50);}catch(e){}});
+assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(10);}catch(e){}});
+assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(10);}catch(e){}});
 
 function renderButton() {
       gapi.signin2.render('my-signin2', {
