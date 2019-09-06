@@ -204,6 +204,7 @@ function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
+	$('#button1').show();
 	var buttonblink=new TimelineMax({repeat: -1});
 	var button=document.getElementById('button1');
 	buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
@@ -239,7 +240,7 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
