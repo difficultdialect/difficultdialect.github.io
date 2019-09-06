@@ -214,8 +214,10 @@ function activatebutton() {
 	else int[order[0]] = int[order[0]] * 2;
 	if(int[order[0]]<1) int[order[0]] = 1;
 	prof[order[0]] = int[order[0]]-2;
-	$('#hint').html(slide[order[0]].ad);
-	showhint();
+	if($('#hint').css('display')=='none') {
+		$('#hint').html(slide[order[0]].ad);
+		showhint();
+	}
 }
 
 function subnext() {
