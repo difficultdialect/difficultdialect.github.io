@@ -204,7 +204,8 @@ function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
-	TweenMax.to($('#button1'),0.5,{opacity: '1'});
+	//TweenMax.to($('#button1'),0.5,{opacity: '1'});
+	$('#button1').addClass('cursor');
 	assign(document.getElementById('button1'),'down',subnext);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
@@ -232,7 +233,7 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable cursor\' id=\'button1buffer\'>❯</div></div>';
+var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
