@@ -89,6 +89,10 @@ var q="";
 var backaction;
 var slideover=0;
 var hintasked=false;
+
+assign(document.getElementById('primarykeyboard'),'down',function() {try{navigator.vibrate(100);}catch(e){}});
+assign(document.getElementById('shiftkeyboard'),'down',function() {try{navigator.vibrate(100);}catch(e){}});
+
 function renderButton() {
       gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
