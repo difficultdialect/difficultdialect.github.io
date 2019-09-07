@@ -222,7 +222,7 @@ function activatebutton() {
 	//$('#button1').show();
 	var buttonblink=new TimelineMax({repeat: -1});
 	var button=document.getElementById('outerspace');
-	buttonblink.to(button,2,{ease: Power4.easeOut, opacity: '1'}).to(button,2,{ease: Power4.easeInOut, opacity: '0'});
+	buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
 	buttonblink.play(0);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
