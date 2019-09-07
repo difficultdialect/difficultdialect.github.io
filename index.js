@@ -578,7 +578,7 @@ function recalculate() {
 	$('.keys .text').css('bottom', '0px');
 	$('.keys .text').css('line-height', w * kh / 10.0 + 'px');
 	$('.keys .text').css('width', w / 10.0 + 'px');
-	$('.keys .text').css('font-size', kh*w / 20.0 + 'px');
+	$('.keys .text').css('font-size', 0.4*kh*w / 10.0 + 'px');
 	$('#displaysq').css('padding-top', Math.floor(w * kh / 10.0) + 'px');
 	$('#sdisplaysq').css('padding-top', Math.floor(w * kh / 10.0) + 'px');
 	$('#displaykey').height(2.3*w*kh/10.0);
