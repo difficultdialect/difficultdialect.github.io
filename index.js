@@ -122,7 +122,7 @@ var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:'@ab',ad:'ab'},
 	//{q:'{🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
-	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap to continue.', a:''},
+	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.', a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
@@ -221,8 +221,8 @@ function activatebutton() {
 	TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
 	//$('#button1').show();
 	var buttonblink=new TimelineMax({repeat: -1});
-	var button=document.getElementById('continue');
-	buttonblink.to(button,2,{ease: Power0.easeOut, opacity: '1'}).to(button,1,{ease: Power0.easeOut, opacity: '0'});
+	var button=document.getElementById('outerspace');
+	buttonblink.to(button,2,{ease: Expo.easeOut, opacity: '1'}).to(button,2,{ease: Expo.easeIn, opacity: '0'});
 	buttonblink.play(0);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
@@ -472,7 +472,7 @@ function recalculate() {
 	var bar='<div style=\'position: absolute;background-color: #e5e5e5; width:100%; height:'+kh*(kbh-0.3)*w+'px; top: '+kh*0.3*w+'px\'><div style=\'position: absolute;background-color: #d8d8d8; width:100%; height:'+kh*(kbh-0.3)*w/2+'px; top: '+kh*(kbh-0.3)*w/2+'px\'></div></div>';
 	
 	$('#outerspace').height(w * kh * kbh + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#a0a0a0\'>❯</span>'+bar+'</div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: x-small; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#a0a0a0\'>TOUCH TO CONTINUE</span>'+bar+'</div>');
 	$('#outerspace').hide();
 	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
