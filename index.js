@@ -251,7 +251,7 @@ function ready() {
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
-var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'><div id=\'inputbuffer\'>' + inputalt + '</div></div>';
+var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
