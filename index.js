@@ -235,7 +235,7 @@ function subnext() {
 		$('#shiftkeyboard').hide();
 		clearpressed();
 		localStorage.setItem('order',JSON.stringify(order));
-		TweenMax.to($('#outerspace'),0.5,{opacity: '0'});
+		TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){$('#outerspace').hide();}});
 		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
 		TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 	}
@@ -348,6 +348,7 @@ function showspace() {
 	});
 	if($('#space').height()<$(document).height()-$('#outerspace').height()) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
+	$('#outerspace').show();
 	order.shift();
 	var c=order.shift();
 	var toput=-1;

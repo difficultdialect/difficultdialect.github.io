@@ -44,7 +44,7 @@ body {
 	opacity: 0;
 	overflow-x: hidden;
 	overflow-y: hidden;
-	display: block;
+	display: none;
 }
 #space, #spacebuffer{
 	/*color: #664500;*/
