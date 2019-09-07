@@ -25,24 +25,31 @@ body {
   background-attachment: fixed;
   background-position: center;
 }
-p {
-	font-size: medium;
-}
 #button1 {
 	opacity: 0;
 }
 #outerspace{
+	background-image: url('logo.svg');
+	background-size: 4em;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #f0f0f0;
+	bottom: 0;
+	text-align: center;
+	position: absolute;
+	width: 100vw;
 	padding: 0;
 	margin: 0;
 	border: 0;
+	opacity: 0;
 	overflow-x: hidden;
 	overflow-y: hidden;
-	display: block;
+	display: block;/*
 	transition: 0.2s;
   -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
-    -ms-transition: 0.2s;
+    -ms-transition: 0.2s;*/
 }
 #space, #spacebuffer{
 	/*color: #664500;*/
@@ -136,7 +143,7 @@ p {
   z-index: 1;
   bottom: 0;
   left: 0;
-  background-color: #E0E0E0;
+  background-color: #f0f0f0;
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
@@ -172,9 +179,9 @@ p {
 }
 #displaykey, #sdisplaykey {
 	font-weight: bold;
-	background-color: white;
+	background-color: #e0e0e0;
 	z-index: 2;
-	box-shadow: 2px 2px #606060, 2px -2px #606060, -2px 2px #606060, -2px -2px #606060;
+	box-shadow: 0px 0px 1px 0px #a0a0a0;
 }
 #displaysq, #sdisplaysq {
         display: none;

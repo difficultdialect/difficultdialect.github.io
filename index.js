@@ -72,7 +72,7 @@ function saveToFirebase(email) {
 */
 
 
-
+var kh=1.7;
 var E=document.body.offsetWidth;
 var kbdstate=0;
 var buttonstate=0;
@@ -117,6 +117,7 @@ function onSignIn(googleUser) {
 var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
+	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:'@ab',ad:'ab'},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap to continue.', a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
@@ -174,7 +175,7 @@ window.addEventListener('resize', function(event) {
 
 	if (E != document.body.offsetWidth) {
 		E = document.body.offsetWidth;
-		redrawkeyboard();
+		recalculate();
 		if (kbdstate == 1) openkeyboard();
 	}
 });
@@ -186,7 +187,7 @@ $(document).ready(function() {
 		},
 		fontactive: function(familyName, fvd) {
 			console.log('fontactive');
-			redrawkeyboard();
+			recalculate();
 			var savedorder;
 			/*try {
 				savedorder=JSON.parse(localStorage.getItem('order'));
@@ -197,7 +198,8 @@ $(document).ready(function() {
 				if(lastentry <slide.length) order =savedorder;
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
-			assign(document.getElementById('body'),'down',function() {if(buttonstate == 1) subnext();});
+			assign(document.getElementById('outerspace'),'down',subnext);
+			
 			slideover = 1;
 			next();
 			ready();
@@ -209,11 +211,12 @@ function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
-	$('#button1').show();
-	var buttonblink=new TimelineMax({repeat: -1});
-	var button=document.getElementById('button1');
-	buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
-	buttonblink.play(0);
+	TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
+	//$('#button1').show();
+	//var buttonblink=new TimelineMax({repeat: -1});
+	//var button=document.getElementById('button1');
+	//buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
+	//buttonblink.play(0);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
 	else int[order[0]] = int[order[0]] * 2;
@@ -231,6 +234,7 @@ function subnext() {
 		$('#shiftkeyboard').hide();
 		clearpressed();
 		localStorage.setItem('order',JSON.stringify(order));
+		TweenMax.to($('#outerspace'),0.5,{opacity: '0'});
 		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
 		TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 	}
@@ -341,6 +345,8 @@ function showspace() {
 		var nml=$(this).find('img').length;
 		$(this).find('img').css('max-width',(Math.floor(w/nml)-Math.ceil(0.8*em))+'px');
 	});
+	if($('#space').height()<$(document).height()-$('#outerspace').height()) $('#outerspace').css('position','fixed');
+	else $('#outerspace').css('position','static');
 	order.shift();
 	var c=order.shift();
 	var toput=-1;
@@ -387,18 +393,18 @@ function clearpressed() {
 
 function showdisplay(e) {
 	document.getElementById('displaysq').style.left=lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
-	document.getElementById('displaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-w * 1.3 / 10.0) + 'px';
+	document.getElementById('displaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*w * kh / 10.0) + 'px';
 	$('#displaykey').html(e.currentTarget.children[0].innerHTML);
 	$('#displaysq').show();
 }
 function showsdisplay(e) {
 	document.getElementById('sdisplaysq').style.left=lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
-	document.getElementById('sdisplaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-w * 1.3 / 10.0) + 'px';
+	document.getElementById('sdisplaysq').style.top=(tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*w * kh / 10.0) + 'px';
 	$('#sdisplaykey').html(e.currentTarget.children[0].innerHTML);
 	$('#sdisplaysq').show();
 }
-function hidedisplay() {$('#displaysq').hide();}
-function hidesdisplay() {$('#sdisplaysq').hide();}
+function hidedisplay(){}// {$('#displaysq').hide();}
+function hidesdisplay(){}// {$('#sdisplaysq').hide();}
 
 function type(e) {
 	if(kbdstate==1){
@@ -451,50 +457,51 @@ function types(e) {
 var w = 0;
 
 
-function redrawkeyboard() {
+function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
-	normalshift='<svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
-		0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-		0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-		0.4 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.2 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.5 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        0.8 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.6 * w / 10.0 + ',' + (1.3 * 0.5 + 0.1) * w / 10.0 + ' ' +
-	        0.6 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
+	$('#outerspace').height(w * kh * 0.3 + 'px');
+	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
+		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+		0.4 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+		0.4 * w / 10.0 + ',' + (kh * 0.5 + 0.1) * w / 10.0 + ' ' +
+	        0.2 * w / 10.0 + ',' + (kh * 0.5 + 0.1) * w / 10.0 + ' ' +
+	        0.5 * w / 10.0 + ',' + (0.5 * (kh-1) + 0.2) * w / 10.0 + ' ' +
+	        0.8 * w / 10.0 + ',' + (kh * 0.5 + 0.1) * w / 10.0 + ' ' +
+	        0.6 * w / 10.0 + ',' + (kh * 0.5 + 0.1) * w / 10.0 + ' ' +
+	        0.6 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
 		'\' style=\'fill:#c0c0c0\'/><polygon points=\'' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1) - 0.2) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1) - 0.2) * w / 10.0 + ' ' +
 	        '\' style=\'fill:#c0c0c0\'/></svg>';
 	pressedshift=normalshift.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
-	normalback='<svg height=\'' + 1.3 * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
-		1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.4 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3 - 0.2) * w / 10.0 + ' ' +
-	        0.2 * w / 10.0 + ',' + (1.3 * 0.5) * w / 10.0 + ' ' +
-	        0.4 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3 + 0.2) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
+	normalback='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + 1.0 * w / 10.0 + 'px\'><polygon points=\'' +
+		1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1) - 0.2) * w / 10.0 + ' ' +
+	        0.4 * w / 10.0 + ',' + (kh - 0.5 * (kh-1) - 0.2) * w / 10.0 + ' ' +
+	        0.2 * w / 10.0 + ',' + (kh * 0.5) * w / 10.0 + ' ' +
+	        0.4 * w / 10.0 + ',' + (0.5 * (kh-1) + 0.2) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (0.5 * (kh-1) + 0.2) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
 		'\' style=\'fill:#c0c0c0\'/><polygon points=\'' +
-	        0.8 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (1.3 - 0.5 * 0.3) * w / 10.0 + ' ' +
-	        1.0 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
-	        0.8 * w / 10.0 + ',' + (0.5 * 0.3) * w / 10.0 + ' ' +
+	        0.8 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        1.0 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
+	        0.8 * w / 10.0 + ',' + (0.5 * (kh-1)) * w / 10.0 + ' ' +
 		'\' style=\'fill:#c0c0c0\'/></svg>';
 	pressedback=normalback.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
-	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>'+normalshift+'</div>';
-	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'>'+pressedshift+'</div>';
-	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'backsq\'>'+normalback+'</div>';
-	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + 1.3 * w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'>'+pressedback+'</div>';
+	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + kh * w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>'+normalshift+'</div>';
+	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; top: ' + kh * w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'>'+pressedshift+'</div>';
+	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + kh * w / 5.0 + 'px; padding: 0;\' id=\'backsq\'>'+normalback+'</div>';
+	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * w / 10.0 + 'px; right:0; top: ' + kh * w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'>'+pressedback+'</div>';
 
 	for (i = 0; i < letters.length; i++) {
 		keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + letters[i] + '</div></div>';
@@ -533,10 +540,10 @@ function redrawkeyboard() {
 			tops.push(0);
 		} else if (i < 19) {
 			lefts.push((i - 9.5) * w / 10.0);
-			tops.push(w * 1.3 / 10.0);
+			tops.push(w * kh / 10.0);
 		} else {
 			lefts.push((i - 17.5) * w / 10.0);
-			tops.push(w * 1.3 / 5.0);
+			tops.push(w * kh / 5.0);
 		}
 		csq.style.left = lefts[i] + 'px';
 		csq.style.top = tops[i] + 'px';
@@ -557,22 +564,26 @@ function redrawkeyboard() {
 		assign(csq,'down',showdisplay);
 		assign(cssq,'up',types);
 		assign(cssq,'down',showsdisplay);
-                csq.style.paddingTop = Math.floor(w * 1.3 / 10.0) + 'px';
-                cssq.style.paddingTop = Math.floor(w * 1.3 / 10.0) + 'px';
+                csq.style.paddingTop = w * kh / 10.0 + 'px';
+                cssq.style.paddingTop = w * kh / 10.0 + 'px';
 	}
 	$('.keys .text').css('bottom', '0px');
-	$('.keys .text').css('line-height', w * 1.3 / 10.0 + 'px');
+	$('.keys .text').css('line-height', w * kh / 10.0 + 'px');
 	$('.keys .text').css('width', w / 10.0 + 'px');
-	$('.keys .text').css('font-size', w / 15.0 + 'px');
-	//$('.keys').css('padding-top', Math.floor(w * 1.3 / 10.0) + 'px');
+	$('.keys .text').css('font-size', kh*w / 30.0 + 'px');
+	$('#displaysq').css('padding-top', Math.floor(w * kh / 10.0) + 'px');
+	$('#sdisplaysq').css('padding-top', Math.floor(w * kh / 10.0) + 'px');
+	$('#displaykey').height(2.3*w*kh/10.0);
+	$('#sdisplaykey').height(2.3*w*kh/10.0);
+	$('#displaykey').css('border-radius',w/40);
+	$('#sdisplaykey').css('border-radius',w/40);
 }
 
 function openkeyboard() {
 	$('#primarykeyboard').show();
 	$('#shiftkeyboard').hide();
-	$('#primarykeyboard').height(w * 1.3 * 0.3);
-	$('#shiftkeyboard').height(w * 1.3 * 0.3);
-	$('#outerspace').height(w * 1.3 * 0.3);
+	$('#primarykeyboard').height(w * kh * 0.3);
+	$('#shiftkeyboard').height(w * kh * 0.3);
 	kbdstate = 1;
 }
 
@@ -584,6 +595,5 @@ function closekeyboard() {
 			$('#shiftkeyboard').hide();
 		},
 		200);
-	$('#outerspace').height(0);
 	kbdstate = 0;
 }
