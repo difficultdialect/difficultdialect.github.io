@@ -73,7 +73,7 @@ function saveToFirebase(email) {
 
 
 var kh=1.5;
-var kbh=0.35;
+var kbh=0.4;
 var E=document.body.offsetWidth;
 var kbdstate=0;
 var buttonstate=0;
