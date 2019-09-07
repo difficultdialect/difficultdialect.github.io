@@ -73,6 +73,7 @@ function saveToFirebase(email) {
 
 
 var kh=1.5;
+var kbh=0.35;
 var E=document.body.offsetWidth;
 var kbdstate=0;
 var buttonstate=0;
@@ -201,7 +202,7 @@ $(document).ready(function() {
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
 			assign(document.getElementById('outerspace'),'down',subnext);
-			window.addEventListener('scroll',function(){scrolled=true;});
+			window.addEventListener('scroll',function(){scrolled=true;console.log('scrolling');});
 			assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
 			assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
@@ -238,7 +239,7 @@ function subnext() {
 		$('#shiftkeyboard').hide();
 		clearpressed();
 		localStorage.setItem('order',JSON.stringify(order));
-		TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){$('#outerspace').hide();}});
+		TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){}});
 		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
 		TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 	}
@@ -349,7 +350,8 @@ function showspace() {
 		var nml=$(this).find('img').length;
 		$(this).find('img').css('max-width',(Math.floor(w/nml)-Math.ceil(0.8*em))+'px');
 	});
-	if($('#space').height()<$(document).height()-$('#outerspace').height()) $('#outerspace').css('position','fixed');
+	$('#outerspace').hide();
+	if($('#space').height()<$(document).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	$('#outerspace').show();
 	order.shift();
@@ -463,7 +465,7 @@ function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
-	$('#outerspace').height(w * kh * 0.35 + 'px');
+	$('#outerspace').height(w * kh * kbh + 'px');
 	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
 		0.4 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
@@ -587,8 +589,8 @@ function recalculate() {
 function openkeyboard() {
 	$('#primarykeyboard').show();
 	$('#shiftkeyboard').hide();
-	$('#primarykeyboard').height(w * kh * 0.35);
-	$('#shiftkeyboard').height(w * kh * 0.35);
+	$('#primarykeyboard').height(w * kh * kbh);
+	$('#shiftkeyboard').height(w * kh * kbh);
 	kbdstate = 1;
 }
 
