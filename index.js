@@ -403,8 +403,8 @@ function showsdisplay(e) {
 	$('#sdisplaykey').html(e.currentTarget.children[0].innerHTML);
 	$('#sdisplaysq').show();
 }
-function hidedisplay(){}// {$('#displaysq').hide();}
-function hidesdisplay(){}// {$('#sdisplaysq').hide();}
+function hidedisplay(){} {$('#displaysq').hide();}
+function hidesdisplay(){} {$('#sdisplaysq').hide();}
 
 function type(e) {
 	if(kbdstate==1){
