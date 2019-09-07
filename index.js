@@ -220,10 +220,10 @@ function activatebutton() {
 	buttonstate=1;
 	TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
 	//$('#button1').show();
-	/*var buttonblink=new TimelineMax({repeat: -1});
+	var buttonblink=new TimelineMax({repeat: -1});
 	var button=document.getElementById('continue');
-	buttonblink.to(button,1,{ease: Power1.easeInOut, color: 'white'}).to(button,1,{ease: Power1.easeInOut, color: 'black'});
-	//buttonblink.play(0);*/
+	buttonblink.to(button,2,{ease: Power0.easeOut, opacity: '1'}).to(button,1,{ease: Power0.easeOut, opacity: '0'});
+	buttonblink.play(0);
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
 	else int[order[0]] = int[order[0]] * 2;
@@ -257,8 +257,8 @@ function ready() {
 
 /*var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';*/
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
-var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
-var hintbutton = '<p class=\'hintbuttonbuffer continue\' id=\'hintbuttonbuffer\'>REVEAL</div>';
+var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
+var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
@@ -302,7 +302,7 @@ function next() {
 	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
+		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER '+slide[order[1]].ad+' '+slide[order[1]].a+'</div>';
 		q=q+inputdeclaration;
 	}
 	//q=q+buttondeclaration;
@@ -338,9 +338,11 @@ function showspace() {
 	if(order[1]==0) { renderButton(); TweenMax.to($('#space'),0.5,{opacity: '1'});
 		closekeyboard ();}
 	else if (slide[order[1]].a == '') {
+		$('#space').css('padding-bottom','1em');
 		TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
 		closekeyboard();
 	} else {
+		$('#space').css('padding-bottom',0);
 		TweenMax.to($('#space'),0.5,{opacity: '1'});
 		TweenMax.to($('#inputplace'),0.5, {width: '100%'});
 		openkeyboard();
@@ -470,7 +472,7 @@ function recalculate() {
 	var bar='<div style=\'position: absolute;background-color: #e5e5e5; width:100%; height:'+kh*(kbh-0.3)*w+'px; top: '+kh*0.3*w+'px\'><div style=\'position: absolute;background-color: #d8d8d8; width:100%; height:'+kh*(kbh-0.3)*w/2+'px; top: '+kh*(kbh-0.3)*w/2+'px\'></div></div>';
 	
 	$('#outerspace').height(w * kh * kbh + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'cursor\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#a0a0a0\'>❯</span>'+bar+'</div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#a0a0a0\'>❯</span>'+bar+'</div>');
 	$('#outerspace').hide();
 	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
