@@ -466,8 +466,11 @@ function types(e) {
 function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
+	
+	var bar='<div style=\'position: absolute;background-color: #e5e5e5; width:100%; height:'+kh*(kbh-0.3)*w+'px; top: '+kh*0.3*w+'px\'><div style=\'position: absolute;background-color: #d8d8d8; width:100%; height:'+kh*(kbh-0.3)*w/2+'px; top: '+kh*(kbh-0.3)*w/2+'px\'></div></div>';
+	
 	$('#outerspace').height(w * kh * kbh + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'cursor\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#606060\'>❯</span></div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'cursor\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#a0a0a0\'>❯</span>'+bar+'</div>');
 	$('#outerspace').hide();
 	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
@@ -520,9 +523,10 @@ function recalculate() {
 	}
 	var displaykey = '<div class=\'keys\' id=\'displaysq\'><div class=\'text\' id=\'displaykey\'></div></div>';
 	var sdisplaykey = '<div class=\'keys\' id=\'sdisplaysq\'><div class=\'text\' id=\'sdisplaykey\'></div></div>';
-	
-	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey;
-	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey;
+	  
+	  
+	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey+bar;
+	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey+bar;
 
 	$('#primarykeyboard').html(keysdeclaration);
 	$('#shiftkeyboard').html(skeysdeclaration);
