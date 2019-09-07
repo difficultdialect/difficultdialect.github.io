@@ -354,6 +354,10 @@ function showspace() {
 	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	$('#outerspace').show();
+	document.getElementById('space').scrollIntoView({
+			block: 'start',
+			behavior: 'smooth'
+		});
 	order.shift();
 	var c=order.shift();
 	var toput=-1;
