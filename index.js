@@ -74,7 +74,8 @@ function saveToFirebase(email) {
 
 var kh=1.5;
 var kbh=0.4;
-var E=document.body.offsetWidth;
+var w=document.body.offsetWidth;
+var h=document.body.offsetHeight;
 var kbdstate=0;
 var buttonstate=0;
 var pressed=-1;
@@ -176,8 +177,9 @@ var tops=[];
 
 window.addEventListener('resize', function(event) {
 
-	if (E != document.body.offsetWidth) {
-		E = document.body.offsetWidth;
+	if (w != document.body.offsetWidth || h != document.body.offsetHeight) {
+		w = document.body.offsetWidth;
+		h = document.body.offsetHeight;
 		recalculate();
 		if (kbdstate == 1) openkeyboard();
 	}
@@ -344,16 +346,13 @@ function showspace() {
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
-		var w=$(this).width();
-		var em=($('body').width()-w)/2;
-		console.log('em: '+em+' w: '+w);
+		var ew=$(this).width();
+		var em=($('body').width()-ew)/2;
+		console.log('em: '+em+' w: '+ew);
 		var nml=$(this).find('img').length;
-		$(this).find('img').css('max-width',(Math.floor(w/nml)-Math.ceil(0.8*em))+'px');
+		$(this).find('img').css('max-width',(Math.floor(ew/nml)-Math.ceil(0.8*em))+'px');
 	});
-	$('#outerspace').hide();
-	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
-	else $('#outerspace').css('position','static');
-	$('#outerspace').show();
+	recalculate();
 	document.getElementById('space').scrollIntoView({
 			block: 'start',
 			behavior: 'smooth'
@@ -462,15 +461,17 @@ function types(e) {
 	try{clearInterval(backaction);}catch(e){}
      $('#backsq').html(normalback);    
 }
-var w = 0;
 
 
 function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
-	w = document.getElementById('primarykeyboard').clientWidth;
 	$('#outerspace').height(w * kh * kbh + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'continue\' style=\'font-weight:bold; text-align: center; width: 100%; position: absolute; top: '+w * kh * kbh/2+'px; left: 0; color:white\'>CONTINUE</span></div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'cursor\' style=\'font-weight:bold; text-align: center; font-size: xx-large; width: 100%; position: absolute; bottom: '+w * kh * kbh/2+'px; left: 0; color:#606060\'>❯</span></div>');
+	$('#outerspace').hide();
+	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
+	else $('#outerspace').css('position','static');
+	$('#outerspace').show();
 	
 	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +

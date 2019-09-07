@@ -28,7 +28,8 @@ body {
 	opacity: 0;
 }
 #outerspace{
-	background-image: linear-gradient(white,grey);
+	/*background-image: linear-gradient(#f0f0f0,#d0d0d0);*/
+	background-color: #f0f0f0;
 	bottom: 0;
 	text-align: center;
 	position: static;
@@ -40,6 +41,7 @@ body {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	display: none;
+	box-shadow: 0 0 8px 0 #c0c0c0;
 }
 #space, #spacebuffer{
 	opacity: 0;
@@ -120,14 +122,14 @@ body {
 	-webkit-animation-timing-function: linear;
 }
 @keyframes continueblink {
-	0%	{color: white;}
+	0%	{color: #d0d0d0;}
 	50%	{color: black;}
-	100%	{color: white;}
+	100%	{color: #d0d0d0;}
 }
 @-webkit-keyframes continueblink {
-	0%	{color: white;}
+	0%	{color: #d0d0d0;}
 	50%	{color: black;}
-	100%	{color: white;}
+	100%	{color: #d0d0d0;}
 }
 .emojiplace, .emojiplacebuffer{
 	text-align: center;
@@ -150,7 +152,7 @@ body {
   bottom: 0;
   left: 0;
   background-color: #f0f0f0;
-  box-shadow: 0 0 4px 0 #c0c0c0;
+  box-shadow: 0 0 8px 0 #c0c0c0;
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
