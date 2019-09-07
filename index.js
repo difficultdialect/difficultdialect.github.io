@@ -72,7 +72,7 @@ function saveToFirebase(email) {
 */
 
 
-var kh=1.7;
+var kh=1.5;
 var E=document.body.offsetWidth;
 var kbdstate=0;
 var buttonstate=0;
@@ -118,6 +118,7 @@ var skills;
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
 	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:'@ab',ad:'ab'},
+	{q:'{🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.<br><br>Tap to continue.', a:''},
 	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
@@ -250,7 +251,7 @@ function ready() {
 
 var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
-var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'>' + inputalt + '</div></div>';
+var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'><div id=\'inputbuffer\'>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
@@ -370,11 +371,11 @@ function showspace() {
 function back() {
 	inputtext = inputtext.slice(0, -1);
 	if (inputtext == '') {
-		$('#inputplace').html(inputalt);
+		$('#input').html('');
                $('#backsq').html(normalback);
                   try{clearInterval(backaction);}catch(e){}
 	} else {
-		$('#inputplace').html(inputtext+inputalt);
+		$('#input').html(inputtext);
 	}
 	document.getElementById('outerspace').scrollIntoView({
 		block: 'end',
@@ -413,7 +414,7 @@ function type(e) {
 		inputtext = inputtext.slice(0, -1);
 	}
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#inputplace').html(inputtext+inputalt);
+	$('#input').html(inputtext);
 	if(inputtext=='nivartanam') {
 		localStorage.setItem('order','');
 		document.location.reload(true);
@@ -440,7 +441,7 @@ function type(e) {
 function types(e) {
 	if(kbdstate==1){
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#inputplace').html(inputtext+inputalt);
+	$('#input').html(inputtext);
 	document.getElementById('outerspace').scrollIntoView({
 		block: 'end',
 		behavior: 'smooth'
