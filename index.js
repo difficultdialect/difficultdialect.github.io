@@ -253,10 +253,10 @@ function ready() {
 	}
 }
 
-var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';
+/*var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';*/
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center\'><div id=\'inputplacebuffer\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
-var hintbutton = '<p class=\'hintbuttonbuffer\' id=\'hintbuttonbuffer\'>REVEAL</div>';
+var hintbutton = '<p class=\'hintbuttonbuffer continue\' id=\'hintbuttonbuffer\'>REVEAL</div>';
 function showhint() {
 	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
@@ -300,10 +300,10 @@ function next() {
 	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
 	q=q+hintbutton;
 	if (slide[order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER: '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
+		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER '+slide[order[1]].a+' ('+slide[order[1]].ad+')</div>';
 		q=q+inputdeclaration;
 	}
-	q=q+buttondeclaration;
+	//q=q+buttondeclaration;
 	$('#spacebuffer').html(q);
 	nmoji=$('#spacebuffer').find('img').length;
 	nimages=nmoji;
@@ -470,7 +470,7 @@ function recalculate() {
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
 	$('#outerspace').height(w * kh * kbh + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; width: 100%; position: absolute; top: '+w * kh * kbh/2+'px; left: 0; color:white\'>CONTINUE</span></div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' class=\'continue\' style=\'font-weight:bold; text-align: center; width: 100%; position: absolute; top: '+w * kh * kbh/2+'px; left: 0; color:white\'>CONTINUE</span></div>');
 	
 	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +

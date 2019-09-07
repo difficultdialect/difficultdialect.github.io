@@ -28,11 +28,6 @@ body {
 	opacity: 0;
 }
 #outerspace{
-	/*background-image: url('logo.svg');
-	background-size: 4em;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-color: #f0f0f0;*/
 	background-image: linear-gradient(white,grey);
 	bottom: 0;
 	text-align: center;
@@ -47,7 +42,6 @@ body {
 	display: none;
 }
 #space, #spacebuffer{
-	/*color: #664500;*/
 	opacity: 0;
    font-weight: normal;
 	padding-top: 1em;
@@ -70,18 +64,15 @@ body {
 	width: 100vw;
 }
 .hintbutton, .hintbuttonbuffer {
-	color: #808080;
+	color: #606060;
 	font-size: medium;
 	font-weight: bold;
 	display: none;
 }
 .hint, .hintbuffer {
-	color: #808080;
+	color: #606060;
    font-weight: normal;
 	font-size: medium;
-}
-.clickable {
-	color: #808080;
 }
 #inputplace, #inputplacebuffer {
 	width: 0px;
@@ -118,7 +109,7 @@ body {
 	50%	{opacity: 1;}
 	100%	{opacity: 0;}
 }
-#continue {
+.continue {
 	animation-name: contiuneblink;
 	animation-iteration-count: infinite;
 	animation-duration: 4s;
@@ -207,14 +198,4 @@ body {
 }
 .answer{
   display:none;
-}
-.button {
-  background-color: #404040; /* Green */
-  color: white;
-	font-size:x-large;
-	text-decoration: none;
-	border: none;
-	
-  text-align: center;
-  display: inline-block;
 }
