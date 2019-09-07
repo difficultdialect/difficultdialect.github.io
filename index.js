@@ -87,6 +87,7 @@ var nimages=0;
 var nmoji=0;
 var q="";
 var backaction;
+var scrolled=true;
 var slideover=0;
 var hintasked=false;
 
@@ -200,7 +201,9 @@ $(document).ready(function() {
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
 			assign(document.getElementById('outerspace'),'down',subnext);
-			
+			window.addEventListener('scroll',function(){scrolled=true;});
+			assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
+			assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
 			next();
 			ready();
@@ -369,6 +372,15 @@ function showspace() {
 	if(order.length < 2) order.push(order[0]);
 }
 
+function bringinputtofocus() {
+	if(scrolled) {
+		scrolled=false;
+		document.getElementById('outerspace').scrollIntoView({
+			block: 'end',
+			behavior: 'smooth'
+		});
+	}
+}
 function back() {
 	inputtext = inputtext.slice(0, -1);
 	if (inputtext == '') {
@@ -378,10 +390,6 @@ function back() {
 	} else {
 		$('#input').html(inputtext);
 	}
-	document.getElementById('outerspace').scrollIntoView({
-		block: 'end',
-		behavior: 'smooth'
-	});
 	clearpressed();
 }
 
@@ -420,10 +428,6 @@ function type(e) {
 		localStorage.setItem('order','');
 		document.location.reload(true);
 	}
-	document.getElementById('outerspace').scrollIntoView({
-		block: 'end',
-		behavior: 'smooth'
-	});
 	if (pressable[i] && pressed !== i) {
 		clearpressed();
 		e.currentTarget.children[0].classList.add('pressed');
@@ -443,10 +447,6 @@ function types(e) {
 	if(kbdstate==1){
 	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 	$('#input').html(inputtext);
-	document.getElementById('outerspace').scrollIntoView({
-		block: 'end',
-		behavior: 'smooth'
-	});
 	$('#shiftkeyboard').hide();
 	if (inputtext == slide[order[0]].a) {
 		activatebutton();
