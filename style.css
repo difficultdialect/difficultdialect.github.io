@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Martel:400,700&display=swap&subset=devanagari,latin-ext');
 html{
-	height:100%;
+	height:100vh;
 }
 body {
   color: #606060;
@@ -10,7 +10,7 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-behavior: smooth;
-	min-height: 100%;
+	min-height: 100vh;
 	padding:0;
 	margin: 0;
 	border: 0;
