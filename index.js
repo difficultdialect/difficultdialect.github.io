@@ -403,8 +403,8 @@ function showsdisplay(e) {
 	$('#sdisplaykey').html(e.currentTarget.children[0].innerHTML);
 	$('#sdisplaysq').show();
 }
-function hidedisplay(){} {$('#displaysq').hide();}
-function hidesdisplay(){} {$('#sdisplaysq').hide();}
+function hidedisplay() {$('#displaysq').hide();}
+function hidesdisplay() {$('#sdisplaysq').hide();}
 
 function type(e) {
 	if(kbdstate==1){
@@ -461,7 +461,7 @@ function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
-	$('#outerspace').height(w * kh * 0.3 + 'px');
+	$('#outerspace').height(w * kh * 0.35 + 'px');
 	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
 		0.4 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
@@ -577,13 +577,16 @@ function recalculate() {
 	$('#sdisplaykey').height(2.3*w*kh/10.0);
 	$('#displaykey').css('border-radius',w/40);
 	$('#sdisplaykey').css('border-radius',w/40);
+	var shadow='0px 0px ' + w/40 + 'px 0px #c0c0c0';
+	$('#displaykey').css('box-shadow',shadow);
+	$('#sdisplaykey').css('box-shadow',shadow);
 }
 
 function openkeyboard() {
 	$('#primarykeyboard').show();
 	$('#shiftkeyboard').hide();
-	$('#primarykeyboard').height(w * kh * 0.3);
-	$('#shiftkeyboard').height(w * kh * 0.3);
+	$('#primarykeyboard').height(w * kh * 0.35);
+	$('#shiftkeyboard').height(w * kh * 0.35);
 	kbdstate = 1;
 }
 
