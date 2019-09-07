@@ -351,7 +351,7 @@ function showspace() {
 		$(this).find('img').css('max-width',(Math.floor(w/nml)-Math.ceil(0.8*em))+'px');
 	});
 	$('#outerspace').hide();
-	if($('#space').height()<$(document).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
+	if($('#space').height()<$(body).height()-w*kh*kbh) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	$('#outerspace').show();
 	order.shift();
