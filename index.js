@@ -218,10 +218,10 @@ function activatebutton() {
 	buttonstate=1;
 	TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
 	//$('#button1').show();
-	//var buttonblink=new TimelineMax({repeat: -1});
-	//var button=document.getElementById('button1');
-	//buttonblink.to(button,0.5,{ease: Power2.easeInOut, opacity: '1'}).to(button,0.5,{ease: Power2.easeInOut, opacity: '0'});
-	//buttonblink.play(0);
+	/*var buttonblink=new TimelineMax({repeat: -1});
+	var button=document.getElementById('continue');
+	buttonblink.to(button,1,{ease: Power1.easeInOut, color: 'white'}).to(button,1,{ease: Power1.easeInOut, color: 'black'});
+	//buttonblink.play(0);*/
 	state[order[0]] = 2;
 	if(hintasked) int[order[0]] = int[order[0]] / 2;
 	else int[order[0]] = int[order[0]] * 2;
@@ -470,6 +470,8 @@ function recalculate() {
 	var skeysdeclaration = '';
 	w = document.getElementById('primarykeyboard').clientWidth;
 	$('#outerspace').height(w * kh * kbh + 'px');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+w * kh * kbh+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; width: 100%; position: absolute; top: '+w * kh * kbh/2+'px; left: 0; color:white\'>CONTINUE</span></div>');
+	
 	normalshift='<svg height=\'' + kh * w / 10.0 + 'px\' width=\'' + w / 10.0 + 'px\'><polygon points=\'' +
 		0.0 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
 		0.4 * w / 10.0 + ',' + (kh - 0.5 * (kh-1)) * w / 10.0 + ' ' +
