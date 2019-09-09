@@ -405,7 +405,31 @@ function types(e) {
 	try{clearInterval(backaction);}catch(e){}
      $('#backsq').html(normalback);    
 }
+/*
+		if (i < 10) {
+			display.kbd.lefts.push(i * display.w / 10.0);
+			display.kbd.tops.push(0);
+		} else if (i < 19) {
+			display.kbd.lefts.push((i - 9.5) * display.w / 10.0);
+			display.kbd.tops.push(display.w * theme.kbd.keyh / 10.0);
+		} else {
+			display.kbd.lefts.push((i - 17.5) * display.w / 10.0);
+			display.kbd.tops.push(display.w * theme.kbd.keyh / 5.0);
+		}
+*/
 
+function drawKeyboard(type,letters,kbdtheme,kbw){
+	let elements=[],lefts=[],tops=[],w=kbw/10,kh=kbdtheme.keyh;
+	//keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + design.letters[i] + '</div></div>';
+	for(let i=0;i<letters.length;i++){
+		lefts.push(i<10 ? i*w : i<19 ? (i-9.5)*w : (i-17.5)*w);
+		tops.push(i<10 ? 0 : i<19 ? kh*w : 2*kh*w);
+		elements.push(`<div class=\'sq\' id=\'${type}_${i}_sq\' style=\'position:absolute;width:${i==10||i==18?2*w:w};`+
+			      `padding-top:${kh*100}%\'` +
+			      `text-align:center;overflow:visible\'`);
+	}
+	return elements.join('');
+}
 
 function recalculate() {
 	var keysdeclaration = '';
