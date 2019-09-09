@@ -49,7 +49,7 @@ var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 var recordupdate;	// update record based on Date.now(), record and last response
 
 var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/},
-	   bgcolor: '#ffffff',textcolor: '#000000',fonts:['Martel:400, 700']};
+	   bgcolor: '#ffffff',textcolor: '#000000',fonts:[{f:'Martel:400, 700:devanagari'},{f:'Mukta:400, 700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
 var display={
 	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[]},
 	populate:function(_theme){},
@@ -588,7 +588,7 @@ function loadfonts(_fonts) {
 	let fontpromises=[]
 	for(let font of _fonts) { 
 		fontpromises.push(new Promise(function(resolve,reject) {
-			WebFont.load({google:{families: [font]},fontactive: resolve});}));
+			WebFont.load({google:font.t?{families: [font.f],text:font.t}:{families: [font.f]},fontactive: resolve});}));
 	}
 	return Promise.all(fontpromises);
 }
