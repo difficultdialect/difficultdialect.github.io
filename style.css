@@ -77,6 +77,7 @@ body {
 	font-size: medium;
 }
 #inputplace, #inputplacebuffer {
+	font-family: 'Montserrat', sans-serif;
 	width: 0px;
 	display: inline-block;
   background-color: #f0f0f0;
@@ -144,7 +145,11 @@ body {
 	width: 4em;
 	height: auto;
 }
+.e {
+	font-family: 'Montserrat', sans-serif;
+}
 .keyboard {
+  font-family: 'Montserrat', sans-serif;
   height: 0;
   width: 100%;
   position: fixed;
@@ -174,7 +179,7 @@ body {
 .keyboard .keys {
   position: absolute;
   width: 10%;
-  padding-top: 13%;
+  padding-top: 15%;
   text-align: center;
   vertical-align: middle;
   overflow: visible;

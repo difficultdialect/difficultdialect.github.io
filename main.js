@@ -49,7 +49,7 @@ var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 var recordupdate;	// update record based on Date.now(), record and last response
 
 var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/},
-	   bgcolor: '#ffffff',textcolor: '#000000',fonts:[{f:'Martel:400, 700:devanagari,latin-ext',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'},{f:'Mukta:400, 700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
+	   bgcolor: '#ffffff',textcolor: '#000000',fonts:[{f:'Martel:400,700:devanagari'},{f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.'}]};
 var display={
 	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[]},
 	populate:function(_theme){},
@@ -83,8 +83,8 @@ var slide=[
 	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:'@ab',ad:'ab'},
 	//{q:'{🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
 	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.', a:''},
-	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br>devonadyāṃtarati.',a:''},
-	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br>devaḥkutratarati?',a:'@nadyām',ad:'नद्याम्'},
+	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br><span class=\'e\'>devonadyāṃtarati.</span>',a:''},
+	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br><span class=\'e\'>devaḥkutratarati?</span>',a:'@nadyām',ad:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
 	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?<br>chātrāḥkutragacchanti?',a:'@śālām',ad:'शालाम्'},
@@ -528,17 +528,21 @@ function recalculate() {
 			display.kbd.lefts.push((i - 17.5) * display.w / 10.0);
 			display.kbd.tops.push(display.w * theme.kbd.keyh / 5.0);
 		}
-		csq.style.left = display.kbd.lefts[i] + 'px';
-		csq.style.top = display.kbd.tops[i] + 'px';
-		cssq.style.left = display.kbd.lefts[i] + 'px';
 		cssq.style.top = display.kbd.tops[i] + 'px';
+		csq.style.top = display.kbd.tops[i] + 'px';
+		if(i!=10){
+		csq.style.left = display.kbd.lefts[i] + 'px';
+		cssq.style.left = display.kbd.lefts[i] + 'px';
+		}
 		if (i == 10) {
-			csq.style.left = '0px';
-			csq.style.paddingLeft = 0.5 * display.w / 10.0 + 'px';
-			csq.style.width = 1.0 * display.w / 10.0 + 'px';
-			cssq.style.left = '0px';
-			cssq.style.paddingLeft = 0.5 * display.w / 10.0 + 'px';
-			cssq.style.width = 1.0 * display.w / 10.0 + 'px';
+			csq.style.width = 2.0 * display.w / 10.0 + 'px';
+			csq.style.textAlign='right';
+			csq.style.right = 8.5 * display.w / 10.0 + 'px';
+			ck.style.right = '0';
+			cssq.style.width = 2.0 * display.w / 10.0 + 'px';
+			cssq.style.textAlign='right';
+			cssq.style.right = 8.5 * display.w / 10.0 + 'px';
+			csk.style.right = '0';
 		} else if (i == 18) {
 			csq.style.width = 2.0 * display.w / 10.0 + 'px';
 			cssq.style.width = 2.0 * display.w / 10.0 + 'px';
@@ -553,7 +557,7 @@ function recalculate() {
 	$('.keys .text').css('bottom', '0px');
 	$('.keys .text').css('line-height', display.w * theme.kbd.keyh / 10.0 + 'px');
 	$('.keys .text').css('width', display.w / 10.0 + 'px');
-	$('.keys .text').css('font-size', 0.4*theme.kbd.keyh*display.w / 10.0 + 'px');
+	$('.keys .text').css('font-size', 0.5*theme.kbd.keyh*display.w / 10.0 + 'px');
 	$('#displaysq').css('padding-top', Math.floor(display.w * theme.kbd.keyh / 10.0) + 'px');
 	$('#sdisplaysq').css('padding-top', Math.floor(display.w * theme.kbd.keyh / 10.0) + 'px');
 	$('#displaykey').height(2.3*display.w*theme.kbd.keyh/10.0);
