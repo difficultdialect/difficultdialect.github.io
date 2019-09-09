@@ -599,7 +599,7 @@ var library={
 		},
 	},
 	functional:{
-		dayFromMs: _ms => _ms//1000/60/60/24,
+		dayFromMs: function(_ms){ return _ms//1000/60/60/24;},
 	}
 };
 
