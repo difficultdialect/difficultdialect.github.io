@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	loadfonts(theme.fonts).then(function() {
+	library.procedural.loadfonts(theme.fonts).then(function() {
 			recalculate();
 			var savedorder;
 			/*try {
@@ -12,7 +12,6 @@ $(document).ready(function() {
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
 			library.procedural.assign(document.getElementById('outerspace'),'down',subnext);
-			window.addEventListener('scroll',function(){scrolled=true;console.log('scrolling');});
 			library.procedural.assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
 			library.procedural.assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
@@ -23,21 +22,6 @@ $(document).ready(function() {
 	buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
 		});
 });
-
-function loadfonts(_fonts) {
-	let fontpromises=[]
-	for(let font of _fonts) { 
-		fontpromises.push(new Promise(function(resolve,reject) {
-			WebFont.load({google:{families: [font]},fontactive: resolve});}));
-	}
-	return Promise.all(fontpromises);
-}
-
-
-
-
-
-
 
 
 /*
@@ -57,12 +41,17 @@ function saveToFirebase(email) {
 var content;	// question data
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
-	   date:0, /* Date of record */
-	   id_token:0 /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
+	   day:library.functional.dayFromMs(Date.now()), /* day of record */
+	   id_token:0, /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
+var recordupdate;	// update record based on Date.now(), record and last response
 
 var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/},
 	   bgcolor: '#ffffff',textcolor: '#000000',fonts:['Martel:400, 700']};
-var display={w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[]}};
+var display={
+	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[]},
+	populate:function(_theme){},
+	recalculate:function(_theme){},
+};
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
 	letters:['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'],
@@ -82,7 +71,6 @@ var nimages=0;
 var nmoji=0;
 var q="";
 var backaction;
-var scrolled=true;
 var slideover=0;
 var hintasked=false;
 //assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(1);}catch(e){}});
@@ -334,13 +322,10 @@ function showspace() {
 }
 
 function bringinputtofocus() {
-	if(scrolled) {
-		scrolled=false;
-		document.getElementById('outerspace').scrollIntoView({
-			block: 'end',
-			behavior: 'smooth'
-		});
-	}
+	document.getElementById('outerspace').scrollIntoView({
+		block: 'end',
+		behavior: 'smooth'
+	});
 }
 function back() {
 	inputtext = inputtext.slice(0, -1);
@@ -481,8 +466,8 @@ function recalculate() {
 	var sdisplaykey = '<div class=\'keys\' id=\'sdisplaysq\'><div class=\'text\' id=\'sdisplaykey\'></div></div>';
 	  
 	  
-	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey+bar;
-	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey+bar;
+	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey + bar;
+	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey + bar;
 
 	$('#primarykeyboard').html(keysdeclaration);
 	$('#shiftkeyboard').html(skeysdeclaration);
@@ -575,6 +560,14 @@ function closekeyboard() {
 
 var library={
 	procedural:{
+		loadfonts:function(_fonts) {
+			let fontpromises=[]
+			for(let font of _fonts) { 
+				fontpromises.push(new Promise(function(resolve,reject) {
+					WebFont.load({google:{families: [font]},fontactive: resolve});}));
+			}
+			return Promise.all(fontpromises);
+		},
 		assign:function(element,eventtype,callback){
 			if(window.PointerEvent) {
 				if(eventtype=='down') element.addEventListener('pointerdown',callback);
@@ -603,15 +596,11 @@ var library={
 				}
 				else throw 'invalid event-type'
 			}
-		}
+		},
+	},
+	functional:{
+		dayFromMs: _ms => _ms//1000/60/60/24,
 	}
 };
-
-
-
-
-
-
-
 
 
