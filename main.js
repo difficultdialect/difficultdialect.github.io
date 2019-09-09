@@ -1,3 +1,49 @@
+var library={
+	procedural:{
+		loadfonts:function(_fonts) {
+			let fontpromises=[]
+			for(let font of _fonts) { 
+				fontpromises.push(new Promise(function(resolve,reject) {
+					WebFont.load({google:{families: [font]},fontactive: resolve});}));
+			}
+			return Promise.all(fontpromises);
+		},
+		assign:function(element,eventtype,callback){
+			if(window.PointerEvent) {
+				if(eventtype=='down') element.addEventListener('pointerdown',callback);
+				else if(eventtype=='up') {
+					element.addEventListener('pointerup',callback);
+					element.addEventListener('pointercancel',callback);
+				}
+				else if(eventtype=='move') {
+					element.addEventListener('pointermove',callback);
+				}
+				else throw 'invalid event-type'
+			}
+			else {
+				if(eventtype=='down') {
+					element.addEventListener('touchstart',callback);
+					element.addEventListener('mousedown',callback);
+				}
+				else if(eventtype=='up') {
+					element.addEventListener('touchend',callback);
+					element.addEventListener('mouseup',callback);
+					element.addEventListener('touchcancel',callback);
+				}
+				else if(eventtype=='move') {
+					element.addEventListener('touchmove',callback);
+					element.addEventListener('mousemove',callback);
+				}
+				else throw 'invalid event-type'
+			}
+		},
+	},
+	functional:{
+		dayFromMs: function(_ms){ return _ms/1000/60/60/24;},
+	}
+};
+
+
 $(document).ready(function() {
 	library.procedural.loadfonts(theme.fonts).then(function() {
 			recalculate();
@@ -558,49 +604,5 @@ function closekeyboard() {
 }
 
 
-var library={
-	procedural:{
-		loadfonts:function(_fonts) {
-			let fontpromises=[]
-			for(let font of _fonts) { 
-				fontpromises.push(new Promise(function(resolve,reject) {
-					WebFont.load({google:{families: [font]},fontactive: resolve});}));
-			}
-			return Promise.all(fontpromises);
-		},
-		assign:function(element,eventtype,callback){
-			if(window.PointerEvent) {
-				if(eventtype=='down') element.addEventListener('pointerdown',callback);
-				else if(eventtype=='up') {
-					element.addEventListener('pointerup',callback);
-					element.addEventListener('pointercancel',callback);
-				}
-				else if(eventtype=='move') {
-					element.addEventListener('pointermove',callback);
-				}
-				else throw 'invalid event-type'
-			}
-			else {
-				if(eventtype=='down') {
-					element.addEventListener('touchstart',callback);
-					element.addEventListener('mousedown',callback);
-				}
-				else if(eventtype=='up') {
-					element.addEventListener('touchend',callback);
-					element.addEventListener('mouseup',callback);
-					element.addEventListener('touchcancel',callback);
-				}
-				else if(eventtype=='move') {
-					element.addEventListener('touchmove',callback);
-					element.addEventListener('mousemove',callback);
-				}
-				else throw 'invalid event-type'
-			}
-		},
-	},
-	functional:{
-		dayFromMs: function(_ms){ return _ms/1000/60/60/24;},
-	}
-};
 
 
