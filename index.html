@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <noscript>This sites uses javascript.</noscript>
+  <title>Learn Sanskrit</title>
+  <noscript>This uses javascript.</noscript>
   <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="google-signin-scope" content="profile email">
-  <meta name="google-signin-client_id" content="80454713351-hcuko5iqahegvtd32ucdfgekc6rcm3cp.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <title>Learn Sanskrit</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <!-- Favicon/PWA stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="80454713351-hcuko5iqahegvtd32ucdfgekc6rcm3cp.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body id="body">
 <div id="primarykeyboard" class="keyboard nonselectable"></div>
@@ -47,13 +47,14 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>-->
-  
+
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-  <script src="index.js"></script>
-  
+  <script src='https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js'></script>
+  <script src="main.js"></script>
+
 <script>
 // Check that service workers are supported
 if ('serviceWorker' in navigator) {
