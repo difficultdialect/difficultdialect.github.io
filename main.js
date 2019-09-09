@@ -1,51 +1,8 @@
-var library={
-	procedural:{
-		loadfonts:function(_fonts) {
-			let fontpromises=[]
-			for(let font of _fonts) { 
-				fontpromises.push(new Promise(function(resolve,reject) {
-					WebFont.load({google:{families: [font]},fontactive: resolve});}));
-			}
-			return Promise.all(fontpromises);
-		},
-		assign:function(element,eventtype,callback){
-			if(window.PointerEvent) {
-				if(eventtype=='down') element.addEventListener('pointerdown',callback);
-				else if(eventtype=='up') {
-					element.addEventListener('pointerup',callback);
-					element.addEventListener('pointercancel',callback);
-				}
-				else if(eventtype=='move') {
-					element.addEventListener('pointermove',callback);
-				}
-				else throw 'invalid event-type'
-			}
-			else {
-				if(eventtype=='down') {
-					element.addEventListener('touchstart',callback);
-					element.addEventListener('mousedown',callback);
-				}
-				else if(eventtype=='up') {
-					element.addEventListener('touchend',callback);
-					element.addEventListener('mouseup',callback);
-					element.addEventListener('touchcancel',callback);
-				}
-				else if(eventtype=='move') {
-					element.addEventListener('touchmove',callback);
-					element.addEventListener('mousemove',callback);
-				}
-				else throw 'invalid event-type'
-			}
-		},
-	},
-	functional:{
-		dayFromMs: function(_ms){ return _ms/1000/60/60/24;},
-	}
-};
+
 
 
 $(document).ready(function() {
-	library.procedural.loadfonts(theme.fonts).then(function() {
+	loadfonts(theme.fonts).then(function() {
 			recalculate();
 			var savedorder;
 			/*try {
@@ -57,9 +14,9 @@ $(document).ready(function() {
 				if(lastentry <slide.length) order =savedorder;
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
-			library.procedural.assign(document.getElementById('outerspace'),'down',subnext);
-			library.procedural.assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
-			library.procedural.assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
+			assign(document.getElementById('outerspace'),'down',subnext);
+			assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
+			assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
 			next();
 			ready();
@@ -87,7 +44,7 @@ function saveToFirebase(email) {
 var content;	// question data
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
-	   day:library.functional.dayFromMs(Date.now()), /* day of record */
+	   day: dayFromMs(Date.now()), /* day of record */
 	   id_token:0, /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
 var recordupdate;	// update record based on Date.now(), record and last response
 
@@ -319,7 +276,7 @@ function showspace() {
 		$('.hint').hide();
 		$('.hint').css('opacity','0');
 		$('.hintbutton').show();
-		library.procedural.assign(document.getElementById('hintbutton'),'down',showhint);
+		assign(document.getElementById('hintbutton'),'down',showhint);
 	}
 	inputtext = '';
 	hintasked=false;
@@ -523,12 +480,12 @@ function recalculate() {
 			$('#s' + i + 'key').addClass('pressed');
 		}
 	}
-	library.procedural.assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
-	library.procedural.assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
+	assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
+	assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
 		
-	library.procedural.assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);    try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
-	library.procedural.assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
-	library.procedural.assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
+	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);    try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
+	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
 	display.kbd.lefts=[];
 	display.kbd.tops=[];
 	for (let i = 0; i < design.letters.length; i++) {
@@ -562,10 +519,10 @@ function recalculate() {
 			csq.style.width = 2.0 * display.w / 10.0 + 'px';
 			cssq.style.width = 2.0 * display.w / 10.0 + 'px';
 		}
-		library.procedural.assign(csq,'up',type);
-		library.procedural.assign(csq,'down',showdisplay);
-		library.procedural.assign(cssq,'up',types);
-		library.procedural.assign(cssq,'down',showsdisplay);
+		assign(csq,'up',type);
+		assign(csq,'down',showdisplay);
+		assign(cssq,'up',types);
+		assign(cssq,'down',showsdisplay);
                 csq.style.paddingTop = display.w * theme.kbd.keyh / 10.0 + 'px';
                 cssq.style.paddingTop = display.w * theme.kbd.keyh / 10.0 + 'px';
 	}
@@ -603,6 +560,42 @@ function closekeyboard() {
 	kbdstate = 0;
 }
 
+function loadfonts(_fonts) {
+	let fontpromises=[]
+	for(let font of _fonts) { 
+		fontpromises.push(new Promise(function(resolve,reject) {
+			WebFont.load({google:{families: [font]},fontactive: resolve});}));
+	}
+	return Promise.all(fontpromises);
+}
+function assign(element,eventtype,callback){
+	if(window.PointerEvent) {
+		if(eventtype=='down') element.addEventListener('pointerdown',callback);
+		else if(eventtype=='up') {
+			element.addEventListener('pointerup',callback);
+			element.addEventListener('pointercancel',callback);
+		}
+		else if(eventtype=='move') {
+			element.addEventListener('pointermove',callback);
+		}
+		else throw 'invalid event-type'
+	}
+	else {
+		if(eventtype=='down') {
+			element.addEventListener('touchstart',callback);
+			element.addEventListener('mousedown',callback);
+		}
+		else if(eventtype=='up') {
+			element.addEventListener('touchend',callback);
+			element.addEventListener('mouseup',callback);
+			element.addEventListener('touchcancel',callback);
+		}
+		else if(eventtype=='move') {
+			element.addEventListener('touchmove',callback);
+			element.addEventListener('mousemove',callback);
+		}
+		else throw 'invalid event-type'
+	}
+}
 
-
-
+function dayFromMs(_ms){return _ms/1000/60/60/24;}
