@@ -424,7 +424,7 @@ function recalculate() {
 	var bar='<div style=\'position: absolute;background-color: #e5e5e5; width:100%; height:'+theme.kbd.keyh*(theme.kbd.h-0.3)*display.w+'px; top: '+theme.kbd.keyh*0.3*display.w+'px\'><div style=\'position: absolute;background-color: #d8d8d8; width:100%; height:'+theme.kbd.keyh*(theme.kbd.h-0.3)*display.w/2+'px; top: '+theme.kbd.keyh*(theme.kbd.h-0.3)*display.w/2+'px\'></div></div>';
 	
 	$('#outerspace').height(display.w * theme.kbd.keyh * theme.kbd.h + 'px');
-	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+display.w * theme.kbd.keyh * theme.kbd.h+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: x-small; width: 100%; position: absolute; bottom: '+display.w * theme.kbd.keyh * theme.kbd.h/2+'px; left: 0; color:#a0a0a0\'>TOUCH TO CONTINUE</span>'+bar+'</div>');
+	$('#outerspace').html('<div style=\'position: absolute; width:100%; height:'+display.w * theme.kbd.keyh * theme.kbd.h+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: x-small; width: 100%; position: absolute; bottom: '+display.w * theme.kbd.keyh * theme.kbd.h/2+'px; left: 0; color:#a0a0a0\'>TOUCH TO CONTINUE</span>'+/*bar+*/'</div>');
 	$('#outerspace').hide();
 	if($('#space').height()<$(body).height()-display.w*theme.kbd.keyh*theme.kbd.h) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
