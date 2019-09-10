@@ -1,6 +1,3 @@
-
-
-
 $(document).ready(function() {
 	loadfonts(theme.fonts).then(function() {
 			recalculate();
@@ -27,6 +24,8 @@ $(document).ready(function() {
 });
 
 
+
+
 /*
 function saveToFirebase(email) {
     var emailObject = {
@@ -41,25 +40,30 @@ function saveToFirebase(email) {
         });
 }
 */
-var content;	// question data
+var content={};	// question data
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 	   day: dayFromMs(Date.now()), /* day of record */
 	   id_token:0, /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
 var recordupdate;	// update record based on Date.now(), record and last response
 
-var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/},
-	   bgcolor: '#ffffff',textcolor: '#000000',fonts:[{f:'Martel:400,700:devanagari'},{f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.'}]};
+var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/,shiftbackcolor:'#c0c0c0',shiftbackpressedcolor:'#a0a0a0',displaycolor:'#d0d0d0',displayradius:0.25,/*of key width*/fontSize:0.5,/*multiple of key height*/},
+	   bgcolor: '#ffffff',textcolor: '#000000',
+	   fonts:[{n:'Martel, serif',f:'Martel:400,700:devanagari'},{n:'Montserrat, sans-serif',f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
 var display={
-	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[]},
+	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[], shiftmode:false},
 	populate:function(_theme){},
 	recalculate:function(_theme){},
 };
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
-	letters:['ṃ', 'ś', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'ṭ', 'g', 'h', 'j', 'k', 'l', 'ḍ', 'ṣ', 'c', 'v', 'b', 'n', 'm'],
-	sletters:['ṃ', 'ś', 'e', 'ṛ', 't', 'y', 'ū', 'ī', 'o', 'p', 'ā', 's', 'd', 'ṭ', 'g', 'ḥ', 'ñ', 'ṅ', 'ḷ', 'ḍ', 'ṣ', 'c', 'v', 'b', 'ṇ', 'm'],
+	letters:	'ṃśertyuiopasdṭghjklḍṣcvbnm'+
+			'   ṛ  ūī  ā    ḥñṅḷ     ṇ ',
 	pressable:[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+	shiftdrawing:[ [0,5, 2,5, 2,3, 1,3, 2.5,1, 4,3, 3,3, 3,5, 5,5, 5,0, 0,0],
+		[0,5, 5,5, 5,4, 0,4] ],
+	backdrawing:[ [5,5, 5,4, 2,4, 1,2.5, 2,1, 5,1, 5,0, 0,0, 0,5],
+		[5,5, 5,0, 4,0, 4,5] ],
 };
 
 var kbdstate=0;
@@ -71,48 +75,45 @@ var pressedshift;
 var normalback;
 var pressedback;
 var nimages=0;
-var nmoji=0;
-var q="";
 var backaction;
 var slideover=0;
 var hintasked=false;
 //assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(1);}catch(e){}});
 //assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(1);}catch(e){}});
 var slide=[
-	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', a:''},
-	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:'@ab',ad:'ab'},
-	//{q:'{🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
-	{q:'<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.', a:''},
-	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।<br><span class=\'e\'>devonadyāṃtarati.</span>',a:''},
-	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?<br><span class=\'e\'>devaḥkutratarati?</span>',a:'@nadyām',ad:'नद्याम्'},
-	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?<br>devonadyāṃkiṃkaroti?',a:'@tarati',ad:'तरति'},
-	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।<br>chātrāḥśālāṃgacchanti.{📖📖📖}छात्राःशालायांपठन्ति।<br>chātrāḥśālāyāṃpaṭhanti.',a:''},
-	{q:'{🏫}छात्राःकुत्रगच्छन्ति?<br>chātrāḥkutragacchanti?',a:'@śālām',ad:'शालाम्'},
-	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?<br>chātrāḥśālāyāṃkiṃkurvanti?',a:'@paṭhanti',ad:'पठन्ति'},
-	{q:'{🏫}छात्राःकुत्रपठन्ति?<br>chātrāḥkutrapaṭhanti?',a:'@śālāyām',ad:'शालायाम्'},
-	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?<br>keśālāyāṃpaṭhanti?',a:'@chātrāḥ',ad:'छात्राः'},
-	{q:'{🚶🏾‍♂️}देवःशालांगच्छति।<br>devaḥśālāṃgacchati.{😴}देवःशालायांशेते।<br>devaḥśālāyāṃśete.',a:''},
-	{q:'{😴}देवःशालायांकिंकरोति?<br>devaḥśālāyāṃkiṃkaroti?',a:'@śete',ad:'शेते'},
-	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।<br>lokārātrauśerate.',a:''},
-	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौकिंकुर्वन्ति?<br>lokārātraukiṃkuranti?',a:'@śerate',ad:'शेरते'},
-	{q:'{🛌🏾🛌🏻🛌🏿}लोकाःकदाशेरते?<br>lokāḥkadāśerate?',a:'@rātrau',ad:'रात्रौ'},
-	{q:'{🎮}देवोरात्रौक्रीडति।<br>devorātraukrīḍati.',a:''},
-	{q:'{🎮}देवोरात्रौकिंकरोति?<br>devorātraukiṃkaroti?',a:'@krīḍati',ad:'क्रीडति'},
-	{q:'{🏡}देवोगृहेवसति।<br>devogṛhevasati.',a:''},
-	{q:'{🏡}देवःकुत्रवसति?<br>devaḥkutravasati?',a:'@gṛhe',ad:'गृहे'},
-	{q:'{🛕}देवश्चैत्यंगच्छति।<br>devaścaityaṃgacchati.{🐒}चैत्येकपिर्वसति।<br>caityekapirvasati.',a:''},
-	{q:'{🐒}कश्चैत्येवसति?<br>kaścaityevasati?',a:'@kapiḥ',ad:'कपिः'},
-	{q:'{🛕}कपिःकुत्रवसति?<br>kapiḥkutravasati?',a:'@caitye',ad:'चैत्ये'},
-	{q:'{🐒}देवःकपिमुपगच्छति।<br>devaḥkapimupagacchati.{🍌}देवःकपयेकदलीफलंददाति।<br>devaḥkapayekadalīphalaṃdadāti.',a:''},
-	{q:'{🍌}देवःकपयेकिंददाति?<br>devaḥkapayekiṃdadāti?',a:'@kadalīphalam',ad:'कदलीफलम्'},
-	{q:'{🐒}देवःकस्मैकदलीफलंददाति?<br>devaḥkasmaikadalīphalaṃdadāti?',a:'@kapaye',ad:'कपये'},
-	{q:'{✋}कपिर्देवायचपेटिकांददाति।<br>kapirdevāyacapeṭikāṃdadāti.',a:''},
-	{q:'{✋}कपिर्देवायकिंददाति?<br>kapirdevāyakiṃdadāti?',a:'@capeṭikām',ad:'चपेटिकाम्'},
-	{q:'{🐒}कोदेवायचपेटिकांददाति?<br>kodevāyacapeṭikāṃdadāti?',a:'@kapiḥ',ad:'कपिः'},
-	{q:'{🧍🏾}कपिःकस्मैचपेटिकांददाति?<br>kapiḥkasmaicapeṭikāṃdadāti?',a:'@devāya',ad:'देवाय'},
-	{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।<br>devaḥkandukenakrīḍati.',a:''},
-	{q:'{🏀}देवःकेनक्रीडति?<br>devaḥkenakrīḍati?',a:'@kandukena',ad:'कन्दुकेन'},
-	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?<br>devaḥkandukenakiṃkaroti?',a:'@krīḍati',ad:'क्रीडति'},];
+	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
+	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
+	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
+	{q:'[himavan]{🏊🏼‍♂️}देवोनद्यांतरति।',d:''},
+	{q:'[sitavyaghrah]{🏊🏼‍♂️}देवःकुत्रतरति?',d:'@नद्याम्'},
+	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?',d:'@तरति'},
+	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।',d:''},
+	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
+	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?',d:'@पठन्ति'},
+	{q:'{🏫}छात्राःकुत्रपठन्ति?',d:'@शालायाम्'},
+	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?',d:'@छात्राः'},
+	{q:'{🚶🏾‍♂️}देवःशालांगच्छति।{😴}देवःशालायांशेते।',d:''},
+	{q:'{😴}देवःशालायांकिंकरोति?',d:'@शेते'},
+	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।',d:''},
+	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौकिंकुर्वन्ति?',d:'@शेरते'},
+	{q:'{🛌🏾🛌🏻🛌🏿}लोकाःकदाशेरते?',d:'@रात्रौ'},
+	{q:'{🎮}देवोरात्रौक्रीडति।',d:''},
+	{q:'{🎮}देवोरात्रौकिंकरोति?',d:'@क्रीडति'},
+	{q:'{🏡}देवोगृहेवसति।',d:''},
+	{q:'{🏡}देवःकुत्रवसति?',d:'@गृहे'},
+	{q:'{🛕}देवश्चैत्यंगच्छति।{🐒}चैत्येकपिर्वसति।',d:''},
+	{q:'{🐒}कश्चैत्येवसति?',d:'@कपिः'},
+	{q:'{🛕}कपिःकुत्रवसति?',d:'@चैत्ये'},
+	{q:'{🐒}देवःकपिमुपगच्छति।{🍌}देवःकपयेकदलीफलंददाति।',d:''},
+	{q:'{🍌}देवःकपयेकिंददाति?',d:'@कदलीफलम्'},
+	{q:'{🐒}देवःकस्मैकदलीफलंददाति?',d:'@कपये'},
+	{q:'{✋}कपिर्देवायचपेटिकांददाति।',d:''},
+	{q:'{✋}कपिर्देवायकिंददाति?',d:'@चपेटिकाम्'},
+	{q:'{🐒}कोदेवायचपेटिकांददाति?',d:'@कपिः'},
+	{q:'{🧍🏾}कपिःकस्मैचपेटिकांददाति?',d:'@देवाय'},
+	{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।',d:''},
+	{q:'{🏀}देवःकेनक्रीडति?',d:'@कन्दुकेन'},
+	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?',d:'@क्रीडति'},];
 function renderButton() {
       gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
@@ -138,14 +139,18 @@ function onSignIn(googleUser) {
 
 for(let i=0;i<slide.length;i++){
 	userstate.order.push(i);
+	slide[i].a=dToIAST(slide[i].d);
 	if(slide[i].a.charAt(0)=='@'){
 		slide[i].a=slide[i].a.substr(1);
+		slide[i].d=slide[i].d.substr(1);
 		userstate.status.push(0);
 	}
 	else userstate.status.push(1);
 	userstate.prof.push(-1);
 	userstate.int.push(2);
 }
+console.log(userstate.order.length);
+
 
 
 window.addEventListener('resize', function(event) {
@@ -174,7 +179,7 @@ function activatebutton() {
 	if(userstate.int[userstate.order[0]]<1) userstate.int[userstate.order[0]] = 1;
 	userstate.prof[userstate.order[0]] = userstate.int[userstate.order[0]]-2;
 	if($('#hint').css('display')=='none') {
-		$('#hint').html(slide[userstate.order[0]].ad);
+		$('#hint').html(slide[userstate.order[0]].d);
 		showhint();
 	}
 }
@@ -202,70 +207,65 @@ function ready() {
 /*var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';*/
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
-var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>REVEAL</div>';
+var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
 	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
+/*
+function prepareSlide(index,prepared){
+	if(prepared.list.includes(index)) return Promise.resolve();
+	else 
+}*/
 function next() {
 	nimages = 0;
-	
+	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
 	console.log('next');
-	q = '';
-	var oq = slide[userstate.order[1]].q;
-	var lastput = 0;
-	var hasimage = 0;
-	var images = [];
+	let q = [];
+	let oq = slide[userstate.order[1]].q;
+	let lastput = 0;
 	let i=0;
 	for (i = 0; i < oq.length; i++) {
-		if (oq.charAt(i) == '[') {
-			q = q + oq.substring(lastput, i);
-			lastput = i + 1;
-			while (i < oq.length && oq.charAt(i) !== ']') {
-				i++;
-			}
-			let imagename = oq.substring(lastput, i);
-			images.push(imagename);
-			nimages++;
-			hasimage = 1;
-			lastput = i + 1;
-			var sizes = [144, 240, 360, 480, 720, 1080];
-			q = q + '<img src=\'images/' + imagename + '-360.jpeg\' sizes=\'100vw\' id=\'image' + imagename + 'buffer\' srcset=\'';
-			for (let j = 0; j < sizes.length; j++) {
-				q = q + 'images/' + imagename + '-' + sizes[j] + '.jpeg ' + sizes[j] + 'w';
-				if (j < sizes.length - 1) {
-					q = q + ', ';
+		let c=oq.charAt(i);
+		let cm={'[':']','{':'}','(':')'};
+		let cc=cm[c];
+		if(cc){
+			q.push(transliteral(oq.substring(lastput, i)));
+			lastput=i+1;
+			while(i<oq.length&&oq.charAt(i)!==cc){i++;}
+			if (c=='[') {
+				let image = oq.substring(lastput, i);
+				let sizes = [144, 240, 360, 480, 720, 1080];
+				q.push(`<img src=\'images/${image}-360.jpeg\' sizes=\'100vw\' srcset=\'`);
+				for (let j in sizes) {
+					q.push(`images/${image}-${sizes[j]}.jpeg ${sizes[j]}w`);
+					if (j < sizes.length - 1) q.push(',');
 				}
+				q.push('\'>');
 			}
-			q = q + '\'>'
-			console.log('initiated');
+			else q.push(c+oq.substring(lastput,i+1));
+			console.log(q);
+			lastput=i+1;
 		}
 	}
-	q = q + oq.substring(lastput, i);
-	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>');
+	q.push(transliteral(oq.substring(lastput, i)));
+	q=q.join('');
+	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
+		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>');
 	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
 	q=q+hintbutton;
 	if (slide[userstate.order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>ENTER '+slide[userstate.order[1]].ad+' '+slide[userstate.order[1]].a+'</div>';
+		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter '+slide[userstate.order[1]].d+' '+`<span style=\'font-family:${theme.fonts[1].n}\'>${slide[userstate.order[1]].a}</span>`+'</div>';
 		q=q+inputdeclaration;
 	}
-	//q=q+buttondeclaration;
 	$('#spacebuffer').html(q);
-	nmoji=$('#spacebuffer').find('img').length;
-	nimages=nmoji;
-	console.log('nmoji:'+nmoji);
-	if (hasimage == 0) ready();
+	nimages=$('#spacebuffer').find('img').length;
+	console.log('nimages:'+nimages);
+	ready();
 	$('#spacebuffer').find('img').on('load',function() {
 		nimages--;ready();
 	});
-	/*for (i = 0; i < images.length; i++) {
-		$('#image' + images[i] + 'buffer').on('load', function() {
-			console.log('loaded');
-			nimages--;
-			ready();
-		});
-	}*/
 }
 
 function showspace() {
@@ -343,28 +343,20 @@ function back() {
 }
 
 function clearpressed() {
-	if (pressed !== -1) {
-		$('#' + pressed + 'key').removeClass('pressed');
-		$('#' + pressed + 'key').html(design.letters[pressed]);
-		pressed = -1;
-	}
+	for(e of document.getElementsByClassName('twostate')) {e.style.display='none';}
+}
+function pressAll() {
+	for(e of document.getElementsByClassName('twostate')) {e.style.display='block';}
 }
 
 function showdisplay(e) {
-	document.getElementById('displaysq').style.left=display.kbd.lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
-	document.getElementById('displaysq').style.top=(display.kbd.tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*display.w * theme.kbd.keyh / 10.0) + 'px';
-	$('#displaykey').html(e.currentTarget.children[0].innerHTML);
-	$('#displaysq').show();
+	ds=document.getElementById('displaysq');
+	ds.style.left=display.kbd.lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
+	ds.style.top=(display.kbd.tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*display.w * theme.kbd.keyh / 10.0) + 'px';
+	document.getElementById('displaytext').innerHTML=e.currentTarget.children[0].innerHTML;
+	ds.style.display='block';
 }
-function showsdisplay(e) {
-	document.getElementById('sdisplaysq').style.left=display.kbd.lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
-	document.getElementById('sdisplaysq').style.top=(display.kbd.tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*display.w * theme.kbd.keyh / 10.0) + 'px';
-	$('#sdisplaykey').html(e.currentTarget.children[0].innerHTML);
-	$('#sdisplaysq').show();
-}
-function hidedisplay() {$('#displaysq').hide();}
-function hidesdisplay() {$('#sdisplaysq').hide();}
-
+function hidedisplay() {document.getElementById('displaysq').style.display='none';}
 function type(e) {
 	if(kbdstate==1){
 	var i = parseInt(e.currentTarget.id.slice(-4, -2));
@@ -392,45 +384,34 @@ function type(e) {
     $('#backsq').html(normalback);    
 }
 
-function types(e) {
-	if(kbdstate==1){
-	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#input').html(inputtext);
-	$('#shiftkeyboard').hide();
-	if (inputtext == slide[userstate.order[0]].a) {
-		activatebutton();
-	}
-	}
-	hidesdisplay();
-	try{clearInterval(backaction);}catch(e){}
-     $('#backsq').html(normalback);    
-}
-/*
-		if (i < 10) {
-			display.kbd.lefts.push(i * display.w / 10.0);
-			display.kbd.tops.push(0);
-		} else if (i < 19) {
-			display.kbd.lefts.push((i - 9.5) * display.w / 10.0);
-			display.kbd.tops.push(display.w * theme.kbd.keyh / 10.0);
-		} else {
-			display.kbd.lefts.push((i - 17.5) * display.w / 10.0);
-			display.kbd.tops.push(display.w * theme.kbd.keyh / 5.0);
-		}
-*/
 
-function drawKeyboard(type,letters,kbdtheme,kbw){
-	let elements=[],lefts=[],tops=[],w=kbw/10,kh=kbdtheme.keyh;
-	//keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + design.letters[i] + '</div></div>';
-	for(let i=0;i<letters.length;i++){
-		lefts.push(i<10 ? i*w : i<19 ? (i-9.5)*w : (i-17.5)*w);
-		tops.push(i<10 ? 0 : i<19 ? kh*w : 2*kh*w);
-		elements.push(`<div class=\'sq\' id=\'${type}_${i}_sq\' style=\'position:absolute;width:${i==10||i==18?2*w:w};`+
-			      `padding-top:${kh*100}%\'` +
-			      `text-align:center;overflow:visible\'`);
+function drawKeyboard(a,kbd/*kbd theme*/,kbw){
+	let e=[],l=[],t=[],w=kbw/10,kh=kbd.keyh,f=kbd.fontSize,c=a.length/2;
+	for(let i=0;i<2*c;i++){
+		let p=i%c;
+		l.push(p<10 ? p*w : p<19 ? (p-9.5)*w : (p-17.5)*w);
+		t.push(p<10 ? 0 : p<19 ? kh*w : 2*kh*w);
+		e.push(a.charAt(i)!==' '?`<div class=\'lsq${i<c?'':' twostate'}\' id=\'${i}sq\' style=\'position:absolute; top:${t[i]}px; ${p==10?'right:'+8.5*w:'left:'+l[i]}px; width:${p==10||p==18?'20':'10'}%; padding-top:${kh*w}px\'; display:\'${i<c?'block':'block'}\'\'><div style=\'position:absolute; bottom:0; line-height:${kh*w}px; width: ${w}px; font-size: ${Math.floor(f*kh*w)}px; text-align:center; ${i<c?'':' font-weight:bold;'} ${p==10?'right:0':''}\'>${a.charAt(i)}</div></div>`:'');
 	}
-	return elements.join('');
+	display.kbd.lefts=l;display.kbd.tops=t;
+	for(s of [0,1,2,3]){
+		let p=s%2?'pressed':'',k=s<2?'shift':'back';
+		d=drawkey(w,kh,design[k+'drawing'],kbd['shiftback'+p+'color']);
+		display[p+k]=d;
+		if(!(s%2)) e.push(`<div style=\'position:absolute; width:${1.5*w}px; height:${kh*w}px; top:${2*kh*w}px; ${s>1?'right:0;':''} text-align:center;\' id=\'${k}\' ${s%2?'class=\'twostate\'':''}'>${d}</div>`);
+	}	
+	e.push(`<div id=\'displaysq\' style=\'position:absolute;width:10%;padding-top:${kh*w}px;\'><div id=\'displaytext\' style=\'position:absolute; bottom:0; line-height:${kh*w}px; width:${w}px; font-size: ${Math.floor(f*kh*w)}px; font-weight:bold; text-align:center;background-color:${kbd.displaycolor}\'></div></div>`);
+	return e.join('');
 }
-
+function drawkey(w,h,ps,c){ /*width, keyheight, color*/
+	let polys=[];
+	for(let p of ps){
+		polys.push('<polygon points=\'');
+		for(let i=0;i<p.length;i+=2){polys.push(p[i]*w/5+','+((h-1)*w/2+p[i+1]*w/5)+' ');}
+		polys.push(`\' style=\'fill:${c}\'/>`);
+	}
+	return `<svg height=\'${h*w}px\' width=\'${w}px\'>${polys.join('')}</svg>`;
+}
 function recalculate() {
 	var keysdeclaration = '';
 	var skeysdeclaration = '';
@@ -443,187 +424,73 @@ function recalculate() {
 	if($('#space').height()<$(body).height()-display.w*theme.kbd.keyh*theme.kbd.h) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	$('#outerspace').show();
-	
-	normalshift='<svg height=\'' + theme.kbd.keyh * display.w / 10.0 + 'px\' width=\'' + display.w / 10.0 + 'px\'><polygon points=\'' +
-		0.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-		0.4 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-		0.4 * display.w / 10.0 + ',' + (theme.kbd.keyh * 0.5 + 0.1) * display.w / 10.0 + ' ' +
-	        0.2 * display.w / 10.0 + ',' + (theme.kbd.keyh * 0.5 + 0.1) * display.w / 10.0 + ' ' +
-	        0.5 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1) + 0.2) * display.w / 10.0 + ' ' +
-	        0.8 * display.w / 10.0 + ',' + (theme.kbd.keyh * 0.5 + 0.1) * display.w / 10.0 + ' ' +
-	        0.6 * display.w / 10.0 + ',' + (theme.kbd.keyh * 0.5 + 0.1) * display.w / 10.0 + ' ' +
-	        0.6 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        0.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/><polygon points=\'' +
-	        0.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1) - 0.2) * display.w / 10.0 + ' ' +
-	        0.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1) - 0.2) * display.w / 10.0 + ' ' +
-	        '\' style=\'fill:#c0c0c0\'/></svg>';
-	pressedshift=normalshift.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
-	normalback='<svg height=\'' + theme.kbd.keyh * display.w / 10.0 + 'px\' width=\'' + 1.0 * display.w / 10.0 + 'px\'><polygon points=\'' +
-		1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1) - 0.2) * display.w / 10.0 + ' ' +
-	        0.4 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1) - 0.2) * display.w / 10.0 + ' ' +
-	        0.2 * display.w / 10.0 + ',' + (theme.kbd.keyh * 0.5) * display.w / 10.0 + ' ' +
-	        0.4 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1) + 0.2) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1) + 0.2) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        0.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        0.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/><polygon points=\'' +
-	        0.8 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (theme.kbd.keyh - 0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        1.0 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-	        0.8 * display.w / 10.0 + ',' + (0.5 * (theme.kbd.keyh-1)) * display.w / 10.0 + ' ' +
-		'\' style=\'fill:#c0c0c0\'/></svg>';
-	pressedback=normalback.replace('#c0c0c0','#a0a0a0').replace('#c0c0c0','#a0a0a0');
-	var shiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * display.w / 10.0 + 'px; top: ' + theme.kbd.keyh * display.w / 5.0 + 'px; padding: 0;\' id=\'shiftsq\'>'+normalshift+'</div>';
-	var sshiftkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * display.w / 10.0 + 'px; top: ' + theme.kbd.keyh * display.w / 5.0 + 'px; padding: 0;\' id=\'sshiftsq\'>'+pressedshift+'</div>';
-	var backkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * display.w / 10.0 + 'px; right:0; top: ' + theme.kbd.keyh * display.w / 5.0 + 'px; padding: 0;\' id=\'backsq\'>'+normalback+'</div>';
-	var sbackkeydeclaration = '<div class=\'keys\' style=\'width: ' + 3.0 * 0.5 * display.w / 10.0 + 'px; right:0; top: ' + theme.kbd.keyh * display.w / 5.0 + 'px; padding: 0;\' id=\'sbacksq\'>'+pressedback+'</div>';
 
-	for (let i = 0; i < design.letters.length; i++) {
-		keysdeclaration = keysdeclaration + '<div class=\'keys\' id=\'' + i + 'sq\'><div class=\'text\' id=\'' + i + 'key\'>' + design.letters[i] + '</div></div>';
-		skeysdeclaration = skeysdeclaration + '<div class=\'keys\' id=\'s' + i + 'sq\'><div class=\'text\' id=\'s' + i + 'key\'>' + design.sletters[i] + '</div></div>';
-	}
-	var displaykey = '<div class=\'keys\' id=\'displaysq\'><div class=\'text\' id=\'displaykey\'></div></div>';
-	var sdisplaykey = '<div class=\'keys\' id=\'sdisplaysq\'><div class=\'text\' id=\'sdisplaykey\'></div></div>';
+	keysdeclaration=drawKeyboard(design.letters,theme.kbd,display.w);
 	  
-	  
-	skeysdeclaration = skeysdeclaration + sshiftkeydeclaration + sbackkeydeclaration + sdisplaykey + bar;
-	keysdeclaration = keysdeclaration + shiftkeydeclaration + backkeydeclaration + displaykey + bar;
+	keysdeclaration = keysdeclaration + bar;
 
 	$('#primarykeyboard').html(keysdeclaration);
-	$('#shiftkeyboard').html(skeysdeclaration);
 	
-	for (let i = 0; i < design.letters.length; i++) {
-		if (design.sletters[i] !== design.letters[i]) {
-			$('#s' + i + 'key').addClass('pressed');
-		}
-	}
-	assign(document.getElementById('shiftsq'),'down',function() {$('#shiftkeyboard').show();clearpressed();});
-	assign(document.getElementById('sshiftsq'),'down',function() {$('#shiftkeyboard').hide();});
-		
-	assign(document.getElementById('backsq'),'down',function(){$('#backsq').html(pressedback);    try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
-	assign(document.getElementById('backsq'),'up',function(){$('#backsq').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
-	assign(document.getElementById('sbacksq'),'down',function(){$('#shiftkeyboard').hide();});
-	display.kbd.lefts=[];
-	display.kbd.tops=[];
-	for (let i = 0; i < design.letters.length; i++) {
-		
-		var csq = document.getElementById(i + 'sq');
-		var cssq = document.getElementById('s' + i + 'sq');
-		var ck = document.getElementById(i + 'key');
-		var csk = document.getElementById('s' + i + 'key');
-		if (i < 10) {
-			display.kbd.lefts.push(i * display.w / 10.0);
-			display.kbd.tops.push(0);
-		} else if (i < 19) {
-			display.kbd.lefts.push((i - 9.5) * display.w / 10.0);
-			display.kbd.tops.push(display.w * theme.kbd.keyh / 10.0);
-		} else {
-			display.kbd.lefts.push((i - 17.5) * display.w / 10.0);
-			display.kbd.tops.push(display.w * theme.kbd.keyh / 5.0);
-		}
-		cssq.style.top = display.kbd.tops[i] + 'px';
-		csq.style.top = display.kbd.tops[i] + 'px';
-		if(i!=10){
-		csq.style.left = display.kbd.lefts[i] + 'px';
-		cssq.style.left = display.kbd.lefts[i] + 'px';
-		}
-		if (i == 10) {
-			csq.style.width = 2.0 * display.w / 10.0 + 'px';
-			csq.style.textAlign='right';
-			csq.style.right = 8.5 * display.w / 10.0 + 'px';
-			ck.style.right = '0';
-			cssq.style.width = 2.0 * display.w / 10.0 + 'px';
-			cssq.style.textAlign='right';
-			cssq.style.right = 8.5 * display.w / 10.0 + 'px';
-			csk.style.right = '0';
-		} else if (i == 18) {
-			csq.style.width = 2.0 * display.w / 10.0 + 'px';
-			cssq.style.width = 2.0 * display.w / 10.0 + 'px';
-		}
-		assign(csq,'up',type);
-		assign(csq,'down',showdisplay);
-		assign(cssq,'up',types);
-		assign(cssq,'down',showsdisplay);
-                csq.style.paddingTop = display.w * theme.kbd.keyh / 10.0 + 'px';
-                cssq.style.paddingTop = display.w * theme.kbd.keyh / 10.0 + 'px';
-	}
-	$('.keys .text').css('bottom', '0px');
-	$('.keys .text').css('line-height', display.w * theme.kbd.keyh / 10.0 + 'px');
-	$('.keys .text').css('width', display.w / 10.0 + 'px');
-	$('.keys .text').css('font-size', 0.5*theme.kbd.keyh*display.w / 10.0 + 'px');
-	$('#displaysq').css('padding-top', Math.floor(display.w * theme.kbd.keyh / 10.0) + 'px');
-	$('#sdisplaysq').css('padding-top', Math.floor(display.w * theme.kbd.keyh / 10.0) + 'px');
-	$('#displaykey').height(2.3*display.w*theme.kbd.keyh/10.0);
-	$('#sdisplaykey').height(2.3*display.w*theme.kbd.keyh/10.0);
-	$('#displaykey').css('border-radius',display.w/40);
-	$('#sdisplaykey').css('border-radius',display.w/40);
+	assign(document.getElementById('shift'),'down',function() {
+		if(!display.kbd.shiftmode) {pressAll();display.kbd.shiftmode=true;}
+		else {clearpressed();display.kbd.shiftmode=false;}});
+	assign(document.getElementById('back'),'down',function(){$('#back').html(pressedback);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(document.getElementById('back'),'up',function(){$('#back').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
+	for(let lsq of document.getElementsByClassName('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
+	
+	$('#displaytext').height(2.3*display.w*theme.kbd.keyh/10.0);
+	$('#displaytext').css('border-radius',display.w/40);
 	var shadow='0px 0px ' + display.w/40 + 'px 0px #c0c0c0';
-	$('#displaykey').css('box-shadow',shadow);
-	$('#sdisplaykey').css('box-shadow',shadow);
+	$('#displaytext').css('box-shadow',shadow);
 }
 
 function openkeyboard() {
 	$('#primarykeyboard').show();
-	$('#shiftkeyboard').hide();
 	$('#primarykeyboard').height(display.w * theme.kbd.keyh * theme.kbd.h);
-	$('#shiftkeyboard').height(display.w * theme.kbd.keyh * theme.kbd.h);
 	kbdstate = 1;
 }
 
 function closekeyboard() {
 	$('#primarykeyboard').height(0);
-	$('#shiftkeyboard').height(0);
 	setTimeout(function() {
 			$('#primarykeyboard').hide();
-			$('#shiftkeyboard').hide();
 		},
 		200);
 	kbdstate = 0;
 }
 
-function loadfonts(_fonts) {
-	let fontpromises=[]
-	for(let font of _fonts) { 
-		fontpromises.push(new Promise(function(resolve,reject) {
+function dToIAST(d) {
+	d=d.replace(/ल्ँ/g,'l̐');
+	let s=[],vd=['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ','ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','ष','स','ह'];
+	let vi=['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍh','ḍh','ṇ','t','th','d','dh','n','p','ph','b','bh','m','y','r','l','v','ś','ṣ','s','h'];
+	let ar=['्','ा','ि','ी','ु','ू','ृ','ॄ','ॢ','ॣ','े','ै','ो','ौ'];
+	let sd=['अ','आ','इ','ई','उ','ऊ','ऋ','ॠ','ऌ','ॡ','ए','ऐ','ओ','औ','ं','ः','।'];
+	let si=['a','ā','i','ī','u','ū','ṛ','ṝ','ḷ','ḹ','e','ai','o','au','ṃ','ḥ','.'];
+	let vmap={},amap={},smap={};
+	for(let i in vd){vmap[vd[i]]=vi[i];}
+	for(let i=1;i<ar.length;i++){amap[ar[i]]=si[i];}
+	for(let i in sd){smap[sd[i]]=si[i];}
+	let l=d.length,c2=d.charAt(0);
+	let c=c2;
+	for(let i=0;i<l;i++){
+		c=c2;c2=d.charAt(i<l-1?i+1:i);
+		s.push(vd.includes(c)?(!ar.includes(c2)?vmap[c]+'a':vmap[c]):ar.includes(c)?amap[c]:sd.includes(c)?smap[c]:c);
+	}
+	return s.join('');
+}
+
+function loadfonts(fonts) {
+	let fp=[];
+	for(let font of fonts) { 
+		fp.push(new Promise(function(resolve,reject) {
 			WebFont.load({google:font.t?{families: [font.f],text:font.t}:{families: [font.f]},fontactive: resolve});}));
 	}
-	return Promise.all(fontpromises);
+	return Promise.all(fp);
 }
-function assign(element,eventtype,callback){
-	if(window.PointerEvent) {
-		if(eventtype=='down') element.addEventListener('pointerdown',callback);
-		else if(eventtype=='up') {
-			element.addEventListener('pointerup',callback);
-			element.addEventListener('pointercancel',callback);
-		}
-		else if(eventtype=='move') {
-			element.addEventListener('pointermove',callback);
-		}
-		else throw 'invalid event-type'
-	}
-	else {
-		if(eventtype=='down') {
-			element.addEventListener('touchstart',callback);
-			element.addEventListener('mousedown',callback);
-		}
-		else if(eventtype=='up') {
-			element.addEventListener('touchend',callback);
-			element.addEventListener('mouseup',callback);
-			element.addEventListener('touchcancel',callback);
-		}
-		else if(eventtype=='move') {
-			element.addEventListener('touchmove',callback);
-			element.addEventListener('mousemove',callback);
-		}
-		else throw 'invalid event-type'
-	}
+function assign(e,et,c)/*element, eventtype, callback*/{
+	let p='pointer',t='touch',m='mouse',d='down',u='up',v='move';
+	let efs=window.PointerEvent?(et==d?[p+d]:et==u?[p+u,p+'cancel']:et==v?[p+v]:[]):et==d?[t+'start',m+d]:et==u?[t+'end',m+u,t+'cancel']:et==v?[t+v,m+v]:[];
+	efs.forEach(function(ef){e.addEventListener(ef,c)});
 }
 
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
