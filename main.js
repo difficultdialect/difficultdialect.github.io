@@ -367,7 +367,7 @@ function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 		let p=i%c;
 		l.push(p<10 ? p*w : p<19 ? (p-9.5)*w : (p-17.5)*w);
 		t.push(p<10 ? 0 : p<19 ? kh*w : 2*kh*w);
-		e.push(a.charAt(i)!==' '?`<div class=\'lsq${i<c?'':' twostate'}\' id=\'${i}sq\' style=\'background-color:inherit; position:absolute; top:${t[i]}px; ${p==10?'right:'+8.5*w:'left:'+l[i]}px; width:${p==10||p==18?'20':'10'}%; padding-top:${kh*w}px\'; display:\'${i<c?'block':'block'}\'\'><div style=\'position:absolute; bottom:0; line-height:${kh*w}px; width: ${w}px; font-size: ${Math.floor(f*kh*w)}px; text-align:center; ${i<c?'':' font-weight:bold;'} ${p==10?'right:0':''}\'>${a.charAt(i)}</div></div>`:'');
+		e.push(a.charAt(i)!==' '?`<div class=\'lsq${i<c?'':' twostate'}\' id=\'${i}sq\' style=\'background-color:inherit; position:absolute; top:${t[i]}px; ${p==10?'right:'+8.5*w:'left:'+l[i]}px; width:${p==10||p==18?'20':'10'}%; padding-top:${kh*w}px\'; display:\'${i<c?'block':'none'}\'\'><div style=\'position:absolute; bottom:0; line-height:${kh*w}px; width: ${w}px; font-size: ${Math.floor(f*kh*w)}px; text-align:center; ${i<c?'':' font-weight:bold;'} ${p==10?'right:0':''}\'>${a.charAt(i)}</div></div>`:'');
 	}
 	display.kbd.lefts=l;display.kbd.tops=t;
 	for(s of [0,1,2,3]){
@@ -420,7 +420,7 @@ function recalculate() {
 	keysdeclaration = keysdeclaration + bar;
 
 	$('#primarykeyboard').html(keysdeclaration);
-	
+	updateKeyboardLook(kbdstate);
 	assign(ei('shift'),'down',function() {
 		if(!kbdstate.shiftmode) kbdstate.edit(false,-1,true,-1);
 		else kbdstate.edit(false,-1,false,-1);});
