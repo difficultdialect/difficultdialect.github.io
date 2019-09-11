@@ -389,9 +389,9 @@ function updateKeyboardLook(kbs/*keyboard state*/){
 		ds.left=d.kbd.lefts[k]+'px';
 		ei('displaytext').innerHTML=design.letters[k];
 	}
-	if(s) for(e of ec('twostate')) {e.style.display='block';}
-	else if (sk>-1) ei(sk+'sq').style.display='block';
-	else for(e of ec('twostate')) {e.style.display='none';}
+	let se=sk>-1?ei(sk+'sq'):null;
+	for(e of ec('twostate')) {e.style.display=s?'block':'none';}
+	if(sk) sk.style.display='block';
 }
 function drawkey(w,h,ps,c){ /*width, keyheight, color*/
 	let polys=[];
