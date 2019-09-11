@@ -401,9 +401,9 @@ function updateKeyboardLook(kbs/*keyboard state*/){
 		ds.left=d.kbd.lefts[k]+'px';
 		document.getElementById('displaytext').innerHTML=design.letters[k];
 	}
-	if(s) document.getElementsByClassName('twostate').style.display='block';
+	if(s) for(e of document.getElementsByClassName('twostate')) {e.style.display='block';}
 	else if (sk>-1) document.getElementById(sk+'sq').style.display='block';
-	else document.getElementsByClassName('twostate').style.display='none';
+	else for(e of document.getElementsByClassName('twostate')) {e.style.display='none';}
 }
 function drawkey(w,h,ps,c){ /*width, keyheight, color*/
 	let polys=[];
