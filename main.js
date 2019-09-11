@@ -58,7 +58,7 @@ var display={
 var kbdstateproto={
 	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1,
 };
-var kbdstate=object.create(kbdstateproto);
+var kbdstate=Object.create(kbdstateproto);
 
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
@@ -460,7 +460,7 @@ function closekeyboard() {
 			$('#primarykeyboard').hide();
 		},
 		200);
-	kbdstate.open=object.create(kbdstateproto);
+	kbdstate.open=Object.create(kbdstateproto);
 }
 
 function dToIAST(d) {
