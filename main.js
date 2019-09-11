@@ -57,6 +57,7 @@ var display={
 };
 var kbdstateproto={
 	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1,
+	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);}
 };
 var kbdstate=Object.create(kbdstateproto);
 
@@ -191,8 +192,6 @@ function activatebutton() {
 function subnext() {
 	if(buttonstate==1) {
 		buttonstate=0;
-		$('#shiftkeyboard').hide();
-		clearpressed();
 		localStorage.setItem('order',JSON.stringify(userstate.order));
 		TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){}});
 		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
@@ -343,25 +342,12 @@ function back() {
 	} else {
 		$('#input').html(inputtext);
 	}
-	clearpressed();
-}
-
-function clearpressed() {
-	for(e of document.getElementsByClassName('twostate')) {e.style.display='none';}
-	kbdstate.shiftedkey=-1;
-}
-function pressAll() {
-	for(e of document.getElementsByClassName('twostate')) {e.style.display='block';}
 }
 
 function showdisplay(e) {
-	ds=document.getElementById('displaysq');
-	ds.style.left=display.kbd.lefts[parseInt(e.currentTarget.id.slice(-4, -2))]+'px';
-	ds.style.top=(display.kbd.tops[parseInt(e.currentTarget.id.slice(-4, -2))]-0*display.w * theme.kbd.keyh / 10.0) + 'px';
-	document.getElementById('displaytext').innerHTML=e.currentTarget.children[0].innerHTML;
-	ds.style.display='block';
+	kbdstate.edit(false,parseInt(e.currentTarget.id.slice(-4, -2)),kbdstate.shiftmode,kbdstate.shiftedkey);
 }
-function hidedisplay() {document.getElementById('displaysq').style.display='none';}
+function hidedisplay() {kbdstate.edit(false,-1,kbdstate.shiftmode,kbdstate.shiftedkey);}
 function type(e) {
 	if(kbdstate.open){
 		let c=design.letters.length/2;
@@ -376,18 +362,14 @@ function type(e) {
 			document.location.reload(true);
 		}
 		if (design.pressable[i] && kbdstate.shiftedkey !== i+c) {
-			clearpressed();
-			document.getElementById((i+c)+'sq').style.display='block';
-			kbdstate.shiftedkey = i+c;
-		} else clearpressed();
+			kbdstate.edit(false,-1,false,i+c);
+		} else kbdstate.edit(false,-1,false,-1);
 		if (inputtext == slide[userstate.order[0]].a) {
 			activatebutton();
 		}
-		kbdstate.shiftmode=false;
 	}
 	hidedisplay();
 	try{clearInterval(backaction);}catch(e){}
-    $('#backsq').html(normalback);    
 }
 
 
@@ -452,10 +434,10 @@ function recalculate() {
 	$('#primarykeyboard').html(keysdeclaration);
 	
 	assign(document.getElementById('shift'),'down',function() {
-		if(!kbdstate.shiftmode) {pressAll();kbdstate.shiftmode=true;}
-		else {clearpressed();kbdstate.shiftmode=false;}});
-	assign(document.getElementById('back'),'down',function(){$('#back').html(pressedback);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
-	assign(document.getElementById('back'),'up',function(){$('#back').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
+		if(!kbdstate.shiftmode) kbdstate.edit(false,-1,true,-1);
+		else kbdstate.edit(false,-1,false,-1);});
+	assign(document.getElementById('back'),'down',function(){kbdstate.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(document.getElementById('back'),'up',function(){kbdstate.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of document.getElementsByClassName('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
 	
 	$('#displaytext').height(2.3*display.w*theme.kbd.keyh/10.0);
