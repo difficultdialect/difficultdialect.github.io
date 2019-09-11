@@ -374,10 +374,10 @@ function type(e) {
 			localStorage.setItem('order','');
 			document.location.reload(true);
 		}
-		if (design.pressable[i] && kbstate.shiftedkey !== i+c) {
+		if (design.pressable[i] && kbdstate.shiftedkey !== i+c) {
 			clearpressed();
 			document.getElementById(i+'sq').style.display='block';
-			kbdtate.shiftedkey = i+c;
+			kbdstate.shiftedkey = i+c;
 		} else clearpressed();
 		if (inputtext == slide[userstate.order[0]].a) {
 			activatebutton();
