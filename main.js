@@ -71,8 +71,8 @@ var design={
 	backdrawing:[ [5,5, 5,4, 2,4, 1,2.5, 2,1, 5,1, 5,0, 0,0, 0,5],
 		[5,5, 5,0, 4,0, 4,5] ],
 };
-var ei=document.getElementById;
-var ec=document.getElementsByClassName;
+var ei=document.getElementById.bind(document);
+var ec=document.getElementsByClassName.bind(document);
 var buttonstate=0;
 var pressed=-1;
 var inputtext='';
