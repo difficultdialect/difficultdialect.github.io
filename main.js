@@ -391,7 +391,7 @@ function updateKeyboardLook(kbs/*keyboard state*/){
 	}
 	let se=sk>-1?ei(sk+'sq'):null;
 	for(e of ec('twostate')) {e.style.display=s?'block':'none';}
-	if(sk) sk.style.display='block';
+	if(se) se.style.display='block';
 }
 function drawkey(w,h,ps,c){ /*width, keyheight, color*/
 	let polys=[];
