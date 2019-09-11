@@ -438,6 +438,7 @@ function openkeyboard() {
 	$('#primarykeyboard').show();
 	$('#primarykeyboard').height(display.w * theme.kbd.keyh * theme.kbd.h);
 	kbdstate.open=true;
+	kbdstate.edit(false,-1,false,-1);
 }
 
 function closekeyboard() {
