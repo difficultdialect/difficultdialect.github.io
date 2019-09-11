@@ -446,7 +446,7 @@ function closekeyboard() {
 			$('#primarykeyboard').hide();
 		},
 		200);
-	kbdstate.open=Object.create(kbdstateproto);
+	kbdstate=Object.create(kbdstateproto);
 }
 
 function dToIAST(d) {
