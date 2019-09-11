@@ -376,12 +376,13 @@ function type(e) {
 		}
 		if (design.pressable[i] && kbdstate.shiftedkey !== i+c) {
 			clearpressed();
-			document.getElementById(i+'sq').style.display='block';
+			document.getElementById((i+c)+'sq').style.display='block';
 			kbdstate.shiftedkey = i+c;
 		} else clearpressed();
 		if (inputtext == slide[userstate.order[0]].a) {
 			activatebutton();
 		}
+		kbdstate.shiftmode=false;
 	}
 	hidedisplay();
 	try{clearInterval(backaction);}catch(e){}
