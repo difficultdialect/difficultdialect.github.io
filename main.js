@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	loadfonts(theme.fonts).then(function() {
+	loadFonts(theme.fonts).then(function() {
 			recalculate();
 			var savedorder;
 			/*try {
@@ -23,7 +23,15 @@ $(document).ready(function() {
 		});
 });
 
-
+async function startApp(){
+	let windowIsLoaded=new Promise(function(resolve,reject){window.onload(resolve);});
+	windowIsLoaded.then(function(){document.body.style.backgroundSize='0px';});
+	let fontsAreLoaded=loadFonts(theme.fonts);
+	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
+	while(true){
+		
+	}
+}
 
 
 /*
@@ -74,12 +82,7 @@ var design={
 var ei=document.getElementById.bind(document);
 var ec=document.getElementsByClassName.bind(document);
 var buttonstate=0;
-var pressed=-1;
 var inputtext='';
-var normalshift;
-var pressedshift;
-var normalback;
-var pressedback;
 var nimages=0;
 var backaction;
 var slideover=0;
@@ -154,7 +157,6 @@ for(let i=0;i<slide.length;i++){
 	userstate.prof.push(-1);
 	userstate.int.push(2);
 }
-console.log(userstate.order.length);
 
 
 
@@ -471,7 +473,7 @@ function dToIAST(d) {
 	return s.join('');
 }
 
-function loadfonts(fonts) {
+function loadFonts(fonts) {
 	let fp=[];
 	for(let font of fonts) { 
 		fp.push(new Promise(function(resolve,reject) {
