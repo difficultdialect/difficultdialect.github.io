@@ -51,10 +51,15 @@ var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights /
 	   bgcolor: '#ffffff',textcolor: '#000000',
 	   fonts:[{n:'Martel, serif',f:'Martel:400,700:devanagari'},{n:'Montserrat, sans-serif',f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
 var display={
-	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[], shiftmode:false},
+	w:document.body.offsetWidth, h:document.body.offsetHeight, kbd:{lefts:[], tops:[],},
 	populate:function(_theme){},
 	recalculate:function(_theme){},
 };
+var kbdstateproto={
+	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1,
+};
+var kbdstate=object.create(kbdstateproto);
+
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
 	letters:	'ṃśertyuiopasdṭghjklḍṣcvbnm'+
@@ -66,7 +71,6 @@ var design={
 		[5,5, 5,0, 4,0, 4,5] ],
 };
 
-var kbdstate=0;
 var buttonstate=0;
 var pressed=-1;
 var inputtext='';
@@ -78,8 +82,8 @@ var nimages=0;
 var backaction;
 var slideover=0;
 var hintasked=false;
-//assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(1);}catch(e){}});
-//assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate==1) navigator.vibrate(1);}catch(e){}});
+//assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
+//assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
@@ -159,7 +163,7 @@ window.addEventListener('resize', function(event) {
 		display.w = document.body.offsetWidth;
 		display.h = document.body.offsetHeight;
 		recalculate();
-		if (kbdstate == 1) openkeyboard();
+		if (kbdstate.open) openkeyboard();
 	}
 });
 var buttonblink=new TimelineMax({repeat: -1});
@@ -358,26 +362,26 @@ function showdisplay(e) {
 }
 function hidedisplay() {document.getElementById('displaysq').style.display='none';}
 function type(e) {
-	if(kbdstate==1){
-	var i = parseInt(e.currentTarget.id.slice(-4, -2));
-	if (pressed == i) {
-		inputtext = inputtext.slice(0, -1);
-	}
-	inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
-	$('#input').html(inputtext);
-	if(inputtext=='nivartanam') {
-		localStorage.setItem('order','');
-		document.location.reload(true);
-	}
-	if (design.pressable[i] && pressed !== i) {
-		clearpressed();
-		e.currentTarget.children[0].classList.add('pressed');
-		e.currentTarget.children[0].innerHTML = design.sletters[i];
-		pressed = i;
-	} else clearpressed();
-	if (inputtext == slide[userstate.order[0]].a) {
-		activatebutton();
-	}
+	if(kbdstate.open){
+		let c=design.letters.length;
+		let i = parseInt(e.currentTarget.id.slice(-4, -2));
+		if (kbdstate.shiftedkey == i) {
+			inputtext = inputtext.slice(0, -1);
+		}
+		inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
+		$('#input').html(inputtext);
+		if(inputtext=='nivartanam') {
+			localStorage.setItem('order','');
+			document.location.reload(true);
+		}
+		if (design.pressable[i] && kbstate.shiftedkey !== i+c) {
+			clearpressed();
+			document.getElementById(i+'sq').style.display='block';
+			kbdtate.shiftedkey = i+c;
+		} else clearpressed();
+		if (inputtext == slide[userstate.order[0]].a) {
+			activatebutton();
+		}
 	}
 	hidedisplay();
 	try{clearInterval(backaction);}catch(e){}
@@ -432,8 +436,8 @@ function recalculate() {
 	$('#primarykeyboard').html(keysdeclaration);
 	
 	assign(document.getElementById('shift'),'down',function() {
-		if(!display.kbd.shiftmode) {pressAll();display.kbd.shiftmode=true;}
-		else {clearpressed();display.kbd.shiftmode=false;}});
+		if(!kbdstate.shiftmode) {pressAll();kbdstate.shiftmode=true;}
+		else {clearpressed();kbdstate.shiftmode=false;}});
 	assign(document.getElementById('back'),'down',function(){$('#back').html(pressedback);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
 	assign(document.getElementById('back'),'up',function(){$('#back').html(normalback);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of document.getElementsByClassName('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
@@ -447,7 +451,7 @@ function recalculate() {
 function openkeyboard() {
 	$('#primarykeyboard').show();
 	$('#primarykeyboard').height(display.w * theme.kbd.keyh * theme.kbd.h);
-	kbdstate = 1;
+	kbdstate.open=true;
 }
 
 function closekeyboard() {
@@ -456,7 +460,7 @@ function closekeyboard() {
 			$('#primarykeyboard').hide();
 		},
 		200);
-	kbdstate = 0;
+	kbdstate.open=object.create(kbdstateproto);
 }
 
 function dToIAST(d) {
