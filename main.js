@@ -11,14 +11,14 @@ $(document).ready(function() {
 				if(lastentry <slide.length) order =savedorder;
 			} catch(e) {}*/
 			document.body.style.backgroundSize = '0px';
-			assign(document.getElementById('outerspace'),'down',subnext);
-			assign(document.getElementById('primarykeyboard'),'down',bringinputtofocus);
-			assign(document.getElementById('shiftkeyboard'),'down',bringinputtofocus);
+			assign(ei('outerspace'),'down',subnext);
+			assign(ei('primarykeyboard'),'down',bringinputtofocus);
+			assign(ei('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
 			next();
 			ready();
 			
-	var button=document.getElementById('outerspace');
+	var button=ei('outerspace');
 	buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
 		});
 });
@@ -71,7 +71,8 @@ var design={
 	backdrawing:[ [5,5, 5,4, 2,4, 1,2.5, 2,1, 5,1, 5,0, 0,0, 0,5],
 		[5,5, 5,0, 4,0, 4,5] ],
 };
-
+var ei=document.getElementById;
+var ec=document.getElementsByClassNames;
 var buttonstate=0;
 var pressed=-1;
 var inputtext='';
@@ -83,8 +84,8 @@ var nimages=0;
 var backaction;
 var slideover=0;
 var hintasked=false;
-//assign(document.getElementById('primarykeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
-//assign(document.getElementById('shiftkeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
+//assign(ei('primarykeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
+//assign(ei('shiftkeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
@@ -279,7 +280,7 @@ function showspace() {
 		$('.hint').hide();
 		$('.hint').css('opacity','0');
 		$('.hintbutton').show();
-		assign(document.getElementById('hintbutton'),'down',showhint);
+		assign(ei('hintbutton'),'down',showhint);
 	}
 	inputtext = '';
 	hintasked=false;
@@ -303,7 +304,7 @@ function showspace() {
 		$(this).find('img').css('max-width',(Math.floor(ew/nml)-Math.ceil(0.8*em))+'px');
 	});
 	recalculate();
-	document.getElementById('space').scrollIntoView({
+	ei('space').scrollIntoView({
 			block: 'start',
 			behavior: 'smooth'
 		});
@@ -328,7 +329,7 @@ function showspace() {
 }
 
 function bringinputtofocus() {
-	document.getElementById('outerspace').scrollIntoView({
+	ei('outerspace').scrollIntoView({
 		block: 'end',
 		behavior: 'smooth'
 	});
@@ -337,7 +338,6 @@ function back() {
 	inputtext = inputtext.slice(0, -1);
 	if (inputtext == '') {
 		$('#input').html('');
-               $('#backsq').html(normalback);
                   try{clearInterval(backaction);}catch(e){}
 	} else {
 		$('#input').html(inputtext);
@@ -350,28 +350,17 @@ function showdisplay(e) {
 function hidedisplay() {kbdstate.edit(false,-1,kbdstate.shiftmode,kbdstate.shiftedkey);}
 function type(e) {
 	if(kbdstate.open){
-		let c=design.letters.length/2;
 		let i = parseInt(e.currentTarget.id.slice(-4, -2));
-		if (kbdstate.shiftedkey == i) {
-			inputtext = inputtext.slice(0, -1);
-		}
+		let ip=i+design.letters.length/2;
+		if (kbdstate.shiftedkey == i) inputtext = inputtext.slice(0, -1);
 		inputtext = inputtext.concat(e.currentTarget.children[0].innerHTML);
 		$('#input').html(inputtext);
-		if(inputtext=='nivartanam') {
-			localStorage.setItem('order','');
-			document.location.reload(true);
-		}
-		if (design.pressable[i] && kbdstate.shiftedkey !== i+c) {
-			kbdstate.edit(false,-1,false,i+c);
-		} else kbdstate.edit(false,-1,false,-1);
-		if (inputtext == slide[userstate.order[0]].a) {
-			activatebutton();
-		}
+				if(inputtext=='nivartanam') {localStorage.setItem('order','');document.location.reload(true);}
+		if (inputtext == slide[userstate.order[0]].a) activatebutton();
+		kbdstate.edit(false,-1,false,(design.pressable[i] && kbdstate.shiftedkey !== ip)?ip:-1);
 	}
-	hidedisplay();
 	try{clearInterval(backaction);}catch(e){}
 }
-
 
 function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 	let e=[],l=[],t=[],w=kbw/10,kh=kbd.keyh,f=kbd.fontSize,c=a.length/2;
@@ -391,19 +380,19 @@ function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 	e.push(`<div id=\'displaysq\' style=\'position:absolute;width:10%;padding-top:${kh*w}px;\'><div id=\'displaytext\' style=\'position:absolute; bottom:0; line-height:${kh*w}px; width:${w}px; font-size: ${Math.floor(f*kh*w)}px; font-weight:bold; text-align:center;background-color:${kbd.displaycolor}\'></div></div>`);
 	return e.join('');
 }
-/*open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1,*/
 function updateKeyboardLook(kbs/*keyboard state*/){
-	let s=kbs.shiftmode,k=kbs.keydown,d=display,ds=document.getElementById('displaysq').style,sk=kbs.shiftedkey;
-	document.getElementById('back').innerHTML=d[(kbs.backdown||s?'pressed':'')+'back'];
+	let s=kbs.shiftmode,k=kbs.keydown,d=display,ds=ei('displaysq').style,sk=kbs.shiftedkey;
+	ei('back').innerHTML=d[(kbs.backdown||s?'pressed':'')+'back'];
+	ei('shift').innerHTML=d[(s?'pressed':'')+'shift'];
 	ds.display=k>-1?'block':'none';
 	if(k>-1){
 		ds.top=d.kbd.tops[k]+'px';
 		ds.left=d.kbd.lefts[k]+'px';
-		document.getElementById('displaytext').innerHTML=design.letters[k];
+		ei('displaytext').innerHTML=design.letters[k];
 	}
-	if(s) for(e of document.getElementsByClassName('twostate')) {e.style.display='block';}
-	else if (sk>-1) document.getElementById(sk+'sq').style.display='block';
-	else for(e of document.getElementsByClassName('twostate')) {e.style.display='none';}
+	if(s) for(e of ec('twostate')) {e.style.display='block';}
+	else if (sk>-1) ei(sk+'sq').style.display='block';
+	else for(e of ec('twostate')) {e.style.display='none';}
 }
 function drawkey(w,h,ps,c){ /*width, keyheight, color*/
 	let polys=[];
@@ -433,12 +422,12 @@ function recalculate() {
 
 	$('#primarykeyboard').html(keysdeclaration);
 	
-	assign(document.getElementById('shift'),'down',function() {
+	assign(ei('shift'),'down',function() {
 		if(!kbdstate.shiftmode) kbdstate.edit(false,-1,true,-1);
 		else kbdstate.edit(false,-1,false,-1);});
-	assign(document.getElementById('back'),'down',function(){kbdstate.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
-	assign(document.getElementById('back'),'up',function(){kbdstate.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
-	for(let lsq of document.getElementsByClassName('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
+	assign(ei('back'),'down',function(){kbdstate.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(ei('back'),'up',function(){kbdstate.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
+	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
 	
 	$('#displaytext').height(2.3*display.w*theme.kbd.keyh/10.0);
 	$('#displaytext').css('border-radius',display.w/40);
@@ -494,5 +483,4 @@ function assign(e,et,c)/*element, eventtype, callback*/{
 	let efs=window.PointerEvent?(et==d?[p+d]:et==u?[p+u,p+'cancel']:et==v?[p+v]:[]):et==d?[t+'start',m+d]:et==u?[t+'end',m+u,t+'cancel']:et==v?[t+v,m+v]:[];
 	efs.forEach(function(ef){e.addEventListener(ef,c)});
 }
-
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
