@@ -348,6 +348,7 @@ function back() {
 
 function clearpressed() {
 	for(e of document.getElementsByClassName('twostate')) {e.style.display='none';}
+	kbdstate.shiftedkey=-1;
 }
 function pressAll() {
 	for(e of document.getElementsByClassName('twostate')) {e.style.display='block';}
