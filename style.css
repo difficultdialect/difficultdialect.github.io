@@ -37,6 +37,7 @@ body {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	display: none;
+	box-shadow: inset 0 0 8px #c0c0c0;
 }
 #space, #spacebuffer{
 	opacity: 0;
@@ -51,7 +52,6 @@ body {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	display: block;
-	box-shadow: 0 0 8px 0 #c0c0c0;
 }
 #spacebuffer{
 	display: none;
