@@ -404,10 +404,24 @@ function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 		let p=s%2?'pressed':'',k=s<2?'shift':'back';
 		d=drawkey(w,kh,design[k+'drawing'],kbd['shiftback'+p+'color']);
 		display[p+k]=d;
-		if(!(s%2)) e.push(`<div style=\'position:absolute; width:${1.5*w}px; height:${kh*w}px; top:${2*kh*w}px; ${s>1?'right:0;':''} text-align:center;\' id=\'${k}\' ${s%2?'class=\'twostate\'':''}'>${d}</div>`);
+		if(!(s%2)) e.push(`<div style=\'position:absolute; width:${1.5*w}px; height:${kh*w}px; top:${2*kh*w}px; ${s>1?'right:0;':''} text-align:center;\' id=\'${k}\''>${d}</div>`);
 	}	
 	e.push(`<div id=\'displaysq\' style=\'position:absolute;width:10%;padding-top:${kh*w}px;\'><div id=\'displaytext\' style=\'position:absolute; bottom:0; line-height:${kh*w}px; width:${w}px; font-size: ${Math.floor(f*kh*w)}px; font-weight:bold; text-align:center;background-color:${kbd.displaycolor}\'></div></div>`);
 	return e.join('');
+}
+/*open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1,*/
+function updateKeyboardLook(kbs/*keyboard state*/){
+	let s=kbs.shiftmode,k=kbs.keydown,d=display,ds=document.getElementById('displaysq').style,sk=kbs.shiftedkey;
+	document.getElementById('back').innerHTML=d[(kbs.backdown||s?'pressed':'')+'back'];
+	ds.display=k>-1?'block':'none';
+	if(k>-1){
+		ds.top=d.kbd.tops[k]+'px';
+		ds.left=d.kbd.lefts[k]+'px';
+		document.getElementById('displaytext').innerHTML=design.letters[k];
+	}
+	if(s) document.getElementsByClassName('twostate').style.display='block';
+	else if (sk>-1) document.getElementById(sk+'sq').style.display='block';
+	else document.getElementsByClassName('twostate').style.display='none';
 }
 function drawkey(w,h,ps,c){ /*width, keyheight, color*/
 	let polys=[];
