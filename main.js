@@ -88,10 +88,9 @@ var hintasked=false;
 //assign(ei('shiftkeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
-	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
 	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
-	{q:'[himavan]{🏊🏼‍♂️}देवोनद्यांतरति।',d:''},
-	{q:'[sitavyaghrah]{🏊🏼‍♂️}देवःकुत्रतरति?',d:'@नद्याम्'},
+	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।',d:''},
+	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?',d:'@नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?',d:'@तरति'},
 	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।',d:''},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'@शालाम्'},
@@ -368,7 +367,7 @@ function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 		let p=i%c;
 		l.push(p<10 ? p*w : p<19 ? (p-9.5)*w : (p-17.5)*w);
 		t.push(p<10 ? 0 : p<19 ? kh*w : 2*kh*w);
-		e.push(a.charAt(i)!==' '?`<div class=\'lsq${i<c?'':' twostate'}\' id=\'${i}sq\' style=\'position:absolute; top:${t[i]}px; ${p==10?'right:'+8.5*w:'left:'+l[i]}px; width:${p==10||p==18?'20':'10'}%; padding-top:${kh*w}px\'; display:\'${i<c?'block':'block'}\'\'><div style=\'position:absolute; bottom:0; line-height:${kh*w}px; width: ${w}px; font-size: ${Math.floor(f*kh*w)}px; text-align:center; ${i<c?'':' font-weight:bold;'} ${p==10?'right:0':''}\'>${a.charAt(i)}</div></div>`:'');
+		e.push(a.charAt(i)!==' '?`<div class=\'lsq${i<c?'':' twostate'}\' id=\'${i}sq\' style=\'background-color:inherit; position:absolute; top:${t[i]}px; ${p==10?'right:'+8.5*w:'left:'+l[i]}px; width:${p==10||p==18?'20':'10'}%; padding-top:${kh*w}px\'; display:\'${i<c?'block':'block'}\'\'><div style=\'position:absolute; bottom:0; line-height:${kh*w}px; width: ${w}px; font-size: ${Math.floor(f*kh*w)}px; text-align:center; ${i<c?'':' font-weight:bold;'} ${p==10?'right:0':''}\'>${a.charAt(i)}</div></div>`:'');
 	}
 	display.kbd.lefts=l;display.kbd.tops=t;
 	for(s of [0,1,2,3]){
@@ -382,7 +381,7 @@ function drawKeyboard(a,kbd/*kbd theme*/,kbw){
 }
 function updateKeyboardLook(kbs/*keyboard state*/){
 	let s=kbs.shiftmode,k=kbs.keydown,d=display,ds=ei('displaysq').style,sk=kbs.shiftedkey;
-	ei('back').innerHTML=d[(kbs.backdown||s?'pressed':'')+'back'];
+	ei('back').innerHTML=d[(kbs.backdown?'pressed':'')+'back'];
 	ei('shift').innerHTML=d[(s?'pressed':'')+'shift'];
 	ds.display=k>-1?'block':'none';
 	if(k>-1){
