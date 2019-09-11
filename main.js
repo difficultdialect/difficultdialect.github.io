@@ -72,7 +72,7 @@ var design={
 		[5,5, 5,0, 4,0, 4,5] ],
 };
 var ei=document.getElementById;
-var ec=document.getElementsByClassNames;
+var ec=document.getElementsByClassName;
 var buttonstate=0;
 var pressed=-1;
 var inputtext='';
