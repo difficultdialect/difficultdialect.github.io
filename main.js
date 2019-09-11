@@ -363,7 +363,7 @@ function showdisplay(e) {
 function hidedisplay() {document.getElementById('displaysq').style.display='none';}
 function type(e) {
 	if(kbdstate.open){
-		let c=design.letters.length;
+		let c=design.letters.length/2;
 		let i = parseInt(e.currentTarget.id.slice(-4, -2));
 		if (kbdstate.shiftedkey == i) {
 			inputtext = inputtext.slice(0, -1);
