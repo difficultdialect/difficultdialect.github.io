@@ -19,7 +19,7 @@ $(document).ready(function() {
 			ready();
 			
 	var button=ei('outerspace');
-	buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
+	//buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
 		});
 });
 
