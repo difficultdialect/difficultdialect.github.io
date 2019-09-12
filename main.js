@@ -346,7 +346,8 @@ function back() {
 }
 
 function showdisplay(e) {
-	kbdstate.edit(false,parseInt(e.currentTarget.id.slice(-4, -2)),kbdstate.shiftmode,kbdstate.shiftedkey);
+	let i=parseInt(e.currentTarget.id.slice(-4, -2));
+	kbdstate.edit(false,i,kbdstate.shiftmode,i==kbdstate.shiftedkey?i:-1);
 }
 function hidedisplay() {kbdstate.edit(false,-1,kbdstate.shiftmode,kbdstate.shiftedkey);}
 function type(e) {
