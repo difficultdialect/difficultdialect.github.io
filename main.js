@@ -293,19 +293,19 @@ function showspace() {
 	inputtext = '';
 	hintasked=false;
 	if(userstate.order[1]==0) { renderButton(); //TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',0.5);
+		fadeIn('space',1);
 		closekeyboard ();}
 	else if (slide[userstate.order[1]].a == '') {
 		$('#space').css('padding-bottom','1em');
 		//TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
-		fadeIn('space',0.5).then(activatebutton);
+		fadeIn('space',1).then(activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',2);
+		fadeIn('space',1);
 		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
-		transit1('inputplace','width','100%',0.5);
+		transit1('inputplace','width','100%',1);
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
