@@ -202,7 +202,7 @@ function subnext() {
 		//fadeOut('outerspace',0.5);
 		//fadeOut('space',0.5).then(function(){slideover=1; ready();});
 		//if(ei('correct')) fadeOut('correct',0.1).then(function(){return transit1('inputplace','width','0px',0.4);});
-		Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.3).then(function(){return transit1('inputplace','width','0px',0.7);}):Promise.resolve()])
+		Promise.all([fadeOut('outerspace',5),fadeOut('space',5),ei('correct')?fadeOut('correct',0.3).then(function(){return transit1('inputplace','width','0px',4.7);}):Promise.resolve()])
 			.then(function(){slideover=1; ready();});
 	}
 }
@@ -506,7 +506,7 @@ function show(id,d){ei(id).style.display=d||'inline-block';}
 function transit1(id,p,v,t)/*element-id property value time ease(optional)*/{
 	let e=ei(id);
 	e.style.transition=p+' '+t+'s';
-	e.style.width=v;
+	$('#'+id).css(p,v);
 	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
 }
 function fadeIn(id,t,d){
