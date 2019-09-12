@@ -490,7 +490,7 @@ function assign(e,et,c)/*element, eventtype, callback*/{
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
 function transit(e,t,s)/*element time state*/{
-	e.style.transition=
+	//e.style.transition=
 }
 function fadeIn(e,t){
 	e.style.transition=`opacity ${t}s`;
