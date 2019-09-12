@@ -507,18 +507,18 @@ function transit1(id,p,v,t)/*element-id property value time ease(optional)*/{
 	let e=ei(id);
 	e.style.transition=p+' '+t+'s';
 	$('#'+id).css(p,v);
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropogation();e.style.transition='';resolve();},{once:true});});
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
 function fadeIn(id,t,d){
 	let e=ei(id),ed=e.style.display;
 	e.style.display=ed=='none'?(d||'block'):ed;
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='1';
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropogation();e.style.transition='';resolve();},{once:true});});
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
 function fadeOut(id,t){
 	let e=ei(id);
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='0';
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropogation();e.style.transition='';resolve();},{once:true});});
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
