@@ -293,7 +293,8 @@ function showspace() {
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
-		TweenMax.to($('#space'),0.5,{opacity: '1'});
+		//TweenMax.to($('#space'),0.5,{opacity: '1'});
+		fadeIn(ei('space'),2);
 		TweenMax.to($('#inputplace'),0.5, {width: '100%'});
 		openkeyboard();
 	}
@@ -488,3 +489,11 @@ function assign(e,et,c)/*element, eventtype, callback*/{
 	efs.forEach(function(ef){e.addEventListener(ef,c)});
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
+function transit(e,t,s)/*element time state*/{
+	e.style.transition=
+}
+function fadeIn(e,t){
+	e.style.transition=`opacity ${t}s`;
+	e.style.opacity='1';
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',resolve);});
+}
