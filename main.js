@@ -176,7 +176,8 @@ function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
-	TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
+	//TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
+	fadeIn('outerspace',0.5);
 	//$('#button1').show();
 	
 	buttonblink.seek(0);
@@ -195,9 +196,12 @@ function subnext() {
 	if(buttonstate==1) {
 		buttonstate=0;
 		localStorage.setItem('order',JSON.stringify(userstate.order));
-		TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){}});
-		TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
-		TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
+		//TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){}});
+		//TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
+		//TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
+		fadeOut('outerspace',0.5);
+		fadeOut('space',0.5).then(function(){slideover=1; ready();});
+		fadeOut('correct',0.1).then(function(){transit1('inputplace','width','0px',0.4);});
 	}
 }
 
@@ -214,8 +218,9 @@ var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.<
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
-	TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
-	$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
+	//TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
+	fadeOut('hintbutton',0.5).then(function(){hide('hintbutton');fadeIn('hint',0.5);});
+	//$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
 /*
@@ -285,17 +290,20 @@ function showspace() {
 	}
 	inputtext = '';
 	hintasked=false;
-	if(userstate.order[1]==0) { renderButton(); TweenMax.to($('#space'),0.5,{opacity: '1'});
+	if(userstate.order[1]==0) { renderButton(); //TweenMax.to($('#space'),0.5,{opacity: '1'});
+		fadeIn('space',0.5);
 		closekeyboard ();}
 	else if (slide[userstate.order[1]].a == '') {
 		$('#space').css('padding-bottom','1em');
-		TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
+		//TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
+		fadeIn('space',0.5).then(activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
 		fadeIn(ei('space'),2);
-		TweenMax.to($('#inputplace'),0.5, {width: '100%'});
+		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
+		transit1('inputplace','width','100%',0.5);
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
@@ -489,11 +497,26 @@ function assign(e,et,c)/*element, eventtype, callback*/{
 	efs.forEach(function(ef){e.addEventListener(ef,c)});
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
-function transit(e,t,s)/*element time state*/{
-	//e.style.transition=
+
+function hide(id){ei(id).style.display='none';}
+function show(id,d){ei(id).style.display=d||'inline-block';}
+
+function transit1(id,p,v,t,ease)/*element-id property value time ease(optional)*/{
+	let e=ei(id);
+	e.style.transition=p+' '+t+'s';
+	$('#'+od).css(p,v);
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
 }
-function fadeIn(e,t){
+function fadeIn(id,t,d){
+	let e=ei(id);
+	e.style.display=d||'inline-block';
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='1';
+	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
+}
+function fadeOut(id,t){
+	let e=ei(id);
+	e.style.transition=`opacity ${t}s`;
+	e.style.opacity='0';
 	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
 }
