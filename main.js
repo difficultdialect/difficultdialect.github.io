@@ -504,7 +504,7 @@ function show(id,d){ei(id).style.display=d||'inline-block';}
 function transit1(id,p,v,t,ease)/*element-id property value time ease(optional)*/{
 	let e=ei(id);
 	e.style.transition=p+' '+t+'s';
-	$('#'+od).css(p,v);
+	$(id).css(p,v);
 	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
 }
 function fadeIn(id,t,d){
