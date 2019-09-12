@@ -177,7 +177,7 @@ function activatebutton() {
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
 	//TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
-	fadeIn('outerspace',0.5);
+	fadeIn('outerspace',1);
 	//$('#button1').show();
 	
 	buttonblink.seek(0);
@@ -202,7 +202,7 @@ function subnext() {
 		//fadeOut('outerspace',0.5);
 		//fadeOut('space',0.5).then(function(){slideover=1; ready();});
 		//if(ei('correct')) fadeOut('correct',0.1).then(function(){return transit1('inputplace','width','0px',0.4);});
-		Promise.all([fadeOut('outerspace',5),fadeOut('space',5),ei('correct')?fadeOut('correct',0.3).then(function(){return transit1('inputplace','width','0px',4.7);}):Promise.resolve()])
+		Promise.all([fadeOut('outerspace',2),fadeOut('space',2),ei('correct')?fadeOut('correct',0.5).then(function(){return transit1('inputplace','width','0px',1.5);}):Promise.resolve()])
 			.then(function(){slideover=1; ready();});
 	}
 }
@@ -221,7 +221,7 @@ var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'i
 var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
 	//TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
-	fadeOut('hintbutton',0.5).then(function(){hide('hintbutton');fadeIn('hint',0.5);});
+	fadeOut('hintbutton',2).then(function(){hide('hintbutton');fadeIn('hint',2);});
 	//$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
 	hintasked=true;
 }
@@ -298,12 +298,12 @@ function showspace() {
 	else if (slide[userstate.order[1]].a == '') {
 		$('#space').css('padding-bottom','1em');
 		//TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
-		fadeIn('space',0.5).then(activatebutton);
+		fadeIn('space',2).then(activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',0.5);
+		fadeIn('space',2);
 		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
 		transit1('inputplace','width',$('#space').width()+'px',10);
 		openkeyboard();
