@@ -305,7 +305,7 @@ function showspace() {
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
 		fadeIn('space',0.5);
 		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
-		transit1('inputplace','width','100%',10);
+		transit1('inputplace','width',$('space').width()+'px',10);
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(function(){
