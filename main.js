@@ -201,7 +201,7 @@ function subnext() {
 		//TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 		fadeOut('outerspace',0.5);
 		fadeOut('space',0.5).then(function(){slideover=1; ready();});
-		fadeOut('correct',0.1).then(function(){transit1('inputplace','width','0px',0.4);});
+		if(ei('correct')) fadeOut('correct',0.1).then(function(){transit1('inputplace','width','0px',0.4);});
 	}
 }
 
@@ -301,7 +301,7 @@ function showspace() {
 	} else {
 		$('#space').css('padding-bottom',0);
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn(ei('space'),2);
+		fadeIn('space',2);
 		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
 		transit1('inputplace','width','100%',0.5);
 		openkeyboard();
