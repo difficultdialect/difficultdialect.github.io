@@ -508,8 +508,8 @@ function transit1(id,p,v,t,ease)/*element-id property value time ease(optional)*
 	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
 }
 function fadeIn(id,t,d){
-	let e=ei(id);
-	e.style.display=d||'inline-block';
+	let e=ei(id),ed=e.style.display;
+	e.style.display=ed=='none'?(d||'block'):ed;
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='1';
 	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(){e.style.transition='';resolve();});});
