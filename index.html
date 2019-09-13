@@ -15,7 +15,6 @@
 
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="80454713351-hcuko5iqahegvtd32ucdfgekc6rcm3cp.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body id="body">
 <div id="primarykeyboard" class="keyboard nonselectable"></div>
@@ -25,7 +24,6 @@
 <div id="spacebuffer" style="z-index:-1"></div>
 <div id="outerspace"></div>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#config-web-app -->
@@ -47,22 +45,10 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>-->
-
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js'></script>
   <script src="main.js"></script>
 
 <script>
-// Check that service workers are supported
-if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
+
 </script>
 </body>
 </html>

@@ -1,38 +1,55 @@
-$(document).ready(function() {
-	loadFonts(theme.fonts).then(function() {
-			recalculate();
-			var savedorder;
-			/*try {
-				savedorder=JSON.parse(localStorage.getItem('order'));
-				var lastentry=savedorder[savedorder.length-1];
-				for(i=0;i<slide.length;i++) {
-					if(i>lastentry) savedorder.push(i);
-				}
-				if(lastentry <slide.length) order =savedorder;
-			} catch(e) {}*/
-			document.body.style.backgroundSize = '0px';
-			assign(ei('outerspace'),'down',subnext);
-			assign(ei('primarykeyboard'),'down',bringinputtofocus);
-			assign(ei('shiftkeyboard'),'down',bringinputtofocus);
-			slideover = 1;
-			next();
-			ready();
-			
-	var button=ei('outerspace');
-	//buttonblink.to(button,2,{ease: Power1.easeInOut, opacity: '1'}).to(button,2,{ease: Power1.easeInOut, opacity: '0'});
-		});
-});
+learnSanskrit();
 
-async function startApp(){
-	let windowIsLoaded=new Promise(function(resolve,reject){window.onload(resolve);});
-	windowIsLoaded.then(function(){document.body.style.backgroundSize='0px';});
-	let fontsAreLoaded=loadFonts(theme.fonts);
+async function learnSanskrit(){
+	let scripts={
+			jquery:'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+			webfont:'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',
+			twemoji:'https://twemoji.maxcdn.com/v/latest/twemoji.min.js',
+			platform:'https://apis.google.com/js/platform.js',
+			tweemax:'https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js', // not used
+			firebase:'https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js', // not used
+			firestore:'https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js',
+		};
+	await new Promise((resolve)=>{window.addEventListener('load',resolve);});
+	document.body.style.backgroundSize='0px';
+	//registerSW();
+	loadScripts([scripts.firebase,scripts.firestore]).then(setupFireStore);
+	await Promise.all([loadScripts(scripts.webfont)
+		.then(()=>{loadFonts(theme.fonts);}), loadScripts([scripts.twemoji,scripts.jquery])]);
+	starthere();
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
-	while(true){
+	while(false){
 		
 	}
 }
 
+function setupFireStore(){
+	var firebaseConfig = {
+			apiKey: "AIzaSyBrmEDT8Byp6oWbPDeQgmuSpya39RaJCto",
+			authDomain: "learn-sanskrit-251406.firebaseapp.com",
+			databaseURL: "https://learn-sanskrit-251406.firebaseio.com",
+			projectId: "learn-sanskrit-251406",
+			storageBucket: "",
+			messagingSenderId: "80454713351",
+			appId: "1:80454713351:web:22067edf4b1f97367c6aa2"
+		};
+	//const firebase = require("firebase");
+	// Required for side-effects
+	//require("firebase/firestore");
+	firebase.initializeApp(firebaseConfig);
+	var db=firebase.firestore();
+	db.collection("users").add({
+		first: "Ada",
+		last: "Lovelace",
+		born: 1815
+	})
+	.then(function(docRef) {
+		console.log("Document written with ID: ", docRef.id);
+	})
+	.catch(function(error) {
+		console.error("Error adding document: ", error);
+	});
+}
 
 /*
 function saveToFirebase(email) {
@@ -48,6 +65,29 @@ function saveToFirebase(email) {
         });
 }
 */
+
+function starthere(){
+	
+			recalculate();
+			//var savedorder;
+			/*try {
+				savedorder=JSON.parse(localStorage.getItem('order'));
+				var lastentry=savedorder[savedorder.length-1];
+				for(i=0;i<slide.length;i++) {
+					if(i>lastentry) savedorder.push(i);
+				}
+				if(lastentry <slide.length) order =savedorder;
+			} catch(e) {}*/
+			assign(ei('outerspace'),'down',subnext);
+			assign(ei('primarykeyboard'),'down',bringinputtofocus);
+			assign(ei('shiftkeyboard'),'down',bringinputtofocus);
+			slideover = 1;
+			next();
+			ready();	
+}
+
+
+
 var content={};	// question data
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
@@ -87,8 +127,8 @@ var nimages=0;
 var backaction;
 var slideover=0;
 var hintasked=false;
-//assign(ei('primarykeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
-//assign(ei('shiftkeyboard'),'down',function() {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
+//assign(ei('primarykeyboard'),'down',()=> {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
+//assign(ei('shiftkeyboard'),'down',()=> {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
@@ -169,7 +209,7 @@ window.addEventListener('resize', function(event) {
 		if (kbdstate.open) openkeyboard();
 	}
 });
-var buttonblink=new TimelineMax({repeat: -1});
+//var buttonblink=new TimelineMax({repeat: -1});
 
 
 function activatebutton() {
@@ -177,10 +217,10 @@ function activatebutton() {
 	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
 	buttonstate=1;
 	//TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
-	fadeIn('outerspace',1);
+	fadeIn('outerspace',0.5);
 	//$('#button1').show();
 	
-	buttonblink.seek(0);
+	//buttonblink.seek(0);
 	userstate.status[userstate.order[0]] = 2;
 	if(hintasked) userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] / 2;
 	else userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] * 2;
@@ -196,14 +236,11 @@ function subnext() {
 	if(buttonstate==1) {
 		buttonstate=0;
 		localStorage.setItem('order',JSON.stringify(userstate.order));
-		//TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: function(){}});
-		//TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: function() {slideover=1; ready();}});
-		//TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: function() {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
-		//fadeOut('outerspace',0.5);
-		//fadeOut('space',0.5).then(function(){slideover=1; ready();});
-		//if(ei('correct')) fadeOut('correct',0.1).then(function(){return transit1('inputplace','width','0px',0.4);});
-		Promise.all([fadeOut('outerspace',2),fadeOut('space',2),ei('correct')?fadeOut('correct',0.5).then(function(){return transit1('inputplace','width','0px',1.5);}):Promise.resolve()])
-			.then(function(){slideover=1; ready();});
+		//TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: ()=>{}});
+		//TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: ()=> {slideover=1; ready();}});
+		//TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: ()=> {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
+		Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit1('inputplace','width','0px',0.4);}):Promise.resolve()])
+			.then(()=>{slideover=1; ready();});
 	}
 }
 
@@ -220,9 +257,9 @@ var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.<
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
-	//TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: function() {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
-	fadeOut('hintbutton',2).then(function(){hide('hintbutton');fadeIn('hint',2);});
-	//$('.hintbutton').fadeOut(500,function(){$('.hint').fadeIn(500)});*/
+	//TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: ()=> {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
+	//fadeOut('hintbutton',2).then(()=>{hide('hintbutton');fadeIn('hint',2);});
+	$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
 	hintasked=true;
 }
 /*
@@ -234,21 +271,16 @@ function next() {
 	nimages = 0;
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
 	console.log('next');
-	let q = [];
-	let oq = slide[userstate.order[1]].q;
-	let lastput = 0;
-	let i=0;
+	let q = [],oq = slide[userstate.order[1]].q,lastput = 0,i=0;
 	for (i = 0; i < oq.length; i++) {
-		let c=oq.charAt(i);
-		let cm={'[':']','{':'}','(':')'};
+		let c=oq.charAt(i),cm={'[':']','{':'}','(':')'};
 		let cc=cm[c];
 		if(cc){
 			q.push(transliteral(oq.substring(lastput, i)));
 			lastput=i+1;
 			while(i<oq.length&&oq.charAt(i)!==cc){i++;}
 			if (c=='[') {
-				let image = oq.substring(lastput, i);
-				let sizes = [144, 240, 360, 480, 720, 1080];
+				let image = oq.substring(lastput, i),sizes = [144, 240, 360, 480, 720, 1080];
 				q.push(`<img src=\'images/${image}-360.jpeg\' sizes=\'100vw\' srcset=\'`);
 				for (let j in sizes) {
 					q.push(`images/${image}-${sizes[j]}.jpeg ${sizes[j]}w`);
@@ -275,7 +307,7 @@ function next() {
 	nimages=$('#spacebuffer').find('img').length;
 	console.log('nimages:'+nimages);
 	ready();
-	$('#spacebuffer').find('img').on('load',function() {
+	$('#spacebuffer').find('img').on('load',()=> {
 		nimages--;ready();
 	});
 }
@@ -293,22 +325,22 @@ function showspace() {
 	inputtext = '';
 	hintasked=false;
 	if(userstate.order[1]==0) { renderButton(); //TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',1);
+		fadeIn('space',0.5);
 		closekeyboard ();}
 	else if (slide[userstate.order[1]].a == '') {
 		$('#space').css('padding-bottom','1em');
 		//TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
-		fadeIn('space',2).then(activatebutton);
+		fadeIn('space',0.5).then(activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
 		//TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',2);
+		fadeIn('space',0.5);
 		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
-		transit1('inputplace','width',$('#space').width()+'px',10);
+		transit1('inputplace','width',$('#space').width()+'px',0.5);
 		openkeyboard();
 	}
-	$('#space .emojiplace').each(function(){
+	$('#space .emojiplace').each(()=>{
 		var ew=$(this).width();
 		var em=($('body').width()-ew)/2;
 		console.log('em: '+em+' w: '+ew);
@@ -435,11 +467,11 @@ function recalculate() {
 
 	$('#primarykeyboard').html(keysdeclaration);
 	updateKeyboardLook(kbdstate);
-	assign(ei('shift'),'down',function() {
+	assign(ei('shift'),'down',()=> {
 		if(!kbdstate.shiftmode) kbdstate.edit(false,-1,true,-1);
 		else kbdstate.edit(false,-1,false,-1);});
-	assign(ei('back'),'down',function(){kbdstate.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
-	assign(ei('back'),'up',function(){kbdstate.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
+	assign(ei('back'),'down',()=>{kbdstate.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(ei('back'),'up',()=>{kbdstate.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
 	
 	$('#displaytext').height(2.3*display.w*theme.kbd.keyh/10.0);
@@ -449,20 +481,21 @@ function recalculate() {
 }
 
 function openkeyboard() {
-	$('#primarykeyboard').show();
-	$('#primarykeyboard').height(display.w * theme.kbd.keyh * theme.kbd.h);
+	//let k=ei('primarykeyboard');
+	//show(k.id);
+	//k.style.height=display.w * theme.kbd.keyh * theme.kbd.h +'px';
 	kbdstate.open=true;
 	kbdstate.edit(false,-1,false,-1);
+	return transit1('primarykeyboard','height',display.w * theme.kbd.keyh * theme.kbd.h +'px',0.2);
 }
 
 function closekeyboard() {
-	$('#primarykeyboard').height(0);
-	setTimeout(function() {
-			$('#primarykeyboard').hide();
-		},
-		200);
+	//let k=ei('primarykeyboard');
+	//k.style.height='0px';
 	kbdstate.open=false;
 	kbdstate.edit(false,-1,false,-1);
+
+	return transit1('primarykeyboard','height','0px',0.2);
 }
 
 function dToIAST(d) {
@@ -489,7 +522,7 @@ function loadFonts(fonts) {
 	let fp=[];
 	for(let font of fonts) { 
 		fp.push(new Promise(function(resolve,reject) {
-			WebFont.load({google:font.t?{families: [font.f],text:font.t}:{families: [font.f]},fontactive: resolve});}));
+			WebFont.load({google:font.t?{families: [font.f],text:font.t}:{families: [font.f]},fontactive: resolve,inactive: reject});}));
 	}
 	return Promise.all(fp);
 }
@@ -507,18 +540,33 @@ function transit1(id,p,v,t)/*element-id property value time ease(optional)*/{
 	let e=ei(id);
 	e.style.transition=p+' '+t+'s';
 	$('#'+id).css(p,v);
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
 function fadeIn(id,t,d){
 	let e=ei(id),ed=e.style.display;
 	e.style.display=ed=='none'?(d||'block'):ed;
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='1';
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
 function fadeOut(id,t){
 	let e=ei(id);
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='0';
-	return new Promise(function(resolve,reject){e.addEventListener('transitionend',function(evt){evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+}
+function loadScripts(s){
+	s=Array.isArray(s)?s:[s];
+	let p=[];
+	for(let src of s){
+		let sc=document.createElement('script');
+		sc.src=src;
+		p.push(new Promise(function(resolve,reject){sc.onload=resolve;sc.onerror=reject;}));
+		document.head.append(sc);
+	}
+	return Promise.all(p);
+}
+function registerSW(){
+	// Check that service workers are supported
+	if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
 }
