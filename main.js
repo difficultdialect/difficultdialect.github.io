@@ -49,6 +49,7 @@ async function setupFirebase(){
 		console.error("Error adding document: ", error);
 	});*/
 	let provider = new firebase.auth.GoogleAuthProvider();
+	await firebase.auth().signInWithRedirect(provider);
 	let result;
 	try{
 		result = await firebase.auth().getRedirectResult();
