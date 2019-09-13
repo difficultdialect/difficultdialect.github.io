@@ -48,7 +48,7 @@ async function setupFirebase(){
 	.catch(function(error) {
 		console.error("Error adding document: ", error);
 	});*/
-	let provider = new firebase.auth.GoogleAuthProvider();
+	/*let provider = new firebase.auth.GoogleAuthProvider();
 	await firebase.auth().signInWithRedirect(provider);
 	let result;
 	try{
@@ -58,8 +58,18 @@ async function setupFirebase(){
 	catch(e){
 		console.log('Error in authentication');
 		console.log(e.code+' '+e.message);
-	}	
+	}*/
+	firebase.auth().onAuthStateChanged(authStateCheck);
 }
+
+function authStateCheck(user) {
+	if(user) console.log(user.displayName);
+	else {
+		let provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithRedirect(provider);
+	}
+}
+
 
 function starthere(){
 	
