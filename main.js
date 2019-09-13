@@ -8,12 +8,13 @@ async function learnSanskrit(){
 			platform:'https://apis.google.com/js/platform.js',
 			tweemax:'https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js', // not used
 			firebase:'https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js', // not used
+			auth:'https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js',
 			firestore:'https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js',
 		};
 	await new Promise((resolve)=>{window.addEventListener('load',resolve);});
 	document.body.style.backgroundSize='0px';
 	registerSW();
-	loadScripts([scripts.firebase,scripts.firestore]).then(setupFirebase);
+	loadScripts([scripts.firebase,scripts.auth,scripts.firestore]).then(setupFirebase);
 	await Promise.all([loadScripts(scripts.webfont).then(()=>{loadFonts(theme.fonts);}),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	starthere();
