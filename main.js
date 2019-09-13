@@ -12,10 +12,10 @@ async function learnSanskrit(){
 		};
 	await new Promise((resolve)=>{window.addEventListener('load',resolve);});
 	document.body.style.backgroundSize='0px';
-	//registerSW();
-	loadScripts([scripts.firebase,scripts.firestore]).then(setupFireStore);
-	await Promise.all([loadScripts(scripts.webfont)
-		.then(()=>{loadFonts(theme.fonts);}), loadScripts([scripts.twemoji,scripts.jquery])]);
+	registerSW();
+	loadScripts([scripts.firebase,scripts.firestore]).then(setupFirebase);
+	await Promise.all([loadScripts(scripts.webfont).then(()=>{loadFonts(theme.fonts);}),
+			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	starthere();
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	while(false){
@@ -23,8 +23,8 @@ async function learnSanskrit(){
 	}
 }
 
-function setupFireStore(){
-	var firebaseConfig = {
+async function setupFirebase(){
+	let firebaseConfig = {
 			apiKey: "AIzaSyBrmEDT8Byp6oWbPDeQgmuSpya39RaJCto",
 			authDomain: "learn-sanskrit-251406.firebaseapp.com",
 			databaseURL: "https://learn-sanskrit-251406.firebaseio.com",
@@ -33,11 +33,9 @@ function setupFireStore(){
 			messagingSenderId: "80454713351",
 			appId: "1:80454713351:web:22067edf4b1f97367c6aa2"
 		};
-	//const firebase = require("firebase");
-	// Required for side-effects
-	//require("firebase/firestore");
+	//const firebase = require("firebase");require("firebase/firestore");
 	firebase.initializeApp(firebaseConfig);
-	var db=firebase.firestore();
+	/*var db=firebase.firestore();
 	db.collection("users").add({
 		first: "Ada",
 		last: "Lovelace",
@@ -48,7 +46,13 @@ function setupFireStore(){
 	})
 	.catch(function(error) {
 		console.error("Error adding document: ", error);
-	});
+	});*/
+	let provider = new firebase.auth.GoogleAuthProvider();
+	let result;
+	try{
+		result = await firebase.auth().getRedirectResult();
+	}
+	catch(e){}	
 }
 
 function starthere(){
