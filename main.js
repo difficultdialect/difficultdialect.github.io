@@ -69,7 +69,6 @@ function starthere(){
 			} catch(e) {}*/
 			assign(ei('outerspace'),'down',subnext);
 			assign(ei('primarykeyboard'),'down',bringinputtofocus);
-			assign(ei('shiftkeyboard'),'down',bringinputtofocus);
 			slideover = 1;
 			next();
 			ready();	
@@ -117,7 +116,6 @@ var backaction;
 var slideover=0;
 var hintasked=false;
 //assign(ei('primarykeyboard'),'down',()=> {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
-//assign(ei('shiftkeyboard'),'down',()=> {try{if(kbdstate.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
