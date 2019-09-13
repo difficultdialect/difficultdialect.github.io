@@ -52,8 +52,12 @@ async function setupFirebase(){
 	let result;
 	try{
 		result = await firebase.auth().getRedirectResult();
+		console.log(result.user.displayName);
 	}
-	catch(e){}	
+	catch(e){
+		console.log('Error in authentication');
+		console.log(e.code+' '+e.message);
+	}	
 }
 
 function starthere(){
