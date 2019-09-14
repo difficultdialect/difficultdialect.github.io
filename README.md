@@ -1,1 +1,1 @@
-# difficultdialect.github.io
+# verbalsanskrit.github.io
