@@ -27,7 +27,7 @@ async function learnSanskrit(){
 async function setupFirebase(){
 	let firebaseConfig = {
 			apiKey: "AIzaSyBw16ejmj0piA4NXC6c9hJxHz2oqPVzpik",
-			authDomain: "verbalsanskrit.web.app",
+			authDomain: "verbalsanskrit.firebaseapp.com",
 			databaseURL: "https://verbalsanskrit.firebaseio.com",
 			projectId: "verbalsanskrit",
 			storageBucket: "",
