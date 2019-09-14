@@ -1,1 +1,1 @@
-# learnsanskrit.github.io
+# verbalsanskrit.github.io
