@@ -26,13 +26,13 @@ async function learnSanskrit(){
 
 async function setupFirebase(){
 	let firebaseConfig = {
-			apiKey: "AIzaSyBrmEDT8Byp6oWbPDeQgmuSpya39RaJCto",
-			authDomain: "learn-sanskrit-251406.firebaseapp.com",
-			databaseURL: "https://learn-sanskrit-251406.firebaseio.com",
-			projectId: "learn-sanskrit-251406",
+			apiKey: "AIzaSyBw16ejmj0piA4NXC6c9hJxHz2oqPVzpik",
+			authDomain: "verbalsanskrit.web.app",
+			databaseURL: "https://verbalsanskrit.firebaseio.com",
+			projectId: "verbalsanskrit",
 			storageBucket: "",
-			messagingSenderId: "80454713351",
-			appId: "1:80454713351:web:22067edf4b1f97367c6aa2"
+			messagingSenderId: "656117020216",
+			appId: "1:656117020216:web:0d8700169e2261cb6c98cd"
 		};
 	//const firebase = require("firebase");require("firebase/firestore");
 	firebase.initializeApp(firebaseConfig);
