@@ -1,1 +1,1 @@
-# learnsanskrit.github.io
+# difficultdialect.github.io
