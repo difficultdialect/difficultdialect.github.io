@@ -105,7 +105,7 @@ var kbdproto={
 	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);}
 };
 var kbd=Object.create(kbdproto);
-
+const reloadTimeOut=500;
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
 	letters:	'ṃśertyuiopasdṭghjklḍṣcvbnm'+
@@ -181,22 +181,14 @@ window.addEventListener('resize', function(event) {
 		display.w = document.body.offsetWidth;
 		display.h = document.body.offsetHeight;
 		redrawShell();
-		if (kbd.open) openkeyboard();
+		if (kbd.open) openkeyboard(kbd.text);
 	}
 });
-//var buttonblink=new TimelineMax({repeat: -1});
-
-
 function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+kbd.text+'</div>');
 	buttonstate=1;
-	//TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
-	fadeIn('outerspace',0.5);
-	//$('#button1').show();
-	
-	//buttonblink.seek(0);
-	userstate.status[userstate.order[0]] = 2;
+	fadeIn('outerspace',0.5);userstate.status[userstate.order[0]] = 2;
 	if(hintasked) userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] / 2;
 	else userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] * 2;
 	if(userstate.int[userstate.order[0]]<1) userstate.int[userstate.order[0]] = 1;
@@ -212,48 +204,40 @@ function subnext() {
 		buttonstate=0;
 		localStorage.setItem('order',JSON.stringify(userstate.order));
 		writeToFirestore({'b':'a'});
-		//TweenMax.to($('#outerspace'),0.5,{opacity: '0', onComplete: ()=>{}});
-		//TweenMax.to($('#space'),0.5,{opacity: '0', onComplete: ()=> {slideover=1; ready();}});
-		//TweenMax.to($('#correct'),0.1,{opacity: '0', onComplete: ()=> {TweenMax.to($('#inputplace'),0.4,{width: '0px'});}});
 		Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit('inputplace',{'width':'0px'},0.4);}):Promise.resolve()])
-			.then(()=>{slideover=1; ready();});
+			.then(ready);
 	}
 }
 
-function ready() {
-	if (slideover == 1 && nimages < 1) {
-		showspace();
-		next();
-	}
+async function ready() {
+	console.log('ready');
+	await loadSlide(slide,userstate.order[1],m);
+	showspace();
+	loadSlide(slide,userstate.order[1],m);
 }
 
-/*var buttondeclaration = '<div style=\'text-align: center;\'><div style=\'opacity: 0; display: none; font-size: xx-large;\' class=\'nonselectable clickable\' id=\'button1buffer\'>❯</div></div>';*/
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
 var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
-	//TweenMax.to($('#hintbutton'),0.5,{opacity:'0', onComplete: ()=> {$('#hintbutton').hide(); $('#hint').show(); TweenMax.to($('#hint'),0.5,{opacity: '1'});}});/*
 	//fadeOut('hintbutton',2).then(()=>{hide('hintbutton');fadeIn('hint',2);});
 	$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
 	hintasked=true;
 }
-/*
-function prepareSlide(index,prepared){
-	if(prepared.list.includes(index)) return Promise.resolve();
-	else 
-}*/
 function loadSlide(s,n,m){
 	let c='s'+n;
-	return m.promise[c]||()=>{
-		let p=parseSlide(s);
-		m.promise[c]=p.promise;
+	if(m.promise[c]) return m.promise[c];
+	else {
+		if(m.pending) m.promise[m.pending]=null;
+		m.pending=c;
+		let p=parseSlide(s[n]);
+		m.promise[c]=p.promise.then(()=>{m.pending=null;});
 		m.q[c]=p.q;
-		return p.promise;
-	}();
+		return m.promise[c];
+	}
 }
 
 function parseSlide(s) {
-	nimages = 0;
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
 	let q = [],oq = s.q,lastput = 0,i=0;
 	for (i = 0; i < oq.length; i++) {
@@ -278,68 +262,34 @@ function parseSlide(s) {
 	}
 	q.push(transliteral(oq.substring(lastput, i)));
 	q=q.join('');
-	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
-		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>');
-	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
-	q=q+hintbutton;
+	q=twemoji.parse(q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
+		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>'),{folder:'svg',ext:'.svg'})
+		+hintbutton;
 	if (s.d){
-		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter '+s.d+' '+`<span style=\'font-family:${theme.fonts[1].n}\'>${s.a}</span>`+'</div>';
-		q=q+inputdeclaration;
+		q=q+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter ${s.d} <span style=\'font-family:${theme.fonts[1].n}\'>${s.a}</span>`+'</div>'+inputdeclaration;
 	}
-	$('#spacebuffer').html(q);
-	nimages=$('#spacebuffer').find('img').length;
-	ready();
-	$('#spacebuffer').find('img').on('load',()=> {
-		nimages--;ready();
+	let p = new Promise(function f(resolve){
+		let sp=$('#spacebuffer');
+		sp.html(q);
+		let imgs=sp.find('img');
+		let n=imgs.length;
+		let ni=n;
+		if(!ni){resolve();}
+		imgs.on('load',()=>{if(!--ni) resolve();});
+		imgs.on('error',()=>{
+			sp.html('');
+			setTimeout(()=>{f(resolve);},reloadTimeOut);
+		});
 	});
-	$('#spacebuffer').find('img').on('error',()=> {
-		nimages--;ready();
-	});
+	return {promise:p,q:q};
 }
-
+var m={promise:[],q:[]};
 function next() {
-	nimages = 0;
-	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
-	let q = [],oq = slide[userstate.order[1]].q,lastput = 0,i=0;
-	for (i = 0; i < oq.length; i++) {
-		let c=oq.charAt(i),cm={'[':']','{':'}','(':')'};
-		let cc=cm[c];
-		if(cc){
-			q.push(transliteral(oq.substring(lastput, i)));
-			lastput=i+1;
-			while(i<oq.length&&oq.charAt(i)!==cc){i++;}
-			if (c=='[') {
-				let image = oq.substring(lastput, i),sizes = [144, 240, 360, 480, 720, 1080];
-				q.push(`<img src=\'images/${image}-360.jpeg\' sizes=\'100vw\' srcset=\'`);
-				for (let j in sizes) {
-					q.push(`images/${image}-${sizes[j]}.jpeg ${sizes[j]}w`);
-					if (j < sizes.length - 1) q.push(',');
-				}
-				q.push('\'>');
-			}
-			else q.push(c+oq.substring(lastput,i+1));
-			lastput=i+1;
-		}
-	}
-	q.push(transliteral(oq.substring(lastput, i)));
-	q=q.join('');
-	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
-		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>');
-	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
-	q=q+hintbutton;
-	if (slide[userstate.order[1]].a !== ''){
-		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter '+slide[userstate.order[1]].d+' '+`<span style=\'font-family:${theme.fonts[1].n}\'>${slide[userstate.order[1]].a}</span>`+'</div>';
-		q=q+inputdeclaration;
-	}
-	$('#spacebuffer').html(q);
-	nimages=$('#spacebuffer').find('img').length;
-	ready();
-	$('#spacebuffer').find('img').on('load',()=> {
-		nimages--;ready();
-	});
+	loadSlide(slide,userstate.order[1],m);
 }
 
 function showspace() {
+	console.log('showing');
 	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
 	if(slide[userstate.order[1]].a!=='' && userstate.status[userstate.order[1]]>0){
@@ -399,13 +349,9 @@ function bringinputtofocus() {
 	});
 }
 function back() {
-	inputtext = inputtext.slice(0, -1);
-	if (inputtext == '') {
-		$('#input').html('');
-                  try{clearInterval(backaction);}catch(e){}
-	} else {
-		$('#input').html(inputtext);
-	}
+	kbd.text = kbd.text.slice(0, -1);
+	ei('input').innerHTML=kbd.text;
+	if(!kbd.text) {try{clearInterval(backaction);}catch(e){}}
 }
 
 function showdisplay(e) {
@@ -531,8 +477,9 @@ function dToIAST(d) {
 function loadFonts(fonts) {
 	let fp=[];
 	for(let font of fonts) { 
-		fp.push(new Promise(function(resolve,reject) {
-			WebFont.load({google:font.t?{families: [font.f],text:font.t}:{families: [font.f]},fontactive: resolve,inactive: reject});}));
+		fp.push(new Promise(function f(resolve){
+				WebFont.load({google:{families:[font.f],text:font.t},active:resolve,fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
+		}));
 	}
 	return Promise.all(fp);
 }
@@ -542,37 +489,30 @@ function assign(e,et,c)/*element, eventtype, callback*/{
 	efs.forEach(function(ef){e.addEventListener(ef,c)});
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
-
 function hide(id){ei(id).style.display='none';}
 function show(id,d){ei(id).style.display=d||'inline-block';}
-
-function transit1(id,p,v,t){ /*element property value time*/
-	let e=ei(id);
-	e.style.transition=p+' '+t+'s';
-	$('#'+id).css(p,v);
+function oneTimeTransitionPromise(e){
 	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
-
 function transit(id,pv,t){ /*element id, property-value pairs, time in seconds*/
 	let e=ei(id),tr=[];
 	for(let p in pv) tr.push(p+' '+t+'s');
 	e.style.transition=tr.join();
 	for(let p in pv) $('#'+id).css(p,pv[p]);
-	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return oneTimeTransitionPromise(e);
 }
-
 function fadeIn(id,t,d){
 	let e=ei(id),ed=e.style.display;
 	e.style.display=ed=='none'?(d||'block'):ed;
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='1';
-	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return oneTimeTransitionPromise(e);
 }
 function fadeOut(id,t){
 	let e=ei(id);
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='0';
-	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return oneTimeTransitionPromise(e);
 }
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
@@ -580,7 +520,7 @@ function loadScripts(s){
 	for(let src of s){
 		let sc=document.createElement('script');
 		sc.src=src;
-		p.push(new Promise(function(resolve,reject){sc.onload=resolve;sc.onerror=reject;}));
+		p.push(new Promise((resolve)=>{sc.onload=resolve;sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);}}));
 		document.head.append(sc);
 	}
 	return Promise.all(p);
