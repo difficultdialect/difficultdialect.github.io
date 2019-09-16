@@ -243,8 +243,58 @@ function prepareSlide(index,prepared){
 	else 
 }*/
 function loadSlide(s,n,m){
-	if(m.queued.includes(n)) return m.promises['s'+n];
-	
+	let c='s'+n;
+	return m.promise[c]||()=>{
+		let p=parseSlide(s);
+		m.promise[c]=p.promise;
+		m.q[c]=p.q;
+		return p.promise;
+	}();
+}
+
+function parseSlide(s) {
+	nimages = 0;
+	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
+	let q = [],oq = s.q,lastput = 0,i=0;
+	for (i = 0; i < oq.length; i++) {
+		let c=oq.charAt(i),cm={'[':']','{':'}','(':')'};
+		let cc=cm[c];
+		if(cc){
+			q.push(transliteral(oq.substring(lastput, i)));
+			lastput=i+1;
+			while(i<oq.length&&oq.charAt(i)!==cc){i++;}
+			if (c=='[') {
+				let image = oq.substring(lastput, i),sizes = [144, 240, 360, 480, 720, 1080];
+				q.push(`<img src=\'images/${image}-360.jpeg\' sizes=\'100vw\' srcset=\'`);
+				for (let j in sizes) {
+					q.push(`images/${image}-${sizes[j]}.jpeg ${sizes[j]}w`);
+					if (j < sizes.length - 1) q.push(',');
+				}
+				q.push('\'>');
+			}
+			else q.push(c+oq.substring(lastput,i+1));
+			lastput=i+1;
+		}
+	}
+	q.push(transliteral(oq.substring(lastput, i)));
+	q=q.join('');
+	q=q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
+		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>');
+	q=twemoji.parse(q,{folder:'svg',ext:'.svg'});
+	q=q+hintbutton;
+	if (s.d){
+		q=q+'<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter '+s.d+' '+`<span style=\'font-family:${theme.fonts[1].n}\'>${s.a}</span>`+'</div>';
+		q=q+inputdeclaration;
+	}
+	$('#spacebuffer').html(q);
+	nimages=$('#spacebuffer').find('img').length;
+	ready();
+	$('#spacebuffer').find('img').on('load',()=> {
+		nimages--;ready();
+	});
+	$('#spacebuffer').find('img').on('error',()=> {
+		nimages--;ready();
+	});
 }
 
 function next() {
@@ -300,19 +350,13 @@ function showspace() {
 	}
 	inputtext = '';
 	hintasked=false;
-	if(userstate.order[1]==0) { renderButton(); //TweenMax.to($('#space'),0.5,{opacity: '1'});
-		fadeIn('space',0.5);
-		closekeyboard ();}
-	else if (slide[userstate.order[1]].a == '') {
+	if (slide[userstate.order[1]].a == '') {
 		$('#space').css('padding-bottom','1em');
-		//TweenMax.to($('#space'),0.5,{opacity: '1', onComplete: activatebutton});
 		fadeIn('space',0.5).then(activatebutton);
 		closekeyboard();
 	} else {
 		$('#space').css('padding-bottom',0);
-		//TweenMax.to($('#space'),0.5,{opacity: '1'});
 		fadeIn('space',0.5);
-		//TweenMax.to($('#inputplace'),0.5, {width: '100%'});
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
 		openkeyboard();
 	}
