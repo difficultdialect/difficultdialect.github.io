@@ -513,6 +513,7 @@ function transit(id,pv,t){ /*element id, property-value pairs, time in seconds*/
 	let e=ei(id),tr=[];
 	for(let p in pv) tr.push(p+' '+t+'s');
 	e.style.transition=tr.join();
+	console.log(`element ${e}, transition ${tr.join()}`);
 	for(let p in pv) $('#'+id).css(p,pv[p]);
 	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
