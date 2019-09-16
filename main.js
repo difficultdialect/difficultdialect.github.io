@@ -189,7 +189,7 @@ window.addEventListener('resize', function(event) {
 
 function activatebutton() {
 	closekeyboard();
-	$('#inputplace').html('<div id= \'correct\'>'+inputtext+'</div>');
+	$('#inputplace').html('<div id= \'correct\'>'+kbd.text+'</div>');
 	buttonstate=1;
 	//TweenMax.to($('#outerspace'),0.5,{opacity: '1'});
 	fadeIn('outerspace',0.5);
@@ -513,7 +513,6 @@ function transit(id,pv,t){ /*element id, property-value pairs, time in seconds*/
 	let e=ei(id),tr=[];
 	for(let p in pv) tr.push(p+' '+t+'s');
 	e.style.transition=tr.join();
-	console.log(`element ${e}, transition ${tr.join()}`);
 	for(let p in pv) $('#'+id).css(p,pv[p]);
 	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
 }
