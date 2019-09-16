@@ -39,7 +39,7 @@ body {
 	display: none;
 	box-shadow: inset 0 0 8px #c0c0c0;
 }
-#space, #spacebuffer{
+#space, #spacebuffer, .space{
 	opacity: 0;
    font-weight: normal;
 	text-align: center;
@@ -157,11 +157,6 @@ body {
   padding-bottom: 0;
   padding-left: 0;
   overflow: visible;
-  /*transition: 0.2s;
-  -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -o-transition: 0.2s;
-    -ms-transition: 0.2s;*/
 }
 .nonselectable{
    user-select: none;
