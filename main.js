@@ -244,7 +244,7 @@ function prepareSlide(index,prepared){
 }*/
 function loadSlide(s,n,m){
 	if(m.queued.includes(n)) return m.promises['s'+n];
-	else 
+	
 }
 
 function next() {
