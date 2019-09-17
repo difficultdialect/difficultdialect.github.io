@@ -501,8 +501,11 @@ function loadScripts(s){
 	for(let src of s){
 		let sc=document.createElement('script');
 		sc.src=src;
-		p.push(new Promise((resolve)=>{sc.onload=resolve;sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);}}));
-		document.head.append(sc);
+		p.push(new Promise((resolve)=>{
+			sc.onload=resolve;
+			sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);};
+			document.head.append(sc);
+		}));
 	}
 	return Promise.all(p);
 }
