@@ -28,6 +28,7 @@ async function verbalSanskrit(){
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	processSlides(slide);
+	setDraw(drawShell);
 	starthere();
 	while(false){
 		let n=nextIndex(record,slide,m1);
@@ -71,7 +72,6 @@ function writeToFirestore(s){
 }
 
 function starthere(){
-	redrawShell();
 	assign(ei('outerspace'),'down',subnext);
 	assign(ei('primarykeyboard'),'down',bringinputtofocus);
 	ready();	
@@ -166,18 +166,13 @@ function processSlides(sl){
 		userstate.int.push(2);
 	}
 }
-
-
-
-window.addEventListener('resize', function(event) {
-
-	if (display.w != document.body.offsetWidth || display.h != document.body.offsetHeight) {
-		display.w = document.body.offsetWidth;
-		display.h = document.body.offsetHeight;
-		redrawShell();
-		if (kbd.open) openkeyboard(kbd.text);
+function setDraw(f){
+	f();
+	window.addEventListener('resize',function(){
+		let w=document.body.offsetWidth,h=document.body.offsetHeight;
+		if(display.w!=w||display.h!=h){display.w=w;display.h=h;f();}
 	}
-});
+}
 function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+kbd.text+'</div>');
@@ -406,7 +401,7 @@ function drawkey(w,h,ps,c){ /*width, keyheight, color, used by drawKeyboard*/
 	}
 	return `<svg height=\'${h*w}px\' width=\'${w}px\'>${polys.join('')}</svg>`;
 }
-function redrawShell() {
+function drawShell() {
 	let t=theme,w=display.w,keys = '';
 	let bar='<div style=\'position: absolute;background-color: #e5e5e5; width:100%; height:'+t.kbd.keyh*(t.kbd.h-0.3)*w+'px; top: '+t.kbd.keyh*0.3*w+'px\'><div style=\'position: absolute;background-color: #d8d8d8; width:100%; height:'+t.kbd.keyh*(t.kbd.h-0.3)*w/2+'px; top: '+t.kbd.keyh*(t.kbd.h-0.3)*w/2+'px\'></div></div>';
 	ei('outerspace').style.height=w * t.kbd.keyh * t.kbd.h + 'px';
@@ -426,6 +421,7 @@ function redrawShell() {
 	assign(ei('back'),'down',()=>{kbd.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
 	assign(ei('back'),'up',()=>{kbd.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
+	if (kbd.open) openkeyboard(kbd.text);
 }
 
 function openkeyboard(txt) { /*display, theme*/
