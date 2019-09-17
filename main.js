@@ -517,10 +517,10 @@ function loadScripts(s){
 	for(let src of s){
 		let sc=document.createElement('script');
 		sc.src=src;
+		document.head.append(sc);
 		let pr=new Promise((resolve)=>{
 			sc.onload=resolve;
-			sc.onerror=()=>{console.log('error');};
-			document.head.append(sc);
+			sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{document.head.append(sc);},reloadTimeOut);};
 		});
 		p.push(pr);
 	}
