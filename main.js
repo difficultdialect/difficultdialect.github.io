@@ -31,9 +31,11 @@ async function verbalSanskrit(){
 	initDraw(drawShell);
 	starthere();
 	while(false){
-		let n=nextIndex(record,slide,m1);
+		let n=determineNext(record,slide,m1);
 		await loadSlide(slide,n,m);
-		await getResponse(slide,n).then((response)=>{updateRecord(record,response,slide,n);});
+		loadSlides(slide,predictComingSlides(record,slide,m1,5),m);
+		let response=await getResponse(slide,n);
+		updateRecord(record,response,slide,n);
 	}
 }
 
@@ -410,26 +412,21 @@ function drawShell() {
 	if($('#space').outerHeight()<$(body).height()-w*t.kbd.keyh*t.kbd.h) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	show('outerspace');
-
 	keys=drawKeyboard(design.letters,t.kbd,w) + bar;
 	ei('primarykeyboard').innerHTML=keys;
 	updateKeyboardLook(kbd);
-	
-	assign(ei('shift'),'down',()=> {
-		if(!kbd.shiftmode) kbd.edit(false,-1,true,-1);
-		else kbd.edit(false,-1,false,-1);});
-	assign(ei('back'),'down',()=>{kbd.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){}     backaction=setInterval(back,150);});
+	assign(ei('shift'),'down',()=>{if(!kbd.shiftmode) kbd.edit(false,-1,true,-1);else kbd.edit(false,-1,false,-1);});
+	assign(ei('back'),'down',()=>{kbd.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){} backaction=setInterval(back,150);});
 	assign(ei('back'),'up',()=>{kbd.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
 	if (kbd.open) openkeyboard(kbd.text);
 }
 
-function openkeyboard(txt) { /*display, theme*/
+function openkeyboard(txt) {
 	let t=theme;
 	kbd.text=txt?txt:'';
-	kbd.open=true;
 	kbd.edit(false,-1,false,-1);
-	return transit('primarykeyboard',{'height':display.w * t.kbd.keyh * t.kbd.h +'px'},0.2);
+	return transit('primarykeyboard',{'height':display.w * t.kbd.keyh * t.kbd.h +'px'},0.2).then(()=>{kbd.open=true;});
 }
 
 function closekeyboard() {
@@ -461,11 +458,10 @@ function dToIAST(d) {
 
 function loadFonts(fonts) {
 	let fp=[];
-	for(let font of fonts) { 
+	for(let o of fonts)
 		fp.push(new Promise(function f(resolve){
-				WebFont.load({google:{families:[font.f],text:font.t},active:resolve,fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
+			WebFont.load({google:{families:[o.f],text:o.t},active:resolve,fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
 		}));
-	}
 	return Promise.all(fp);
 }
 function assign(e,et,c)/*element, eventtype, callback*/{
