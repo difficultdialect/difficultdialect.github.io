@@ -494,10 +494,13 @@ function fadeOut(id,t){
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='0';
 	return oneTimeTransitionPromise(e);
-}/*
+}
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
+	let d=document.createElement('div');
+	d.style.display='none';
+	document.body.append(d);
 	for(let src of s){
 		let sc=document.createElement('script');
 		sc.async=true;
@@ -506,11 +509,11 @@ function loadScripts(s){
 			sc.onload=resolve;
 		});
 		p.push(pr);
-		let i=setInterval(()=>{console.log('trying to load again...');sc.src=src;},reloadTimeOut);
+		let i=setInterval(()=>{console.log('trying to load again.. '+src);sc.src=src;},reloadTimeOut);
 		pr.then(()=>{clearInterval(i);});
 	}
 	return Promise.all(p);
-}*/
+}/*
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
@@ -525,7 +528,7 @@ function loadScripts(s){
 		p.push(pr);
 	}
 	return Promise.all(p);
-}
+}*/
 function registerSW(f){
 	// Check that service workers are supported
 	//if ('serviceWorker' in navigator) navigator.serviceWorker.register(f);
