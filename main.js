@@ -495,7 +495,7 @@ function fadeOut(id,t){
 	e.style.opacity='0';
 	return oneTimeTransitionPromise(e);
 }
-/*function loadScripts(s){
+function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
 	for(let src of s){
@@ -508,7 +508,7 @@ function fadeOut(id,t){
 		}));
 	}
 	return Promise.all(p);
-}*/
+}/*
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
@@ -518,7 +518,7 @@ function loadScripts(s){
 		}));
 	}
 	return Promise.all(p);
-}
+}*/
 function registerSW(f){
 	// Check that service workers are supported
 	//if ('serviceWorker' in navigator) navigator.serviceWorker.register(f);
