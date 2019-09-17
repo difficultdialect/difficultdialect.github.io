@@ -3,7 +3,7 @@ verbalSanskrit();
 async function verbalSanskrit(){
 	let scripts={
 			jquery:'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
-			webfont:'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',
+			webfont:'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js',
 			twemoji:'https://twemoji.maxcdn.com/v/latest/twemoji.min.js',
 			//tweemax:'https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js',
 			firebase:'https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js',
@@ -24,7 +24,7 @@ async function verbalSanskrit(){
 	document.body.style.backgroundSize='0px';
 	registerSW('/sw.js');
 	loadScripts(scripts.firebase).then(()=>loadScripts([scripts.auth,scripts.firestore])).then(()=>initializeFirebase(firebaseConfig,status));
-	await Promise.all([loadScripts(scripts.webfont).then(()=>{loadFonts(theme.fonts);}),
+	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	processSlides(slide);
@@ -460,7 +460,8 @@ function loadFonts(fonts) {
 	let fp=[];
 	for(let o of fonts)
 		fp.push(new Promise(function f(resolve){
-			WebFont.load({google:{families:[o.f],text:o.t},active:resolve,fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
+			WebFont.load({google:{families:[o.f],text:o.t},active:()=>{console.log('active '+o.f);resolve();},fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
+			resolve();
 		}));
 	return Promise.all(fp);
 }
@@ -502,31 +503,17 @@ function loadScripts(s){
 		let d=document.createElement('div');
 		d.style.display='none';
 		document.body.append(d);
-		let pr=new Promise(function f(resolve){
-			d.innerHTML=`<script src=\'${src}\' async></script>`;
-			let sc=d.childNodes[0];
+		p.push(new Promise(function f(resolve){
+			d.innerHTML='';
+			let sc=document.createElement('script');
+			sc.src=src;
 			sc.onload=resolve;
-			sc.onerror=setTimeout(()=>{f(resolve);},reloadTimeOut);
-		});
-		p.push(pr);
+			sc.onerror=()=>{setTimeout(()=>{f(resolve);},reloadTimeOut)};
+			d.appendChild(sc);
+		}).then(()=>{document.body.removeChild(d);}));
 	}
 	return Promise.all(p);
-}/*
-function loadScripts(s){
-	s=Array.isArray(s)?s:[s];
-	let p=[];
-	for(let src of s){
-		let sc=document.createElement('script');
-		sc.src=src;
-		let pr=new Promise((resolve)=>{
-			sc.onload=resolve;
-			sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{document.head.append(sc);},reloadTimeOut);};
-			document.head.append(sc);
-		});
-		p.push(pr);
-	}
-	return Promise.all(p);
-}*/
+}
 function registerSW(f){
 	// Check that service workers are supported
 	//if ('serviceWorker' in navigator) navigator.serviceWorker.register(f);
