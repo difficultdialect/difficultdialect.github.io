@@ -423,7 +423,7 @@ function redrawShell() {
 	ei('outerspace').style.height=w * t.kbd.keyh * t.kbd.h + 'px';
 	ei('outerspace').innerHTML='<div style=\'position: absolute; width:100%; height:'+w * t.kbd.keyh * t.kbd.h+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: x-small; width: 100%; position: absolute; bottom: '+ w*t.kbd.keyh * t.kbd.h/2+'px; left: 0; color:#a0a0a0\'>TOUCH TO CONTINUE</span>'+/*bar+*/'</div>';
 	hide('outerspace');
-	if($('#space').height()<$(body).height()-w*t.kbd.keyh*t.kbd.h) $('#outerspace').css('position','fixed');
+	if($('#space').outerHeight()<$(body).height()-w*t.kbd.keyh*t.kbd.h) $('#outerspace').css('position','fixed');
 	else $('#outerspace').css('position','static');
 	show('outerspace');
 
