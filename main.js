@@ -26,9 +26,9 @@ async function verbalSanskrit(){
 	loadScripts([scripts.firebase,scripts.auth,scripts.firestore]).then(()=>initializeFirebase(firebaseConfig,status));
 	await Promise.all([loadScripts(scripts.webfont).then(()=>{loadFonts(theme.fonts);}),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
-	starthere();
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	processSlides(slide);
+	starthere();
 	while(false){
 		let n=nextIndex(record,slide,m1);
 		await loadSlide(slide,n,m);
@@ -152,7 +152,7 @@ var slide=[
 
 function processSlides(sl){
 	for(let i=0;i<sl.length;i++){
-		let s=s[i];
+		let s=sl[i];
 		userstate.order.push(i);
 		s.a=dToIAST(s.d||'');
 		if(s.a.charAt(0)=='@'){
