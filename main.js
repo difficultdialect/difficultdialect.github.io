@@ -494,7 +494,7 @@ function fadeOut(id,t){
 	e.style.transition=`opacity ${t}s`;
 	e.style.opacity='0';
 	return oneTimeTransitionPromise(e);
-}
+}/*
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
@@ -508,6 +508,21 @@ function loadScripts(s){
 		p.push(pr);
 		let i=setInterval(()=>{console.log('trying to load again...');sc.src=src;},reloadTimeOut);
 		pr.then(()=>{clearInterval(i);});
+	}
+	return Promise.all(p);
+}*/
+function loadScripts(s){
+	s=Array.isArray(s)?s:[s];
+	let p=[];
+	for(let src of s){
+		let sc=document.createElement('script');
+		sc.src=src;
+		let pr=new Promise((resolve)=>{
+			sc.onload=resolve;
+			sc.onerror=()=>{console.log('error');};
+			document.head.append(sc);
+		});
+		p.push(pr);
 	}
 	return Promise.all(p);
 }
