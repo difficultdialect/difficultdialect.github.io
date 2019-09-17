@@ -506,21 +506,11 @@ function loadScripts(s){
 			sc.onload=resolve;
 		});
 		p.push(pr);
-		let i=setInterval(()=>{sc.src=src;},reloadTimeOut);
+		let i=setInterval(()=>{console.log('trying to load again...');sc.src=src;},reloadTimeOut);
 		pr.then(()=>{clearInterval(i);});
 	}
 	return Promise.all(p);
-}/*
-function loadScripts(s){
-	s=Array.isArray(s)?s:[s];
-	let p=[];
-	for(let src of s){
-		p.push(new Promise(function f(resolve){
-			$.getScript(src).done(resolve).fail(()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);});
-		}));
-	}
-	return Promise.all(p);
-}*/
+}
 function registerSW(f){
 	// Check that service workers are supported
 	//if ('serviceWorker' in navigator) navigator.serviceWorker.register(f);
