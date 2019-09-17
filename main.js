@@ -500,11 +500,11 @@ function loadScripts(s){
 	let p=[];
 	for(let src of s){
 		let sc=document.createElement('script');
+		document.head.append(sc);
+		sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);};
 		sc.src=src;
 		p.push(new Promise((resolve)=>{
 			sc.onload=resolve;
-			sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);};
-			document.head.append(sc);
 		}));
 	}
 	return Promise.all(p);
