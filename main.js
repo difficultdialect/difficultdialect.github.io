@@ -495,7 +495,7 @@ function fadeOut(id,t){
 	e.style.opacity='0';
 	return oneTimeTransitionPromise(e);
 }
-function loadScripts(s){
+/*function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
 	for(let src of s){
@@ -505,6 +505,16 @@ function loadScripts(s){
 		try{sc.src=src;}catch(e){sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);}
 		p.push(new Promise((resolve)=>{
 			sc.onload=resolve;
+		}));
+	}
+	return Promise.all(p);
+}*/
+function loadScripts(s){
+	s=Array.isArray(s)?s:[s];
+	let p=[];
+	for(let src of s){
+		p.push(new Promise(function f(resolve){
+			$.getScript(src).done(resolve).fail(()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);});
 		}));
 	}
 	return Promise.all(p);
