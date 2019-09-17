@@ -500,6 +500,7 @@ function loadScripts(s){
 	let p=[];
 	for(let src of s){
 		let sc=document.createElement('script');
+		sc.async=true;
 		document.head.append(sc);
 		let pr=new Promise((resolve)=>{
 			sc.onload=resolve;
