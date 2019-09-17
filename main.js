@@ -300,7 +300,7 @@ function showspace() {
 		var nml=$(this).find('img').length;
 		$(this).find('img').css('max-width',(Math.floor(ew/nml)-Math.ceil(0.8*em))+'px');
 	});
-	redrawShell();
+	drawShell();
 	ei('space').scrollIntoView({
 			block: 'start',
 			behavior: 'smooth'
