@@ -501,11 +501,12 @@ function loadScripts(s){
 	for(let src of s){
 		let sc=document.createElement('script');
 		document.head.append(sc);
-		sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);};
-		try{sc.src=src;}catch(e){sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);}
-		p.push(new Promise((resolve)=>{
+		let pr=new Promise((resolve)=>{
 			sc.onload=resolve;
-		}));
+		});
+		p.push(pr);
+		let i=setInterval(()=>{sc.src=src;},reloadTimeOut);
+		pr.then(()=>{clearInterval(i);});
 	}
 	return Promise.all(p);
 }/*
