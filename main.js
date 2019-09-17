@@ -28,7 +28,7 @@ async function verbalSanskrit(){
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	processSlides(slide);
-	setDraw(drawShell);
+	initDraw(drawShell);
 	starthere();
 	while(false){
 		let n=nextIndex(record,slide,m1);
@@ -166,12 +166,12 @@ function processSlides(sl){
 		userstate.int.push(2);
 	}
 }
-function setDraw(f){
+function initDraw(f){
 	f();
 	window.addEventListener('resize',function(){
 		let w=document.body.offsetWidth,h=document.body.offsetHeight;
 		if(display.w!=w||display.h!=h){display.w=w;display.h=h;f();}
-	}
+	});
 }
 function activatebutton() {
 	closekeyboard();
