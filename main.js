@@ -23,7 +23,7 @@ async function verbalSanskrit(){
 	await new Promise((resolve)=>{window.addEventListener('load',resolve);});
 	document.body.style.backgroundSize='0px';
 	registerSW('/sw.js');
-	loadScripts([scripts.firebase,scripts.auth,scripts.firestore]).then(()=>initializeFirebase(firebaseConfig,status));
+	loadScripts(scripts.firebase).then(()=>loadScripts([scripts.auth,scripts.firestore])).then(()=>initializeFirebase(firebaseConfig,status));
 	await Promise.all([loadScripts(scripts.webfont).then(()=>{loadFonts(theme.fonts);}),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
