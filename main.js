@@ -498,19 +498,17 @@ function fadeOut(id,t){
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
 	let p=[];
-	let d=document.createElement('div');
-	d.style.display='none';
-	document.body.append(d);
 	for(let src of s){
-		let sc=document.createElement('script');
-		sc.async=true;
-		document.head.append(sc);
-		let pr=new Promise((resolve)=>{
+		let d=document.createElement('div');
+		d.style.display='none';
+		document.body.append(d);
+		let pr=new Promise(function f(resolve){
+			d.innerHTML=`<script src=\'${src}\' async></script>`;
+			let sc=d.childNodes[0];
 			sc.onload=resolve;
+			sc.onerror=setTimeout(()=>{f(resolve);},reloadTimeOut);
 		});
 		p.push(pr);
-		let i=setInterval(()=>{console.log('trying to load again.. '+src);sc.src=src;},reloadTimeOut);
-		pr.then(()=>{clearInterval(i);});
 	}
 	return Promise.all(p);
 }/*
