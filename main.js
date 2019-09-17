@@ -502,7 +502,7 @@ function loadScripts(s){
 		let sc=document.createElement('script');
 		document.head.append(sc);
 		sc.onerror=()=>{sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);};
-		sc.src=src;
+		try{sc.src=src;}catch(e){sc.src='';setTimeout(()=>{sc.src=src},reloadTimeOut);}
 		p.push(new Promise((resolve)=>{
 			sc.onload=resolve;
 		}));
