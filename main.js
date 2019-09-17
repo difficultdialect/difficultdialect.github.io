@@ -78,7 +78,6 @@ function starthere(){
 			redrawShell();
 			assign(ei('outerspace'),'down',subnext);
 			assign(ei('primarykeyboard'),'down',bringinputtofocus);
-			slideover = 1;
 			next();
 			ready();	
 }
@@ -105,7 +104,7 @@ var kbdproto={
 	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);}
 };
 var kbd=Object.create(kbdproto);
-const reloadTimeOut=500;
+const reloadTimeOut=1000;
 var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
 var design={
 	letters:	'ṃśertyuiopasdṭghjklḍṣcvbnm'+
@@ -119,12 +118,8 @@ var design={
 var ei=document.getElementById.bind(document);
 var ec=document.getElementsByClassName.bind(document);
 var buttonstate=0;
-var inputtext='';
-var nimages=0;
 var backaction;
-var slideover=0;
 var hintasked=false;
-//assign(ei('primarykeyboard'),'down',()=> {try{if(kbd.open) navigator.vibrate(1);}catch(e){}});
 var slide=[
 	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
@@ -290,7 +285,6 @@ function next() {
 
 function showspace() {
 	console.log('showing');
-	slideover = 0;
 	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
 	if(slide[userstate.order[1]].a!=='' && userstate.status[userstate.order[1]]>0){
 		$('.hint').hide();
@@ -308,6 +302,7 @@ function showspace() {
 		$('#space').css('padding-bottom',0);
 		fadeIn('space',0.5);
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
+		//TODO: reset inputplace width on window resize
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(()=>{
@@ -423,7 +418,10 @@ function redrawShell() {
 	ei('outerspace').style.height=w * t.kbd.keyh * t.kbd.h + 'px';
 	ei('outerspace').innerHTML='<div style=\'position: absolute; width:100%; height:'+w * t.kbd.keyh * t.kbd.h+'px\'><span id=\'continue\' style=\'font-weight:bold; text-align: center; font-size: x-small; width: 100%; position: absolute; bottom: '+ w*t.kbd.keyh * t.kbd.h/2+'px; left: 0; color:#a0a0a0\'>TOUCH TO CONTINUE</span>'+/*bar+*/'</div>';
 	hide('outerspace');
-	if($('#space').outerHeight()<$(body).height()-w*t.kbd.keyh*t.kbd.h) $('#outerspace').css('position','fixed');
+	if($('#space').outerHeight()<$(body).height()-w*t.kbd.keyh*t.kbd.h){
+		$('#outerspace').css('position','fixed');
+		$('#outerspace').css('bottom','0');
+	}
 	else $('#outerspace').css('position','static');
 	show('outerspace');
 
