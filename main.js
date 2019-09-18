@@ -39,7 +39,7 @@ async function verbalSanskrit(){
 		let response=await getResponse(slide,n);
 		updateRecord(record,response,slide,n,m1);
 		triggerPromise=new Promise((resolve)=>{
-			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);});
+			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);},{once:true});
 		});
 	}
 }
@@ -566,10 +566,10 @@ function loadFonts(fonts) {
 		}));
 	return Promise.all(fp);
 }
-function assign(e,et,c)/*element, eventtype, callback*/{
+function assign(e,et,c,o)/*element, eventtype, callback*/{
 	let p='pointer',t='touch',m='mouse',d='down',u='up',v='move';
 	let efs=window.PointerEvent?(et==d?[p+d]:et==u?[p+u,p+'cancel']:et==v?[p+v]:[]):et==d?[t+'start',m+d]:et==u?[t+'end',m+u,t+'cancel']:et==v?[t+v,m+v]:[];
-	efs.forEach(function(ef){e.addEventListener(ef,c)});
+	efs.forEach(function(ef){e.addEventListener(ef,c,o);});
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
 function hide(id){ei(id).style.display='none';}
