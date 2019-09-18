@@ -27,6 +27,7 @@ async function verbalSanskrit(){
 	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
+	record={status:[]}
 	let m1={},m={promise:[],q:[]},triggerPromise=Promise.resolve();
 	processSlides(slide,m1);
 	initDraw(drawShell);
