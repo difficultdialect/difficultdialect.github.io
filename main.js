@@ -616,7 +616,7 @@ function loadScripts(s){
 	return Promise.all(p);
 }
 function findSkill(a,l){
-	for(let i in a) if(e[i].skill==l) return i;
+	for(let i in a) if(a[i].skill==l) return i;
 	return 0;
 }
 function registerSW(f){
