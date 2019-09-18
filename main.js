@@ -40,7 +40,7 @@ async function verbalSanskrit(){
 		updateRecord(record,response,slide,n,m1);
 		triggerPromise=new Promise((resolve)=>{
 			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);});
-		}
+		});
 	}
 }
 
