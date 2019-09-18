@@ -23,7 +23,7 @@ async function verbalSanskrit(){
 	await new Promise((resolve)=>{window.addEventListener('load',resolve);});
 	document.body.style.backgroundSize='0px';
 	registerSW('/sw.js');
-	loadScripts(scripts.firebase).then(()=>loadScripts([scripts.auth,scripts.firestore])).then(()=>initializeFirebase(firebaseConfig,status));
+	let firebasePromise=loadScripts(scripts.firebase).then(()=>loadScripts([scripts.auth,scripts.firestore])).then(()=>initFirebase(firebaseConfig,status));
 	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
@@ -39,23 +39,24 @@ async function verbalSanskrit(){
 	}
 }
 
-function initializeFirebase(c,status){
+function initFirebase(c,status){
 	let i = firebase.initializeApp(c);
 	let p = firebase.firestore().enablePersistence();
-	firebase.auth().onAuthStateChanged(()=>{
-		let u=firebase.auth().currentUser
-		if(u) {
-			console.log(u.displayName);
-			firebase.firestore().collection('users').doc(u.uid).set({name:u.displayName},{merge:true});
-			status.signIn=u.isAnonymous?'signed out':'signed in';
-		}
-		else {
-			//firebase.auth().signInAnonymously();
-			console.log('Signed out');
-			status.signIn='signed out';
-		}
-	});
-	return {init:i, persistence:p};
+	return new Promise((resolve)=>{
+		firebase.auth().onAuthStateChanged(()=>{
+			let u=firebase.auth().currentUser
+			if(u) {
+				console.log(u.displayName);
+				firebase.firestore().collection('users').doc(u.uid).set({name:u.displayName},{merge:true});
+				status.signIn=u.isAnonymous?'signed out':'signed in';
+			}
+			else {
+				//firebase.auth().signInAnonymously();
+				console.log('Signed out');
+				status.signIn='signed out';
+			}
+			resolve();
+		});});
 }
 
 function signIn(){
