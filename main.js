@@ -27,15 +27,16 @@ async function verbalSanskrit(){
 	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
-	processSlides(slide);
+	let m1={},m={promise:[],q:[]};
+	processSlides(slide,m1);
 	initDraw(drawShell);
 	starthere();
 	while(false){
-		let n=determineNext(record,slide,m1);
+		let n=determineNext(record,m1);
 		await loadSlide(slide,n,m);
-		loadSlides(slide,predictComingSlides(record,slide,m1,5),m);
+		loadSlideRange(slide,n,2*n,m);
 		let response=await getResponse(slide,n);
-		updateRecord(record,response,slide,n);
+		updateRecord(record,response,slide,n,m1);
 	}
 }
 
@@ -82,7 +83,6 @@ function starthere(){
 
 
 
-var content={};	// question data
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 	   day: dayFromMs(Date.now()), /* day of record */
@@ -153,7 +153,7 @@ var slide=[
 	{q:'{🏀}देवःकेनक्रीडति?',d:'कन्दुकेन'},
 	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?',d:'क्रीडति'},];
 
-function processSlides(sl){
+function processSlides(sl,m){
 	for(let i=0;i<sl.length;i++){
 		let s=sl[i];
 		userstate.order.push(i);
@@ -168,6 +168,55 @@ function processSlides(sl){
 		userstate.prof.push(-1);
 		userstate.int.push(2);
 	}
+	m.skillList=[{skill:'',slides:[]}];
+	for(let i in sl){
+		let s=sl[i];
+		s.l=s.l||[s.d];
+		for(let l of s.l){
+			let n=findSkill(c.skillList,l)
+			if(n) c.skillList[n].slides.push(i);
+			else c.skillList.push({skill:l,slides:[i]});
+		}
+	}
+}
+function determineNext(r,m){
+	let next=0;
+	for(let i in m.skillList){
+		let s=m.skillList[i];
+		r.status[s.skill]=r.status[s.skill]||{prof:-1,interval:2}; // check this initialization
+		if(r.prof<0) next=s.slides[s.slides.length-1];
+	}
+	return next;
+}
+function updateRecord(r,response,slide,n,m){
+	for(let st in r.status){
+		if(slide[n].l.includes(st)){
+			if(response){
+				
+			}
+		}
+	}
+	if(response) for(let skill of slide[n].l){
+		r.status[skill].interval*=2;
+		r.status[skill].prof=r.status[skill].interval-2; // check the actual value required here
+	}
+	else {
+		let skill=getLeastProficientSkill(r,slide[n].l);
+		r.status[skill].interval/=2;
+		if(r.status[skill].interval<2)
+			r.status[skill].interval=2;
+	}
+}
+				    
+function getLeastProficientSkill(r,skills){
+	let p,s;
+	for(let sk of skills){
+		let pr=r.status[sk].prof;
+		if(!p||pr<p){
+			p=pr;s=sk;
+		}
+	}
+	return sk;
 }
 function initDraw(f){
 	f();
@@ -227,6 +276,12 @@ function loadSlide(s,n,m){
 		m.q[c]=p.q;
 		return m.promise[c];
 	}
+}
+
+function loadSlideRange(s,n1,n2,m){
+	let p=[];
+	for(let n=n1; n<=n2; n++) p.push(loadSlide(s,n,m));
+	return Promise.all(p);
 }
 
 function parseSlide(s) {
@@ -514,6 +569,10 @@ function loadScripts(s){
 		}).then(()=>{document.body.removeChild(d);}));
 	}
 	return Promise.all(p);
+}
+function findSkill(a,l){
+	for(let i in a) if(e[i].skill==l) return i;
+	return 0;
 }
 function registerSW(f){
 	// Check that service workers are supported
