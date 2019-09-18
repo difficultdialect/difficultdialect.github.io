@@ -27,18 +27,21 @@ async function verbalSanskrit(){
 	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
-	record={status:[]}
+	record={status:{}};
 	let m1={},m={promise:[],q:[]},triggerPromise=Promise.resolve();
 	processSlides(slide,m1);
+	console.log(JSON.stringify(m1));
 	initDraw(drawShell);
 	//starthere();
 	while(true){
 		let n=determineNext(record,m1);
 		await loadSlide(slide,n,m);
-		loadSlideRange(slide,n,2*n,m);
 		await triggerPromise;
-		let response=await getResponse(slide,n);
+		let responsePromise=getResponse(slide[n]);
+		loadSlideRange(slide,n,2*n,m);
+		response=await responsePromise;
 		updateRecord(record,response,slide,n,m1);
+		console.log('new record: '+record.status+' response: '+response);
 		triggerPromise=new Promise((resolve)=>{
 			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);},{once:true});
 		});
@@ -125,36 +128,36 @@ var buttonstate=0;
 var backaction;
 var hintasked=false;
 var slide=[
-	{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
-	{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
-	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।'},
+	//{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
+	//{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
+	//{q:'{🏊🏼‍♂️}देवोनद्यांतरति।'},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?',d:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?',d:'तरति'},
-	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।'},
+	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।'},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'शालाम्'},
 	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?',d:'पठन्ति'},
 	{q:'{🏫}छात्राःकुत्रपठन्ति?',d:'शालायाम्'},
 	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?',d:'छात्राः'},
-	{q:'{🚶🏾‍♂️}देवःशालांगच्छति।{😴}देवःशालायांशेते।'},
+	//{q:'{🚶🏾‍♂️}देवःशालांगच्छति।{😴}देवःशालायांशेते।'},
 	{q:'{😴}देवःशालायांकिंकरोति?',d:'शेते'},
-	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।'},
+	//{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।'},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौकिंकुर्वन्ति?',d:'शेरते'},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकाःकदाशेरते?',d:'रात्रौ'},
-	{q:'{🎮}देवोरात्रौक्रीडति।'},
+	//{q:'{🎮}देवोरात्रौक्रीडति।'},
 	{q:'{🎮}देवोरात्रौकिंकरोति?',d:'क्रीडति'},
-	{q:'{🏡}देवोगृहेवसति।'},
+	//{q:'{🏡}देवोगृहेवसति।'},
 	{q:'{🏡}देवःकुत्रवसति?',d:'गृहे'},
-	{q:'{🛕}देवश्चैत्यंगच्छति।{🐒}चैत्येकपिर्वसति।'},
+	//{q:'{🛕}देवश्चैत्यंगच्छति।{🐒}चैत्येकपिर्वसति।'},
 	{q:'{🐒}कश्चैत्येवसति?',d:'कपिः'},
 	{q:'{🛕}कपिःकुत्रवसति?',d:'चैत्ये'},
-	{q:'{🐒}देवःकपिमुपगच्छति।{🍌}देवःकपयेकदलीफलंददाति।'},
+	//{q:'{🐒}देवःकपिमुपगच्छति।{🍌}देवःकपयेकदलीफलंददाति।'},
 	{q:'{🍌}देवःकपयेकिंददाति?',d:'कदलीफलम्'},
 	{q:'{🐒}देवःकस्मैकदलीफलंददाति?',d:'कपये'},
-	{q:'{✋}कपिर्देवायचपेटिकांददाति।'},
+	//{q:'{✋}कपिर्देवायचपेटिकांददाति।'},
 	{q:'{✋}कपिर्देवायकिंददाति?',d:'चपेटिकाम्'},
 	{q:'{🐒}कोदेवायचपेटिकांददाति?',d:'कपिः'},
 	{q:'{🧍🏾}कपिःकस्मैचपेटिकांददाति?',d:'देवाय'},
-	{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।'},
+	//{q:'{⛹🏾‍♂️}देवःकन्दुकेनक्रीडति।'},
 	{q:'{🏀}देवःकेनक्रीडति?',d:'कन्दुकेन'},
 	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?',d:'क्रीडति'},];
 
@@ -162,7 +165,8 @@ function processSlides(sl,m){
 	for(let i=0;i<sl.length;i++){
 		let s=sl[i];
 		userstate.order.push(i);
-		s.a=dToIAST(s.d||'');
+		s.d=s.d||'';
+		s.a=dToIAST(s.d);
 		if(s.a.charAt(0)=='@'){
 			s.a=s.a.substr(1);
 			s.d=s.d.substr(1);
@@ -186,10 +190,14 @@ function processSlides(sl,m){
 }
 function determineNext(r,m){
 	let next=0;
-	for(let i in m.skillList){
+	let determined=false;
+	for(let i=1; i < m.skillList.length;i++){
 		let s=m.skillList[i];
 		r.status[s.skill]=r.status[s.skill]||{prof:-1,interval:2}; // check this initialization
-		if(r.prof<0) next=s.slides[s.slides.length-1];
+		if(r.status[s.skill].prof<0&&!determined){
+			next=s.slides[s.slides.length-1];
+			determined=true;
+		}
 	}
 	return next;
 }
@@ -205,7 +213,7 @@ function updateRecord(r,response,slide,n,m){
 			r.status[skill].interval=2;
 		r.status[skill].prof=r.status[skill].interval-2; //check
 	}
-	for(let st of r.status) st.prof--;
+	for(let st in r.status) r.status[st].prof--;
 }
 				    
 function getLeastProficientSkill(r,skills){
@@ -216,7 +224,7 @@ function getLeastProficientSkill(r,skills){
 			p=pr;s=sk;
 		}
 	}
-	return sk;
+	return s;
 }
 function initDraw(f){
 	f();
@@ -271,6 +279,7 @@ function showhint() {
 }
 function loadSlide(s,n,m){
 	let c='s'+n;
+	if(m.q[c]) ei('spacebuffer').innerHTML=m.q[c];
 	if(m.promise[c]) return m.promise[c];
 	else {
 		if(m.pending) m.promise[m.pending]=null;
@@ -289,6 +298,7 @@ function loadSlideRange(s,n1,n2,m){
 }
 
 function parseSlide(s) {
+	console.log('parsing, answer: '+s.a);
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
 	let q = [],oq = s.q,lastput = 0,i=0;
 	for (i = 0; i < oq.length; i++) {
@@ -335,7 +345,6 @@ function parseSlide(s) {
 	return {promise:p,q:q};
 }
 function showspace() {
-	console.log('showing');
 	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
 	if(slide[userstate.order[1]].a!=='' && userstate.status[userstate.order[1]]>0){
 		$('.hint').hide();
@@ -392,6 +401,7 @@ function showspace() {
 		
 function getResponse(s) {
 	console.log('getting response');
+	console.log('showing with answer '+s.a);
 	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
 	/*if(s.a!=='' && userstate.status[userstate.order[1]]>0){
 		$('.hint').hide();
@@ -407,6 +417,7 @@ function getResponse(s) {
 		responsePromise=fadeIn('space',0.5).then(()=>{activatebutton();return true;});
 		closekeyboard();
 	} else {
+		console.log('answerable');
 		$('#space').css('padding-bottom',0);
 		fadeIn('space',0.5);
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
@@ -428,6 +439,7 @@ function getResponse(s) {
 			block: 'start',
 			behavior: 'smooth'
 		});
+	return responsePromise;
 }
 
 function bringinputtofocus() {
