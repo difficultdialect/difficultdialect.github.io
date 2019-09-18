@@ -27,7 +27,7 @@ async function verbalSanskrit(){
 	await Promise.all([loadScripts(scripts.webfont).then(()=>loadFonts(theme.fonts)),
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
-	let m1={},m={promise:[],q:[]};
+	let m1={},m={promise:[],q:[]},triggerPromise=Promise.resolve();
 	processSlides(slide,m1);
 	initDraw(drawShell);
 	starthere();
@@ -35,8 +35,12 @@ async function verbalSanskrit(){
 		let n=determineNext(record,m1);
 		await loadSlide(slide,n,m);
 		loadSlideRange(slide,n,2*n,m);
+		await triggerPromise;
 		let response=await getResponse(slide,n);
 		updateRecord(record,response,slide,n,m1);
+		triggerPromise=new Promise((resolve)=>{
+			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);});
+		}
 	}
 }
 
@@ -98,7 +102,7 @@ var display={
 	redrawShell:function(_theme){},
 };
 var kbdproto={
-	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1, text:'',
+	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1, text:'', match:'',
 	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);}
 };
 var kbd=Object.create(kbdproto);
@@ -189,13 +193,6 @@ function determineNext(r,m){
 	return next;
 }
 function updateRecord(r,response,slide,n,m){
-	for(let st in r.status){
-		if(slide[n].l.includes(st)){
-			if(response){
-				
-			}
-		}
-	}
 	if(response) for(let skill of slide[n].l){
 		r.status[skill].interval*=2;
 		r.status[skill].prof=r.status[skill].interval-2; // check the actual value required here
@@ -205,7 +202,9 @@ function updateRecord(r,response,slide,n,m){
 		r.status[skill].interval/=2;
 		if(r.status[skill].interval<2)
 			r.status[skill].interval=2;
+		r.status[skill].prof=r.status[skill].interval-2; //check
 	}
+	for(let st of r.status) st.prof--;
 }
 				    
 function getLeastProficientSkill(r,skills){
@@ -249,6 +248,10 @@ function subnext() {
 			.then(ready);
 	}
 }
+		
+function clearStage() {
+	return Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit('inputplace',{'width':'0px'},0.4);}):Promise.resolve()]);
+}
 
 async function ready() {
 	console.log('ready');
@@ -279,9 +282,9 @@ function loadSlide(s,n,m){
 }
 
 function loadSlideRange(s,n1,n2,m){
-	let p=[];
-	for(let n=n1; n<=n2; n++) p.push(loadSlide(s,n,m));
-	return Promise.all(p);
+	let l=Promise.resolve();
+	for(let n=n1; n<=n2; n++) l=l.then(()=>loadSlide(s,n,m));
+	return l;
 }
 
 function parseSlide(s) {
@@ -350,6 +353,8 @@ function showspace() {
 		fadeIn('space',0.5);
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
 		//TODO: reset inputplace width on window resize
+		kbd.match=slide[userstate.order[1]].a;
+		kbd.onMatch=activatebutton;
 		openkeyboard();
 	}
 	$('#space .emojiplace').each(()=>{
@@ -383,6 +388,46 @@ function showspace() {
 	if(userstate.order.length < 2) userstate.order.push(userstate.order[0]);
 }
 
+		
+function getResponse(s) {
+	console.log('getting response');
+	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
+	/*if(s.a!=='' && userstate.status[userstate.order[1]]>0){
+		$('.hint').hide();
+		$('.hint').css('opacity','0');
+		$('.hintbutton').show();
+		assign(ei('hintbutton'),'down',showhint);
+	}*/
+	inputtext = '';
+	hintasked=false;
+	let responsePromise;
+	if (!s.a) {
+		$('#space').css('padding-bottom','1em');
+		responsePromise=fadeIn('space',0.5).then(()=>{activatebutton();return true;});
+		closekeyboard();
+	} else {
+		$('#space').css('padding-bottom',0);
+		fadeIn('space',0.5);
+		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
+		//TODO: reset inputplace width on window resize
+		kbd.match=s.a;
+		responsePromise=new Promise((resolve)=>{
+			kbd.onMatch=()=>{activatebutton();resolve(true);};
+		});
+		openkeyboard();
+	}
+	$('#space .emojiplace').each(()=>{
+		var ew=$(this).width();
+		var em=($('body').width()-ew)/2;
+		var nml=$(this).find('img').length;
+		$(this).find('img').css('max-width',(Math.floor(ew/nml)-Math.ceil(0.8*em))+'px');
+	});
+	drawShell();
+	ei('space').scrollIntoView({
+			block: 'start',
+			behavior: 'smooth'
+		});
+}
 
 function bringinputtofocus() {
 	ei('outerspace').scrollIntoView({
@@ -411,7 +456,7 @@ function type(e) {
 		$('#input').html(kbd.text);
 				if(kbd.text=='nivartanam') {localStorage.setItem('order','');document.location.reload(true);}
 				if(kbd.text=='antargamanam') {signIn();}
-		if (kbd.text == slide[userstate.order[0]].a) activatebutton();
+		if(kbd.text == kbd.match) {kbd.onMatch();}
 		kbd.edit(false,-1,false,(design.pressable[i] && kbd.shiftedkey !== ip)?ip:-1);
 	}
 	try{clearInterval(backaction);}catch(e){}
