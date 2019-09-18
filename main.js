@@ -30,8 +30,8 @@ async function verbalSanskrit(){
 	let m1={},m={promise:[],q:[]},triggerPromise=Promise.resolve();
 	processSlides(slide,m1);
 	initDraw(drawShell);
-	starthere();
-	while(false){
+	//starthere();
+	while(true){
 		let n=determineNext(record,m1);
 		await loadSlide(slide,n,m);
 		loadSlideRange(slide,n,2*n,m);
