@@ -177,9 +177,9 @@ function processSlides(sl,m){
 		let s=sl[i];
 		s.l=s.l||[s.d];
 		for(let l of s.l){
-			let n=findSkill(c.skillList,l)
-			if(n) c.skillList[n].slides.push(i);
-			else c.skillList.push({skill:l,slides:[i]});
+			let n=findSkill(m.skillList,l)
+			if(n) m.skillList[n].slides.push(i);
+			else m.skillList.push({skill:l,slides:[i]});
 		}
 	}
 }
