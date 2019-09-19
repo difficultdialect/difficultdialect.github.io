@@ -467,7 +467,8 @@ function openkeyboard(txt) {
 	let t=theme;
 	kbd.text=txt?txt:'';
 	kbd.edit(false,-1,false,-1);
-	return transit('primarykeyboard',{'height':display.w * t.kbd.keyh * t.kbd.h +'px'},0.2).then(()=>{kbd.open=true;});
+	transit('primarykeyboard',{'height':display.w * t.kbd.keyh * t.kbd.h +'px'},0.2).then(()=>{kbd.open=true;});
+	return kbd;
 }
 
 function closekeyboard() {
