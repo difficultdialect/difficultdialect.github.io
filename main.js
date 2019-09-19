@@ -125,6 +125,7 @@ var slide=[
 	//{q:'{🏊🏼‍♂️}देवोनद्यांतरति।'},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?',d:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?',d:'तरति'},
+	{q:'{🏊🏼‍♂️}नद्यांदेवःकिंकरोति?',d:'तरति'},
 	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।'},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'शालाम्'},
 	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?',d:'पठन्ति'},
@@ -534,33 +535,7 @@ function fadeOut(id,t){
 	return oneTimeTransitionPromise(e);
 }
 function loadScripts(s){
-	s=Array.isArray(s)?s:[s];
-	/*let p=[];
-	for(let src of s){
-		let d=document.createElement('div');
-		d.style.display='none';
-		document.body.append(d);
-		p.push(new Promise(function f(resolve){
-			d.innerHTML='';
-			let sc=document.createElement('script');
-			sc.src=src;
-			sc.onload=resolve;
-			sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
-			d.appendChild(sc);
-		}).then(()=>{document.body.removeChild(d);}));
-	}
-	p=s.map((src)=>new Promise(function f(resolve){
-		let d=document.createElement('div');
-		d.style.display='none';
-		document.body.append(d);
-		let sc=document.createElement('script');
-		sc.src=src;
-		sc.onload=resolve;
-		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
-		d.appendChild(sc);
-	}).then(()=>{document.body.removeChild(d);}));
-	return Promise.all(p);*/
-	return Promise.all(s.map((src)=>new Promise(function f(resolve){
+	return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
 		let d=document.createElement('div');
 		d.style.display='none';
 		document.body.append(d);
