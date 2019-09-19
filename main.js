@@ -549,7 +549,7 @@ function loadScripts(s){
 	return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
 		let sc=document.createElement('script');
 		sc.src=src;
-		sc.onload=()=>resolve;
+		sc.onload=resolve;
 		sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{f(resolve);},reloadTimeOut)};
 		document.head.appendChild(sc);
 	})));
