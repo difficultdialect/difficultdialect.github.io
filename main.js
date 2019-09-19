@@ -32,8 +32,6 @@ async function verbalSanskrit(){
 	processSlides(slide,m1);
 	console.log(JSON.stringify(m1));
 	initDraw(drawShell);
-	
-	//starthere();
 	while(true){
 		let n=determineNext(record,m1);
 		let q=await loadSlide(slide,n,m);
@@ -447,8 +445,12 @@ function drawShell() {
 		$('#outerspace').css('bottom','0');
 		$('#outerspace').css('position','fixed');
 		$('#outerspace').css('bottom','0');
+		console.log('Outerspace at bottom');
 	}
-	else $('#outerspace').css('position','static');
+	else {
+		$('#outerspace').css('position','static');
+		console.log('Outerspace attached to space');
+	}
 	show('outerspace');
 	keys=drawKeyboard(design.letters,t.kbd,w) + bar;
 	ei('primarykeyboard').innerHTML=keys;
