@@ -34,10 +34,10 @@ async function verbalSanskrit(){
 	initDraw(drawShell);
 	while(true){
 		let n=determineNext(record,slide,m1);
-		let q=await loadSlide(slide,n,m);
+		let q=await loadSlides(slide[n],m);
 		await triggerPromise;
 		let responsePromise=getResponse(slide[n],q);
-		loadSlideRange(slide,n,2*n,m);
+		loadSlides(slide.slice(n,2*n),m);
 		response=await responsePromise;
 		updateRecord(record,response,slide,n,m1);
 		console.log('new record: '+record.status+' response: '+response);
@@ -88,7 +88,7 @@ var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 	   id_token:0, /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
 var recordupdate;	// update record based on Date.now(), record and last response
 
-var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/,shiftbackcolor:'#c0c0c0',shiftbackpressedcolor:'#a0a0a0',displaycolor:'#d0d0d0',displayradius:0.25,/*of key width*/fontSize:0.5,/*multiple of key height*/displayheight:2.3,displayshadow:'#c0c0c0'},
+var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/,shiftbackcolor:'#c0c0c0',shiftbackpressedcolor:'#a0a0a0',displaycolor:'#d0d0d0',displayradius:0.25,/*of key width*/fontSize:0.5,/*multiple of key height*/displayheight:2.3,displayshadow:'#b0b0b0'},
 	   bgcolor: '#ffffff',textcolor: '#000000',
 	   fonts:[{n:'Martel, serif',f:'Martel:400,700:devanagari'},{n:'Montserrat, sans-serif',f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
 var display={
@@ -175,6 +175,7 @@ function determineNext(r,slide,m){
 	for(let i=1; i < m.skillList.length;i++){
 		let s=m.skillList[i];
 		r.status[s.skill]=r.status[s.skill]||{prof:-1,interval:2}; // check this initialization
+		//if(!r.status[s.skill]) return {slide:,n:s.skill};
 		if(r.status[s.skill].prof<0&&!determined){
 			let sn = s.slides.length-1;
 			while(!determined&&sn>=0){
@@ -248,29 +249,25 @@ function showhint() {
 	$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
 	hintasked=true;
 }
-function loadSlide(s,n,m){
-	let c='s'+n;
-	if(m.promise[c]) return m.promise[c];
-	else {
-		if(m.pending) m.promise[m.pending]=null;
-		m.pending=c;
-		let p=parseSlide(s[n]);
-		m.promise[c]=p.promise.then((result)=>{m.pending=null;return result;});
-		m.q[c]=p.q;
-		return m.promise[c];
-	}
+function loadSlides(s,m){
+	let sq=(Array.isArray(s)?s:[s]).map((s)=>s.q);
+	sq.unshift(Promise.resolve());
+	return sq.reduce((promise,c)=>promise.then(()=>{
+		if(m.promise[c]) return m.promise[c];
+		else {
+			if(m.pending) m.promise[m.pending]=null;
+			m.pending=c;
+			m.promise[c]=parseSlide(c).then((result)=>{m.pending=null;return result;});
+			return m.promise[c];
+		}
+	}));
 }
 
-function loadSlideRange(s,n1,n2,m){
-	let l=Promise.resolve();
-	for(let n=n1; n<=n2; n++) l=l.then(()=>loadSlide(s,n,m));
-	return l;
-}
 
-function parseSlide(s) {
+function parseSlide(c) {
 	console.log('parsing, answer: '+s.a);
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
-	let q = [],oq = s.q,lastput = 0,i=0;
+	let q = [],oq = c,lastput = 0,i=0;
 	for (i = 0; i < oq.length; i++) {
 		let c=oq.charAt(i),cm={'[':']','{':'}','(':')'};
 		let cc=cm[c];
@@ -296,10 +293,8 @@ function parseSlide(s) {
 	q=twemoji.parse(q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
 		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>'),{folder:'svg',ext:'.svg'})
 		+hintbutton;
-	if (s.d){
-		q=q+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter ${s.d} <span style=\'font-family:${theme.fonts[1].n}\'>${s.a}</span>`+'</div>'+inputdeclaration;
-	}
-	let p = new Promise(function f(resolve){
+	q=q+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
+	return new Promise(function f(resolve){
 		let sp=$('#spacebuffer');
 		sp.html(q);
 		let imgs=sp.find('img');
@@ -312,13 +307,15 @@ function parseSlide(s) {
 			setTimeout(()=>{f(resolve);},reloadTimeOut);
 		});
 	});
-	return {promise:p,q:q};
 }
 	
 function getResponse(s,q) {
 	console.log('getting response');
 	console.log('showing with answer '+s.a);
 	$('#space').html(q.replace(/buffer[0-9]*/g, ''));
+	ei('hintdevenagaribuffer').innerHTML=s.d;
+	ei('hintIASTbuffer').innerHTML=s.a;
+	if(!s.a) hide('hint');
 	/*if(s.a!=='' && userstate.status[userstate.order[1]]>0){
 		$('.hint').hide();
 		$('.hint').css('opacity','0');
