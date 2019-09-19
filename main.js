@@ -535,17 +535,6 @@ function fadeOut(id,t){
 	return oneTimeTransitionPromise(e);
 }
 function loadScripts(s){
-	/*return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
-		let d=document.createElement('div');
-		d.style.display='none';
-		document.body.append(d);
-		let sc=document.createElement('script');
-		sc.src=src;
-		sc.onload=()=>{resolve(d);};
-		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
-		d.appendChild(sc);
-	}).then((d)=>{document.body.removeChild(d);})));
-	*/
 	return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
 		let sc=document.createElement('script');
 		sc.src=src;
