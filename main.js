@@ -32,12 +32,13 @@ async function verbalSanskrit(){
 	processSlides(slide,m1);
 	console.log(JSON.stringify(m1));
 	initDraw(drawShell);
+	
 	//starthere();
 	while(true){
 		let n=determineNext(record,m1);
-		await loadSlide(slide,n,m);
+		let q=await loadSlide(slide,n,m);
 		await triggerPromise;
-		let responsePromise=getResponse(slide[n]);
+		let responsePromise=getResponse(slide[n],q);
 		loadSlideRange(slide,n,2*n,m);
 		response=await responsePromise;
 		updateRecord(record,response,slide,n,m1);
@@ -83,14 +84,6 @@ function writeToFirestore(s){
 	}
 }
 
-function starthere(){
-	assign(ei('outerspace'),'down',subnext);
-	assign(ei('primarykeyboard'),'down',bringinputtofocus);
-	ready();	
-}
-
-
-
 var contentServer;	// question generation based on record and content
 var record={skills:[], /* Type: {skillName, proficiency, interval}*/
 	   day: dayFromMs(Date.now()), /* day of record */
@@ -106,8 +99,9 @@ var display={
 	redrawShell:function(_theme){},
 };
 var kbdproto={
-	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1, text:'', match:'',
-	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);}
+	open:false, backdown:false, keydown:-1, shiftmode:false, shiftedkey:-1, text:'', match:'',matchFunction:()=>{},
+	edit:function(b,k,s,sk){this.backdown=b;this.keydown=k,this.shiftmode=s,this.shiftedkey=sk;updateKeyboardLook(this);},
+	onMatch:function(m,f){this.match=m;this.matchFunction=f;},
 };
 var kbd=Object.create(kbdproto);
 const reloadTimeOut=1000;
@@ -247,26 +241,9 @@ function activatebutton() {
 		showhint();
 	}
 }
-
-function subnext() {
-	if(buttonstate==1) {
-		buttonstate=0;
-		localStorage.setItem('order',JSON.stringify(userstate.order));
-		writeToFirestore({'b':'a'});
-		Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit('inputplace',{'width':'0px'},0.4);}):Promise.resolve()])
-			.then(ready);
-	}
-}
 		
 function clearStage() {
 	return Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit('inputplace',{'width':'0px'},0.4);}):Promise.resolve()]);
-}
-
-async function ready() {
-	console.log('ready');
-	await loadSlide(slide,userstate.order[1],m);
-	showspace();
-	loadSlide(slide,userstate.order[1],m);
 }
 
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
@@ -279,7 +256,6 @@ function showhint() {
 }
 function loadSlide(s,n,m){
 	let c='s'+n;
-	if(m.q[c]) ei('spacebuffer').innerHTML=m.q[c];
 	if(m.promise[c]) return m.promise[c];
 	else {
 		if(m.pending) m.promise[m.pending]=null;
@@ -335,8 +311,8 @@ function parseSlide(s) {
 		let imgs=sp.find('img');
 		let n=imgs.length;
 		let ni=n;
-		if(!ni){resolve();}
-		imgs.on('load',()=>{if(!--ni) resolve();});
+		if(!ni){resolve(q);}
+		imgs.on('load',()=>{if(!--ni) resolve(q);});
 		imgs.on('error',()=>{
 			sp.html('');
 			setTimeout(()=>{f(resolve);},reloadTimeOut);
@@ -344,65 +320,11 @@ function parseSlide(s) {
 	});
 	return {promise:p,q:q};
 }
-function showspace() {
-	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
-	if(slide[userstate.order[1]].a!=='' && userstate.status[userstate.order[1]]>0){
-		$('.hint').hide();
-		$('.hint').css('opacity','0');
-		$('.hintbutton').show();
-		assign(ei('hintbutton'),'down',showhint);
-	}
-	inputtext = '';
-	hintasked=false;
-	if (slide[userstate.order[1]].a == '') {
-		$('#space').css('padding-bottom','1em');
-		fadeIn('space',0.5).then(activatebutton);
-		closekeyboard();
-	} else {
-		$('#space').css('padding-bottom',0);
-		fadeIn('space',0.5);
-		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
-		//TODO: reset inputplace width on window resize
-		kbd.match=slide[userstate.order[1]].a;
-		kbd.onMatch=activatebutton;
-		openkeyboard();
-	}
-	$('#space .emojiplace').each(()=>{
-		var ew=$(this).width();
-		var em=($('body').width()-ew)/2;
-		var nml=$(this).find('img').length;
-		$(this).find('img').css('max-width',(Math.floor(ew/nml)-Math.ceil(0.8*em))+'px');
-	});
-	drawShell();
-	ei('space').scrollIntoView({
-			block: 'start',
-			behavior: 'smooth'
-		});
-	userstate.order.shift();
-	var c=userstate.order.shift();
-	var toput=-1;
-	for(let i=2; i<=userstate.reached; i++) {
-		userstate.prof[i]--;
-		var smallest=0;
-		if(slide[c].a!=='' && slide[i].a!=='' && userstate.prof[i]<0 && (toput<0 || userstate.int[i]<smallest)) {
-			smallest=userstate.int[i];
-			toput=i;
-		}
-	}
-	if(toput>-1){
-		userstate.order.unshift(toput);
-		userstate.prof[toput]=4;
-	}
-	userstate.order.unshift(c);
-	if(c>userstate.reached) userstate.reached=c;
-	if(userstate.order.length < 2) userstate.order.push(userstate.order[0]);
-}
-
-		
-function getResponse(s) {
+	
+function getResponse(s,q) {
 	console.log('getting response');
 	console.log('showing with answer '+s.a);
-	$('#space').html($('#spacebuffer').html().replace(/buffer[0-9]*/g, ''));
+	$('#space').html(q.replace(/buffer[0-9]*/g, ''));
 	/*if(s.a!=='' && userstate.status[userstate.order[1]]>0){
 		$('.hint').hide();
 		$('.hint').css('opacity','0');
@@ -422,11 +344,9 @@ function getResponse(s) {
 		fadeIn('space',0.5);
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
 		//TODO: reset inputplace width on window resize
-		kbd.match=s.a;
 		responsePromise=new Promise((resolve)=>{
-			kbd.onMatch=()=>{activatebutton();resolve(true);};
+			openkeyboard().onMatch(s.a,()=>{resolve(true);});
 		});
-		openkeyboard();
 	}
 	$('#space .emojiplace').each(()=>{
 		var ew=$(this).width();
@@ -469,7 +389,7 @@ function type(e) {
 		$('#input').html(kbd.text);
 				if(kbd.text=='nivartanam') {localStorage.setItem('order','');document.location.reload(true);}
 				if(kbd.text=='antargamanam') {signIn();}
-		if(kbd.text == kbd.match) {kbd.onMatch();}
+		if(kbd.text == kbd.match) {kbd.matchFunction();}
 		kbd.edit(false,-1,false,(design.pressable[i] && kbd.shiftedkey !== ip)?ip:-1);
 	}
 	try{clearInterval(backaction);}catch(e){}
@@ -538,6 +458,7 @@ function drawShell() {
 	assign(ei('back'),'up',()=>{kbd.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
 	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
 	if (kbd.open) openkeyboard(kbd.text);
+	assign(ei('primarykeyboard'),'down',bringinputtofocus);
 }
 
 function openkeyboard(txt) {
