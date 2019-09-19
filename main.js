@@ -566,7 +566,7 @@ function loadScripts(s){
 		document.body.append(d);
 		let sc=document.createElement('script');
 		sc.src=src;
-		sc.onload=resolve(d);
+		sc.onload=()=>{resolve(d);};
 		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
 		d.appendChild(sc);
 	}).then((d)=>{document.body.removeChild(d);})));
