@@ -13,12 +13,17 @@ workbox.precaching.precacheAndRoute([
     { url: '/index.html', revision: '383676' },
 ]);
 
+
 workbox.routing.registerRoute(
-  // Cache CSS files.
-  /\.(?:js|css|html)$/,
-  // Use cache but update in the background.
+  'main.js',
   new workbox.strategies.NetworkFirst({
-    // Use a custom cache name.
+    cacheName: 'main-js',
+  })
+);
+
+workbox.routing.registerRoute(
+  /[^(main)]*\.(?:js|css|html)$/,
+  new workbox.strategies.NetworkFirst({
     cacheName: 'css-js-html',
   })
 );
