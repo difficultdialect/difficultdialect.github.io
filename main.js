@@ -259,7 +259,7 @@ function loadSlide(s,n,m){
 		if(m.pending) m.promise[m.pending]=null;
 		m.pending=c;
 		let p=parseSlide(s[n]);
-		m.promise[c]=p.promise.then(()=>{m.pending=null;});
+		m.promise[c]=p.promise.then((result)=>{m.pending=null;return result;});
 		m.q[c]=p.q;
 		return m.promise[c];
 	}
@@ -343,7 +343,7 @@ function getResponse(s,q) {
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
 		//TODO: reset inputplace width on window resize
 		responsePromise=new Promise((resolve)=>{
-			openkeyboard().onMatch(s.a,()=>{resolve(true);});
+			openkeyboard().onMatch(s.a,()=>{activatebutton();resolve(true);});
 		});
 	}
 	$('#space .emojiplace').each(()=>{
