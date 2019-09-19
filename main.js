@@ -535,7 +535,7 @@ function fadeOut(id,t){
 	return oneTimeTransitionPromise(e);
 }
 function loadScripts(s){
-	return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
+	/*return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
 		let d=document.createElement('div');
 		d.style.display='none';
 		document.body.append(d);
@@ -545,6 +545,14 @@ function loadScripts(s){
 		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
 		d.appendChild(sc);
 	}).then((d)=>{document.body.removeChild(d);})));
+	*/
+	return Promise.all((Array.isArray(s)?s:[s]).map((src)=>new Promise(function f(resolve){
+		let sc=document.createElement('script');
+		sc.src=src;
+		sc.onload=()=>resolve;
+		sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{f(resolve);},reloadTimeOut)};
+		document.head.appendChild(sc);
+	})));
 }
 function findSkill(a,l){
 	for(let i in a) if(a[i].skill==l) return i;
