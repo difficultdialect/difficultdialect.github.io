@@ -33,7 +33,7 @@ async function verbalSanskrit(){
 	console.log(JSON.stringify(m1));
 	initDraw(drawShell);
 	while(true){
-		let n=determineNext(record,m1);
+		let n=determineNext(record,slide,m1);
 		let q=await loadSlide(slide,n,m);
 		await triggerPromise;
 		let responsePromise=getResponse(slide[n],q);
@@ -154,25 +154,13 @@ var slide=[
 	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?',d:'क्रीडति'},];
 
 function processSlides(sl,m){
-	for(let i=0;i<sl.length;i++){
-		let s=sl[i];
-		userstate.order.push(i);
-		s.d=s.d||'';
-		s.a=dToIAST(s.d);
-		if(s.a.charAt(0)=='@'){
-			s.a=s.a.substr(1);
-			s.d=s.d.substr(1);
-			userstate.status.push(1);
-		}
-		else if(!s.d) userstate.status.push(1);
-		else userstate.status.push(0);
-		userstate.prof.push(-1);
-		userstate.int.push(2);
-	}
 	m.skillList=[{skill:'',slides:[]}];
 	for(let i in sl){
 		let s=sl[i];
+		s.d=s.d||'';
+		s.a=dToIAST(s.d);
 		s.l=s.l||[s.d];
+		s.r=m.skillList.map((sk)=>sk.skill);
 		for(let l of s.l){
 			let n=findSkill(m.skillList,l)
 			if(n) m.skillList[n].slides.push(i);
@@ -180,15 +168,22 @@ function processSlides(sl,m){
 		}
 	}
 }
-function determineNext(r,m){
+function determineNext(r,slide,m){
 	let next=0;
 	let determined=false;
 	for(let i=1; i < m.skillList.length;i++){
 		let s=m.skillList[i];
 		r.status[s.skill]=r.status[s.skill]||{prof:-1,interval:2}; // check this initialization
 		if(r.status[s.skill].prof<0&&!determined){
-			next=s.slides[s.slides.length-1];
-			determined=true;
+			let sn = s.slides.length-1;
+			while(!determined&&sn>=0){
+				let sm=s.slides[sn];
+				if(and(slide[sm].r.map((rq)=>(r.status[rq]<0)))){
+					next=sm;
+					determined=true;
+				}
+				sn--;
+			}
 		}
 	}
 	return next;
@@ -559,6 +554,14 @@ function loadScripts(s){
 function findSkill(a,l){
 	for(let i in a) if(a[i].skill==l) return i;
 	return 0;
+}
+function and(a){
+	a.forEach((e)=>{if(!e) return false;});
+	return true;
+}
+function or(a){
+	a.forEach((e)=>{if(e) return true;});
+	return false;
 }
 function registerSW(f){
 	// Check that service workers are supported
