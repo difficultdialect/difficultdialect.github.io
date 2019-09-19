@@ -535,7 +535,7 @@ function fadeOut(id,t){
 }
 function loadScripts(s){
 	s=Array.isArray(s)?s:[s];
-	let p=[];
+	/*let p=[];
 	for(let src of s){
 		let d=document.createElement('div');
 		d.style.display='none';
@@ -545,11 +545,31 @@ function loadScripts(s){
 			let sc=document.createElement('script');
 			sc.src=src;
 			sc.onload=resolve;
-			sc.onerror=()=>{setTimeout(()=>{f(resolve);},reloadTimeOut)};
+			sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
 			d.appendChild(sc);
 		}).then(()=>{document.body.removeChild(d);}));
 	}
-	return Promise.all(p);
+	p=s.map((src)=>new Promise(function f(resolve){
+		let d=document.createElement('div');
+		d.style.display='none';
+		document.body.append(d);
+		let sc=document.createElement('script');
+		sc.src=src;
+		sc.onload=resolve;
+		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
+		d.appendChild(sc);
+	}).then(()=>{document.body.removeChild(d);}));
+	return Promise.all(p);*/
+	return Promise.all(s.map((src)=>new Promise(function f(resolve){
+		let d=document.createElement('div');
+		d.style.display='none';
+		document.body.append(d);
+		let sc=document.createElement('script');
+		sc.src=src;
+		sc.onload=resolve;
+		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
+		d.appendChild(sc);
+	}).then(()=>{document.body.removeChild(d);})));
 }
 function findSkill(a,l){
 	for(let i in a) if(a[i].skill==l) return i;
