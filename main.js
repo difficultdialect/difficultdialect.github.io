@@ -566,10 +566,10 @@ function loadScripts(s){
 		document.body.append(d);
 		let sc=document.createElement('script');
 		sc.src=src;
-		sc.onload=resolve;
+		sc.onload=resolve(d);
 		sc.onerror=()=>{document.body.removeChild(d);setTimeout(()=>{f(resolve);},reloadTimeOut)};
 		d.appendChild(sc);
-	}).then(()=>{document.body.removeChild(d);})));
+	}).then((d)=>{document.body.removeChild(d);})));
 }
 function findSkill(a,l){
 	for(let i in a) if(a[i].skill==l) return i;
