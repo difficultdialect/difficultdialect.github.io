@@ -28,16 +28,17 @@ async function verbalSanskrit(){
 			   loadScripts([scripts.twemoji,scripts.jquery])]);
 	try {record=JSON.parse(localStorage.getItem('record'));}catch(e){}
 	record={status:{}};
-	let m1={},m={promise:[],q:[]},triggerPromise=Promise.resolve();
+	let m1={},triggerPromise=Promise.resolve();
 	processSlides(slide,m1);
 	console.log(JSON.stringify(m1));
 	initDraw(drawShell);
+	let canceller={cancel:()=>{}};
 	while(true){
 		let n=determineNext(record,slide,m1);
-		let q=await loadSlides(slide[n],m);
+		await loadImages(slide[n].q,canceller);
 		await triggerPromise;
-		let responsePromise=getResponse(slide[n],q);
-		loadSlides(slide.slice(n,2*n),m);
+		let responsePromise=getResponse(slide[n]);
+		loadImages(slide.slice(n,2*n).map((s)=>s.q),canceller);
 		response=await responsePromise;
 		updateRecord(record,response,slide,n,m1);
 		console.log('new record: '+record.status+' response: '+response);
@@ -162,6 +163,7 @@ function processSlides(sl,m){
 		s.a=dToIAST(s.d);
 		s.l=s.l||[s.d];
 		s.r=m.skillList.map((sk)=>sk.skill);
+		s.q=parseQ(s.q);
 		for(let l of s.l){
 			let n=findSkill(m.skillList,l)
 			if(n) m.skillList[n].slides.push(i);
@@ -264,10 +266,9 @@ function loadSlides(s,m){
 }
 
 
-function parseSlide(c) {
-	console.log('parsing, answer: '+s.a);
+function parseQ(oq) {
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
-	let q = [],oq = c,lastput = 0,i=0;
+	let q = [],lastput = 0,i=0;
 	for (i = 0; i < oq.length; i++) {
 		let c=oq.charAt(i),cm={'[':']','{':'}','(':')'};
 		let cc=cm[c];
@@ -289,19 +290,55 @@ function parseSlide(c) {
 		}
 	}
 	q.push(transliteral(oq.substring(lastput, i)));
-	q=q.join('');
-	q=twemoji.parse(q.replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
+	return twemoji.parse(q.join('').replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
 		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>'),{folder:'svg',ext:'.svg'})
-		+hintbutton;
-	q=q+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
+		+hintbutton+<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
+}
+/*function loadImages(q,canceller){
 	return new Promise(function f(resolve){
+		canceller.cancel=resolve;
 		let sp=$('#spacebuffer');
 		sp.html(q);
 		let imgs=sp.find('img');
-		let n=imgs.length;
-		let ni=n;
-		if(!ni){resolve(q);}
-		imgs.on('load',()=>{if(!--ni) resolve(q);});
+		let ni=imgs.length;
+		if(!ni){resolve();}
+		imgs.on('load',()=>{if(!--ni) resolve();});
+		imgs.on('error',()=>{
+			sp.html('');
+			setTimeout(()=>{f(resolve);},reloadTimeOut);
+		});
+	});
+}
+
+function loadImages(qs,canceller){
+	qs=Array.IsArray(qs)?qs:[qs];
+	qs.unshift(Promise.resolve());
+	return qs.reduce((promise,q)=>promise.then(()=>new Promise(function f(resolve,reject){
+		canceller.cancel=reject;
+		let sp=$('#spacebuffer');
+		sp.html(q);
+		let imgs=sp.find('img');
+		let ni=imgs.length;
+		if(!ni){resolve();}
+		imgs.on('load',()=>{if(!--ni) resolve();});
+		imgs.on('error',()=>{
+			sp.html('');
+			setTimeout(()=>{f(resolve);},reloadTimeOut);
+		});
+	})));
+}*/
+
+async function loadImages(qs,canceller){
+	qs=Array.IsArray(qs)?qs:[qs];
+	canceller.cancel();
+	for(let q of qs) await new Promise(function f(resolve,reject){
+		canceller.cancel=reject;
+		let sp=$('#spacebuffer');
+		sp.html(q);
+		let imgs=sp.find('img');
+		let ni=imgs.length;
+		if(!ni){resolve();}
+		imgs.on('load',()=>{if(!--ni) resolve();});
 		imgs.on('error',()=>{
 			sp.html('');
 			setTimeout(()=>{f(resolve);},reloadTimeOut);
@@ -309,10 +346,10 @@ function parseSlide(c) {
 	});
 }
 	
-function getResponse(s,q) {
+function getResponse(s) {
 	console.log('getting response');
 	console.log('showing with answer '+s.a);
-	$('#space').html(q.replace(/buffer[0-9]*/g, ''));
+	$('#space').html(s.q.replace(/buffer[0-9]*/g, ''));
 	ei('hintdevenagaribuffer').innerHTML=s.d;
 	ei('hintIASTbuffer').innerHTML=s.a;
 	if(!s.a) hide('hint');
