@@ -292,7 +292,7 @@ function parseQ(oq) {
 	q.push(transliteral(oq.substring(lastput, i)));
 	return twemoji.parse(q.join('').replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
 		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>'),{folder:'svg',ext:'.svg'})
-		+hintbutton+<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
+		+hintbutton+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
 }
 /*function loadImages(q,canceller){
 	return new Promise(function f(resolve){
