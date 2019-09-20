@@ -329,7 +329,7 @@ function loadImages(qs,canceller){
 }*/
 
 async function loadImages(qs,canceller){
-	qs=Array.IsArray(qs)?qs:[qs];
+	qs=Array.isArray(qs)?qs:[qs];
 	canceller.cancel();
 	for(let q of qs) await new Promise(function f(resolve,reject){
 		canceller.cancel=reject;
