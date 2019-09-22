@@ -67,8 +67,10 @@ body {
 	font-size: medium;
 	font-weight: bold;
 	display: none;
+	opacity:1;
 }
 .hint, .hintbuffer {
+	opacity:1;
 	color: #606060;
    font-weight: normal;
 	font-size: medium;
@@ -80,6 +82,9 @@ body {
   background-color: #f0f0f0;
 	padding: 0;
 	border-radius: 4em;
+	border-color: #e0e0e0;
+	border-width: 0.1em;
+	border-style: solid;
   white-space: nowrap;
 	overflow: hidden;
   text-align: center;
@@ -89,7 +94,7 @@ body {
   animation: expand 0.5s forwards;
   -webkit-animation: expand 0.5s forwards;*/
 }
-.cursor {
+/*.cursor {
 	animation-name: cursorblink;
 	animation-iteration-count: infinite;
 	animation-duration: 1s;
@@ -108,7 +113,7 @@ body {
 	0%	{opacity: 0;}
 	50%	{opacity: 1;}
 	100%	{opacity: 0;}
-}
+}*/
 .continue {
 	animation-name: contiuneblink;
 	animation-iteration-count: infinite;
