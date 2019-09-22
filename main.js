@@ -41,9 +41,9 @@ async function verbalSanskrit(){
 		loadImages(slide.slice(n,2*n).map((s)=>s.q),canceller);
 		response=await responsePromise;
 		updateRecord(record,response,slide,n,m1);
-		console.log('new record: '+record.status+' response: '+response);
 		triggerPromise=new Promise((resolve)=>{
 			assign(ei('outerspace'),'down',()=>{clearStage().then(resolve);},{once:true});
+			document.addEventListener('keydown',(e)=>{if(e.key=='Enter') clearStage().then(resolve);},{once:true});
 		});
 	}
 }
@@ -83,12 +83,6 @@ function writeToFirestore(s){
 	}
 }
 
-var contentServer;	// question generation based on record and content
-var record={skills:[], /* Type: {skillName, proficiency, interval}*/
-	   day: dayFromMs(Date.now()), /* day of record */
-	   id_token:0, /* Google id token used for login */};	/* To be stored locally and as user data accross sessions */
-var recordupdate;	// update record based on Date.now(), record and last response
-
 var theme={kbd:{keyh:1.5/*key aspect ratio*/,h:0.4/*number of unit key heights / 10*/,shiftbackcolor:'#c0c0c0',shiftbackpressedcolor:'#a0a0a0',displaycolor:'#d0d0d0',displayradius:0.25,/*of key width*/fontSize:0.5,/*multiple of key height*/displayheight:2.3,displayshadow:'#b0b0b0'},
 	   bgcolor: '#ffffff',textcolor: '#000000',
 	   fonts:[{n:'Martel, serif',f:'Martel:400,700:devanagari'},{n:'Montserrat, sans-serif',f:'Montserrat:400,700',t:'āḍḥīḷḹṃṇñṅṛṝṣśṭūertyuiopasdghjklcvbnm.?'}]};
@@ -103,11 +97,12 @@ var kbdproto={
 	onMatch:function(m,f){this.match=m;this.matchFunction=f;},
 };
 var kbd=Object.create(kbdproto);
-const reloadTimeOut=1000;
-var userstate={status:[],prof:[],int:[],reached:0/*inferrable from status*/,order:[]};	/*  */
+const reloadTimeout=1000;
 var design={
-	letters:	'ṃśertyuiopasdṭghjklḍṣcvbnm'+
+	letters:'ṃśertyuiopasdṭghjklḍṣcvbnm'+
 			'   ṛ  ūī  ā    ḥñṅḷ     ṇ ',
+	qwert:	'qwertyuiopasdfghjklzxcvbnm'+
+			'QWERTYUIOPASDFGHJKLZXCVBNM',
 	pressable:[0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
 	shiftdrawing:[ [0,5, 2,5, 2,3, 1,3, 2.5,1, 4,3, 3,3, 3,5, 5,5, 5,0, 0,0],
 		[0,5, 5,5, 5,4, 0,4] ],
@@ -117,22 +112,24 @@ var design={
 var ei=document.getElementById.bind(document);
 var ec=document.getElementsByClassName.bind(document);
 var m={promise:[],q:[]};
-var buttonstate=0;
 var backaction;
-var hintasked=false;
+const shiftDown=()=>{if(!kbd.shiftmode) kbd.edit(false,-1,true,-1);else kbd.edit(false,-1,false,-1);};
+const backDown=()=>{kbd.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){} backaction=setInterval(back,150);};
+const backUp=()=>{kbd.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}};
 var slide=[
 	//{q:'<br>Sign in to contiunue learning Sanskrit. <div id=\"my-signin2\"></div>', d:''},
 	//{q:'(<br>This is a question-answer based tool for learning Sanskrit. Use the onscreen keyboard provided.)', d:''},
-	//{q:'{🏊🏼‍♂️}देवोनद्यांतरति।'},
+	{q:'{🏊🏼‍♂️}देवोनद्यांतरति।'},
+	//{q:'{🚧}(Site under construction.)',forever:true},
 	{q:'{🏊🏼‍♂️}देवःकुत्रतरति?',d:'नद्याम्'},
 	{q:'{🏊🏼‍♂️}देवोनद्यांकिंकरोति?',d:'तरति'},
 	{q:'{🏊🏼‍♂️}नद्यांदेवःकिंकरोति?',d:'तरति'},
-	//{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।'},
+	{q:'{🚶🏽🚶🏻🚶🏿‍♀️}छात्राःशालांगच्छन्ति।{📖📖📖}छात्राःशालायांपठन्ति।'},
 	{q:'{🏫}छात्राःकुत्रगच्छन्ति?',d:'शालाम्'},
 	{q:'{📖📖📖}छात्राःशालायांकिंकुर्वन्ति?',d:'पठन्ति'},
 	{q:'{🏫}छात्राःकुत्रपठन्ति?',d:'शालायाम्'},
 	{q:'{🧍🏻🧍🏽🧍🏿‍♀️}केशालायांपठन्ति?',d:'छात्राः'},
-	//{q:'{🚶🏾‍♂️}देवःशालांगच्छति।{😴}देवःशालायांशेते।'},
+	{q:'{🚶🏾‍♂️}देवःशालांगच्छति।{😴}देवःशालायांशेते।'},
 	{q:'{😴}देवःशालायांकिंकरोति?',d:'शेते'},
 	//{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौशेरते।'},
 	{q:'{🛌🏾🛌🏻🛌🏿}लोकारात्रौकिंकुर्वन्ति?',d:'शेरते'},
@@ -156,69 +153,64 @@ var slide=[
 	{q:'{⛹🏾‍♂️}देवःकन्दुकेनकिंकरोति?',d:'क्रीडति'},];
 
 function processSlides(sl,m){
-	m.skillList=[{skill:'',slides:[]}];
-	for(let i in sl){
+	m.skillList=[];
+	for(let i=0;i<sl.length;i++){
 		let s=sl[i];
 		s.d=s.d||'';
 		s.a=dToIAST(s.d);
-		s.l=s.l||[s.d];
-		s.r=m.skillList.map((sk)=>sk.skill);
+		s.l=s.l||s.d?[s.d]:[s.q];
+		s.r=s.r||[];
 		s.q=parseQ(s.q);
 		for(let l of s.l){
-			let n=findSkill(m.skillList,l)
-			if(n) m.skillList[n].slides.push(i);
+			let sk1=m.skillList.find((sk)=>sk.skill==l);
+			if(sk1) sk1.slides.unshift(i);
 			else m.skillList.push({skill:l,slides:[i]});
 		}
 	}
 }
 function determineNext(r,slide,m){
-	let next=0;
-	let determined=false;
-	for(let i=1; i < m.skillList.length;i++){
-		let s=m.skillList[i];
-		r.status[s.skill]=r.status[s.skill]||{prof:-1,interval:2}; // check this initialization
-		//if(!r.status[s.skill]) return {slide:,n:s.skill};
-		if(r.status[s.skill].prof<0&&!determined){
-			let sn = s.slides.length-1;
-			while(!determined&&sn>=0){
-				let sm=s.slides[sn];
-				if(and(slide[sm].r.map((rq)=>(r.status[rq]<0)))){
-					next=sm;
-					determined=true;
-				}
-				sn--;
-			}
-		}
-	}
-	return next;
+	const n=m.skillList.find((s)=>r.status[s.skill]?r.status[s.skill].prof<0:true)
+		.slides.find((sl)=>slide[sl].r.every((rq)=>r.status[rq]));
+	console.log('next number: '+n);
+	console.log('next skill: '+JSON.stringify(m.skillList.find((s)=>r.status[s.skill]?r.status[s.skill].prof<0:true)));
+	return n;
 }
 function updateRecord(r,response,slide,n,m){
-	if(response) for(let skill of slide[n].l){
-		r.status[skill].interval*=2;
-		r.status[skill].prof=r.status[skill].interval-2; // check the actual value required here
-	}
-	else {
-		let skill=getLeastProficientSkill(r,slide[n].l);
-		r.status[skill].interval/=2;
-		if(r.status[skill].interval<2)
-			r.status[skill].interval=2;
-		r.status[skill].prof=r.status[skill].interval-2; //check
-	}
-	for(let st in r.status) r.status[st].prof--;
+	if(response) slide[n].l.forEach((l)=>{if(r.status[l]) increaseStatus(r.status[l]); else r.status[l]={interval: 4, prof: 2};});
+	else decreaseStatus(r.status[minMap(slide[n].l,(sk)=>r.status[sk].prof)]);
+	for(let st in r.status) if(slide[m.skillList.find((sk)=>sk.skill==st).slides[0]].d) r.status[st].prof--;
 }
-				    
-function getLeastProficientSkill(r,skills){
-	let p,s;
-	for(let sk of skills){
-		let pr=r.status[sk].prof;
-		if(!p||pr<p){
-			p=pr;s=sk;
-		}
-	}
-	return s;
+
+function decreaseStatus(sk){
+	Object.assign(sk,{interval:Math.max(sk.interval/2,2)});
+	Object.assign(sk,{prof:sk.interval-2});
 }
+function increaseStatus(sk){
+	Object.assign(sk,{interval:sk.interval*2});
+	Object.assign(sk,{prof:sk.interval-2});	
+}
+
 function initDraw(f){
 	f();
+	document.addEventListener('keydown',(e)=>{
+		let k=e.key;
+		if(design.qwert.includes(k)){
+			let i=design.qwert.indexOf(k);
+			if(design.letters[i]==' ') i=i-design.letters.length/2;
+			showDisplay(i);
+		}
+		else if(k=='Backspace') backDown();
+	});
+	document.addEventListener('keyup',(e)=>{
+		console.log('keyup');
+		let k=e.key;
+		if(design.qwert.includes(k)){
+			let i=design.qwert.indexOf(k);
+			if(design.letters[i]==' ') i=i-design.letters.length/2;
+			type(i);
+		}
+		else if(k=='Backspace') backUp();
+	});
 	window.addEventListener('resize',function(){
 		let w=document.body.offsetWidth,h=document.body.offsetHeight;
 		if(display.w!=w||display.h!=h){display.w=w;display.h=h;f();}
@@ -227,44 +219,23 @@ function initDraw(f){
 function activatebutton() {
 	closekeyboard();
 	$('#inputplace').html('<div id= \'correct\'>'+kbd.text+'</div>');
-	buttonstate=1;
-	fadeIn('outerspace',0.5);userstate.status[userstate.order[0]] = 2;
-	if(hintasked) userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] / 2;
-	else userstate.int[userstate.order[0]] = userstate.int[userstate.order[0]] * 2;
-	if(userstate.int[userstate.order[0]]<1) userstate.int[userstate.order[0]] = 1;
-	userstate.prof[userstate.order[0]] = userstate.int[userstate.order[0]]-2;
+	fadeIn('outerspace',0.5);
 	if($('#hint').css('display')=='none') {
-		$('#hint').html(slide[userstate.order[0]].d);
-		showhint();
+		//showhint();
 	}
 }
 		
 function clearStage() {
-	return Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>{return transit('inputplace',{'width':'0px'},0.4);}):Promise.resolve()]);
+	return Promise.all([fadeOut('outerspace',0.5),fadeOut('space',0.5),ei('correct')?fadeOut('correct',0.1).then(()=>transit('inputplace',{'width':'0px'},0.4)):Promise.resolve()]);
 }
 
 var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.</span>';
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
-var hintbutton = '<p class=\'hintbuttonbuffer cursor\' style=\'animation-duration: 4s; -webkit-animation-duration: 4s;\' id=\'hintbuttonbuffer\'>Reveal</div>';
+var hintbutton = '<div class=\'hintbuttonbuffer cursor\' style=\'display:none\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
-	//fadeOut('hintbutton',2).then(()=>{hide('hintbutton');fadeIn('hint',2);});
-	$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
-	hintasked=true;
+	fadeOut('hintbutton',2).then(()=>{hide('hintbutton');fadeIn('hint',5);});
+	//$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
 }
-function loadSlides(s,m){
-	let sq=(Array.isArray(s)?s:[s]).map((s)=>s.q);
-	sq.unshift(Promise.resolve());
-	return sq.reduce((promise,c)=>promise.then(()=>{
-		if(m.promise[c]) return m.promise[c];
-		else {
-			if(m.pending) m.promise[m.pending]=null;
-			m.pending=c;
-			m.promise[c]=parseSlide(c).then((result)=>{m.pending=null;return result;});
-			return m.promise[c];
-		}
-	}));
-}
-
 
 function parseQ(oq) {
 	let transliteral = s => s?s+`<br><span style=\'font-family:${theme.fonts[1].n}\'>${dToIAST(s)}</span>`:'';
@@ -292,41 +263,8 @@ function parseQ(oq) {
 	q.push(transliteral(oq.substring(lastput, i)));
 	return twemoji.parse(q.join('').replace(/\{/g,'<div class=\'emojiplace\'>').replace(/\}/g,'</div>')
 		.replace(/\(/g,`<span style=\'font-family:${theme.fonts[0].n}\'>`).replace(/\)/g,'</span>'),{folder:'svg',ext:'.svg'})
-		+hintbutton+`<p class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
+		+hintbutton+`<div class=\'hintbuffer\' id=\'hintbuffer\'>Enter <span id=\'hintdevenagaribuffer\'></span> <span id=\'hintIASTbuffer\' style=\'font-family:${theme.fonts[1].n}\'></span>`+'</div>'+inputdeclaration;
 }
-/*function loadImages(q,canceller){
-	return new Promise(function f(resolve){
-		canceller.cancel=resolve;
-		let sp=$('#spacebuffer');
-		sp.html(q);
-		let imgs=sp.find('img');
-		let ni=imgs.length;
-		if(!ni){resolve();}
-		imgs.on('load',()=>{if(!--ni) resolve();});
-		imgs.on('error',()=>{
-			sp.html('');
-			setTimeout(()=>{f(resolve);},reloadTimeOut);
-		});
-	});
-}
-
-function loadImages(qs,canceller){
-	qs=Array.IsArray(qs)?qs:[qs];
-	qs.unshift(Promise.resolve());
-	return qs.reduce((promise,q)=>promise.then(()=>new Promise(function f(resolve,reject){
-		canceller.cancel=reject;
-		let sp=$('#spacebuffer');
-		sp.html(q);
-		let imgs=sp.find('img');
-		let ni=imgs.length;
-		if(!ni){resolve();}
-		imgs.on('load',()=>{if(!--ni) resolve();});
-		imgs.on('error',()=>{
-			sp.html('');
-			setTimeout(()=>{f(resolve);},reloadTimeOut);
-		});
-	})));
-}*/
 
 async function loadImages(qs,canceller){
 	qs=Array.isArray(qs)?qs:[qs];
@@ -341,7 +279,7 @@ async function loadImages(qs,canceller){
 		imgs.on('load',()=>{if(!--ni) resolve();});
 		imgs.on('error',()=>{
 			sp.html('');
-			setTimeout(()=>{f(resolve);},reloadTimeOut);
+			setTimeout(()=>{f(resolve);},reloadTimeout);
 		});
 	});
 }
@@ -350,26 +288,27 @@ function getResponse(s) {
 	console.log('getting response');
 	console.log('showing with answer '+s.a);
 	$('#space').html(s.q.replace(/buffer[0-9]*/g, ''));
-	ei('hintdevenagaribuffer').innerHTML=s.d;
-	ei('hintIASTbuffer').innerHTML=s.a;
+	ei('hintdevenagari').innerHTML=s.d;
+	ei('hintIAST').innerHTML=s.a;
 	if(!s.a) hide('hint');
-	/*if(s.a!=='' && userstate.status[userstate.order[1]]>0){
-		$('.hint').hide();
-		$('.hint').css('opacity','0');
-		$('.hintbutton').show();
+	else {
+		hide('hint');
+		show('hintbutton','block');
 		assign(ei('hintbutton'),'down',showhint);
-	}*/
+	}
 	inputtext = '';
 	hintasked=false;
 	let responsePromise;
+	hide('inputplace');
 	if (!s.a) {
 		$('#space').css('padding-bottom','1em');
-		responsePromise=fadeIn('space',0.5).then(()=>{activatebutton();return true;});
+		responsePromise=fadeIn('space',0.5).then(()=>{if(!s.f){activatebutton();return true;} else return new Promise(()=>{});});
 		closekeyboard();
 	} else {
 		console.log('answerable');
 		$('#space').css('padding-bottom',0);
 		fadeIn('space',0.5);
+		show('inputplace');
 		transit('inputplace',{'width':$('#space').width()+'px'},0.5);
 		//TODO: reset inputplace width on window resize
 		responsePromise=new Promise((resolve)=>{
@@ -402,17 +341,14 @@ function back() {
 	if(!kbd.text) {try{clearInterval(backaction);}catch(e){}}
 }
 
-function showdisplay(e) {
-	let i=parseInt(e.currentTarget.id.slice(-4, -2));
+function showDisplay(i) {
 	kbd.edit(false,i,kbd.shiftmode,i==kbd.shiftedkey?i:-1);
 }
-function hidedisplay() {kbd.edit(false,-1,false,kbd.shiftedkey);}
-function type(e) {
+function type(i) {
 	if(kbd.open){
-		let i = parseInt(e.currentTarget.id.slice(-4, -2));
 		let ip=i+design.letters.length/2;
 		if (kbd.shiftedkey == i) kbd.text = kbd.text.slice(0, -1);
-		kbd.text = kbd.text.concat(e.currentTarget.children[0].innerHTML);
+		kbd.text = kbd.text.concat(design.letters[i]);
 		//f(kbd.text);
 		$('#input').html(kbd.text);
 				if(kbd.text=='nivartanam') {localStorage.setItem('order','');document.location.reload(true);}
@@ -485,10 +421,14 @@ function drawShell() {
 	keys=drawKeyboard(design.letters,t.kbd,w) + bar;
 	ei('primarykeyboard').innerHTML=keys;
 	updateKeyboardLook(kbd);
-	assign(ei('shift'),'down',()=>{if(!kbd.shiftmode) kbd.edit(false,-1,true,-1);else kbd.edit(false,-1,false,-1);});
-	assign(ei('back'),'down',()=>{kbd.edit(true,-1,false,-1);try{clearInterval(backaction);}catch(e){} backaction=setInterval(back,150);});
-	assign(ei('back'),'up',()=>{kbd.edit(false,-1,false,-1);back();try{clearInterval(backaction);}catch(e){}});
-	for(let lsq of ec('lsq')) {assign(lsq,'up',type);assign(lsq,'down',showdisplay);}
+	assign(ei('shift'),'down',shiftDown);
+	assign(ei('back'),'down',backDown);
+	assign(ei('back'),'up',backUp);
+	for(let i=0;i<design.letters.length;i++) if(design.letters[i]!==' '){
+		let e=ei(i+'sq');
+		assign(e,'up',()=>type(i));
+		assign(e,'down',()=>showDisplay(i));
+	}
 	if (kbd.open) openkeyboard(kbd.text);
 	assign(ei('primarykeyboard'),'down',bringinputtofocus);
 }
@@ -510,29 +450,32 @@ function closekeyboard() {
 
 function dToIAST(d) {
 	d=d.replace(/ल्ँ/g,'l̐');
-	let s=[],vd=['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ','ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','ष','स','ह'];
-	let vi=['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍ','ḍh','ṇ','t','th','d','dh','n','p','ph','b','bh','m','y','r','l','v','ś','ṣ','s','h'];
-	let ar=['्','ा','ि','ी','ु','ू','ृ','ॄ','ॢ','ॣ','े','ै','ो','ौ'];
-	let sd=['अ','आ','इ','ई','उ','ऊ','ऋ','ॠ','ऌ','ॡ','ए','ऐ','ओ','औ','ं','ः','।'];
-	let si=['a','ā','i','ī','u','ū','ṛ','ṝ','ḷ','ḹ','e','ai','o','au','ṃ','ḥ','.'];
-	let vmap={},amap={},smap={};
-	for(let i in vd){vmap[vd[i]]=vi[i];}
-	for(let i=1;i<ar.length;i++){amap[ar[i]]=si[i];}
-	for(let i in sd){smap[sd[i]]=si[i];}
+	let s=[],vd='क,ख,ग,घ,ङ,च,छ,ज,झ,ञ,ट,ठ,ड,ढ,ण,त,थ,द,ध,न,प,फ,ब,भ,म,य,र,ल,व,श,ष,स,ह'.split(',');
+	let vi='k,kh,g,gh,ṅ,c,ch,j,jh,ñ,ṭ,ṭh,ḍ,ḍh,ṇ,t,th,d,dh,n,p,ph,b,bh,m,y,r,l,v,ś,ṣ,s,h'.split(',');
+	let ar='्,ा,ि,ी,ु,ू,ृ,ॄ,ॢ,ॣ,े,ै,ो,ौ'.split(',');
+	let sd='अ,आ,इ,ई,उ,ऊ,ऋ,ॠ,ऌ,ॡ,ए,ऐ,ओ,औ,ं,ः,।'.split(',');
+	let si='a,ā,i,ī,u,ū,ṛ,ṝ,ḷ,ḹ,e,ai,o,au,ṃ,ḥ,.'.split(',');
+	let vmap=keyValue(vd,vi),amap=keyValue(ar.slice(1),si.slice(1)),smap=keyValue(sd,si);
 	let l=d.length,c2=d.charAt(0);
 	let c=c2;
 	for(let i=0;i<l;i++){
 		c=c2;c2=d.charAt(i<l-1?i+1:i);
-		s.push(vd.includes(c)?(!ar.includes(c2)?vmap[c]+'a':vmap[c]):ar.includes(c)?amap[c]:sd.includes(c)?smap[c]:c);
+		s.push(vd.includes(c)?(!ar.includes(c2)?vmap[c]+'a':vmap[c]):ar.includes(c)?(amap[c]||''):sd.includes(c)?smap[c]:c);
 	}
 	return s.join('');
+}
+
+function keyValue(a1,a2){
+	let m={};
+	for(let i in a1) m[a1[i]]=a2[i];
+	return m;
 }
 
 function loadFonts(fonts) {
 	let fp=[];
 	for(let o of fonts)
 		fp.push(new Promise(function f(resolve){
-			WebFont.load({google:{families:[o.f],text:o.t},active:()=>{console.log('active '+o.f);resolve();},fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeOut);}});
+			WebFont.load({google:{families:[o.f],text:o.t},active:()=>{console.log('active '+o.f);resolve();},fontinactive:()=>{setTimeout(()=>{f(resolve);},reloadTimeout);}});
 			resolve();
 		}));
 	return Promise.all(fp);
@@ -544,28 +487,36 @@ function assign(e,et,c,o)/*element, eventtype, callback*/{
 }
 function dayFromMs(_ms){return _ms/1000/60/60/24;}
 function hide(id){ei(id).style.display='none';}
-function show(id,d){ei(id).style.display=d||'inline-block';}
+function show(id,d){ei(id).style.display=d||'inline-block';fadeIn(id,0);}
 function oneTimeTransitionPromise(e){
-	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();},{once:true});});
+	return new Promise((resolve)=>{e.addEventListener('transitionend',(evt)=>{evt.stopPropagation();e.style.transition='';resolve();console.log('transitioned');},{once:true});});
 }
 function transit(id,pv,t){ /*element id, property-value pairs, time in seconds*/
 	let e=ei(id),tr=[];
 	for(let p in pv) tr.push(p+' '+t+'s');
 	e.style.transition=tr.join();
+	if (Object.keys(pv).every((p)=>$('#'+id).css(p)==pv[p])) return Promise.resolve();
 	for(let p in pv) $('#'+id).css(p,pv[p]);
 	return oneTimeTransitionPromise(e);
 }
 function fadeIn(id,t,d){
-	let e=ei(id),ed=e.style.display;
-	e.style.display=ed=='none'?(d||'block'):ed;
+	let e=ei(id);
+	if(e.style.display=='none'){
+		e.style.display=d||'block';
+		e.style.opacity=0;
+		console.log('showing before fade in');
+	}
+	if(e.style.opacity==1) return Promise.resolve();
+	console.log('transiting from opacity '+e.style.opacity);
 	e.style.transition=`opacity ${t}s`;
-	e.style.opacity='1';
+	e.style.opacity=1;
 	return oneTimeTransitionPromise(e);
 }
 function fadeOut(id,t){
 	let e=ei(id);
+	if(e.style.opacity==0) return Promise.resolve();
 	e.style.transition=`opacity ${t}s`;
-	e.style.opacity='0';
+	e.style.opacity=0;
 	return oneTimeTransitionPromise(e);
 }
 function loadScripts(s){
@@ -573,22 +524,22 @@ function loadScripts(s){
 		let sc=document.createElement('script');
 		sc.src=src;
 		sc.onload=resolve;
-		sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{f(resolve);},reloadTimeOut)};
+		sc.onerror=()=>{document.head.removeChild(sc);setTimeout(()=>{f(resolve);},reloadTimeout)};
 		document.head.appendChild(sc);
 	})));
 }
-function findSkill(a,l){
-	for(let i in a) if(a[i].skill==l) return i;
-	return 0;
+
+function minMap(a,f){
+	return best(a,(b,c)=>f(c)<f(b));
 }
-function and(a){
-	a.forEach((e)=>{if(!e) return false;});
-	return true;
+function maxMap(a,f){
+	return best(a,(b,c)=>f(c)>f(b));
 }
-function or(a){
-	a.forEach((e)=>{if(e) return true;});
-	return false;
+
+function best(a,f){
+	return a.reduce((b,c)=>f(b,c)?c:b);
 }
+
 function registerSW(f){
 	// Check that service workers are supported
 	//if ('serviceWorker' in navigator) navigator.serviceWorker.register(f);
