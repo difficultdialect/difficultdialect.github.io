@@ -233,8 +233,12 @@ var inputalt = '<span class=\'nonselectable cursor\' style=\'color: #808080\'>.<
 var inputdeclaration = '<div style=\'text-align: center; padding:0\'><div id=\'inputplacebuffer\' style=\'margin:0\'><div style=\'display: inline\' id=\'inputbuffer\'></div>' + inputalt + '</div></div>';
 var hintbutton = '<div class=\'hintbuttonbuffer cursor\' style=\'display:none\' id=\'hintbuttonbuffer\'>Reveal</div>';
 function showhint() {
-	fadeOut('hintbutton',2).then(()=>{hide('hintbutton');fadeIn('hint',5);});
+	fadeOut('hintbutton',2).then(()=>{hide('hintbutton');ei('hint').style.opacity=0; fadeIn('hint',5);});
 	//$('.hintbutton').fadeOut(500,()=>{$('.hint').fadeIn(500)});
+}
+
+function imageLoader(s){
+
 }
 
 function parseQ(oq) {
@@ -539,6 +543,54 @@ function maxMap(a,f){
 function best(a,f){
 	return a.reduce((b,c)=>f(b,c)?c:b);
 }
+
+const firstLeft=s=>c=>s.includes(c)?s.slice(0,s.indexOf(c)):'';
+const firstRight=s=>c=>s.includes(c)?s.slice(s.indexOf(c)+c.length):'';	
+const firstEnclosed=s=>c=>d=>(firstLeft)((firstRight)(s)(c))(d);
+const lastLeft=s=>c=>s.includes(c)?s.slice(0,s.lastIndexOf(c)):'';
+const lastRight=s=>c=>s.includes(c)?s.slice(s.lastIndexOf(c)+c.length):'';	
+const contains=s=>c=>s.includes(c)?boolTrue:boolFalse;
+const concat=s=>c=>s+c;
+const equals=s=>c=>s==c?boolTrue:boolFalse;
+const boolTrue=s=>c=>s;
+const boolFalse=s=>c=>c;
+const nonEmpty=s=>s?boolTrue:boolFalse;
+const identity=s=>s;
+const boolAnd=f=>(f)(identity)((boolTrue) (boolFalse));
+const convertToLambda=s=>(concat)
+const compose=f=>g=>s=>(f)((g)(s));
+const composeN=f=>(reduce)(compose)(f);
+const concatN=s=>(reduce)(concat)(s);
+//const reduce=f=>(reduceMap)(f)(identity);
+const apply=f=>s=>(f)(s);
+const reduceMap=f=>g=>s=>(nonEmpty)(s)(c=>d=>(reduceMap)(f)(g)((firstRight)(s)('.'))((f)((g)(c))((g)(d))))(g);
+const reduce=f=>s=>(nonEmpty)(s)(c=>d=>(reduce)(f)((firstRight)(s)('.'))((f)(c)(d)))(identity);
+const Y=f=>(x=>(f)(x)(x))(x=>(f)(x)(x));
+const whileLoop=f=>s=>(f)(s)(g=>(whileLoop)(f)((g)(s))(g))(g=>s);
+function map(f){
+	//return g=>s=>(nonEmpty)(c=>(map)(f))(c=>(g)(s)((f)(c)));
+}
+
+function JSFunctionToLambda(s){
+	return (whileLoop)(c=>(contains)(c)('function'))(s)(
+		c=>(concatN)('.......')
+			((firstLeft)(c)('function'))
+			('const ')
+			((firstEnclosed)(c)('function ')('('))
+			('=')
+			((firstEnclosed)((firstRight)(c)('function '))('(')(')'))
+			('=>')
+			((firstEnclosed)(c)('return ')('\n}'))
+			((firstRight)(c)('}'))
+			);
+}
+
+console.log(
+	(concat) ((reduceMap)(concat)(s=>(firstRight)(s)(';'))('...')('ad;n')('b;')('c;')('e;')) ((boolAnd) ((nonEmpty)('a')) ((nonEmpty)('b')) ('1')('0'))
+	);
+console.log((whileLoop)(nonEmpty)('....')(s=>''));
+console.log((firstLeft)('asjk;')(';'));
+
 
 function registerSW(f){
 	// Check that service workers are supported
