@@ -544,29 +544,36 @@ function best(a,f){
 	return a.reduce((b,c)=>f(b,c)?c:b);
 }
 
-const firstLeft=s=>c=>s.includes(c)?s.slice(0,s.indexOf(c)):'';
-const firstRight=s=>c=>s.includes(c)?s.slice(s.indexOf(c)+c.length):'';	
-const firstEnclosed=s=>c=>d=>(firstLeft)((firstRight)(s)(c))(d);
+const True=s=>c=>s;
+const False=s=>c=>c;
+
+/* Pre-defined String functions */
+const left=s=>c=>s.includes(c)?s.slice(0,s.indexOf(c)):'';
+const right=s=>c=>s.includes(c)?s.slice(s.indexOf(c)+c.length):'';	
+const enclosed=s=>c=>d=>(left)((right)(s)(c))(d);
 const lastLeft=s=>c=>s.includes(c)?s.slice(0,s.lastIndexOf(c)):'';
 const lastRight=s=>c=>s.includes(c)?s.slice(s.lastIndexOf(c)+c.length):'';	
-const contains=s=>c=>s.includes(c)?boolTrue:boolFalse;
+const contains=s=>c=>s.includes(c)?True:False;
 const concat=s=>c=>s+c;
-const equals=s=>c=>s==c?boolTrue:boolFalse;
-const boolTrue=s=>c=>s;
-const boolFalse=s=>c=>c;
-const nonEmpty=s=>s?boolTrue:boolFalse;
+const equals=s=>c=>s==c?True:False;
+const nonEmpty=s=>s?True:False;
+
 const identity=s=>s;
-const boolAnd=f=>(f)(identity)((boolTrue) (boolFalse));
-const convertToLambda=s=>(concat)
+const And=f=>(f)(identity)((True)(False));
 const compose=f=>g=>s=>(f)((g)(s));
 const composeN=f=>(reduce)(compose)(f);
 const concatN=s=>(reduce)(concat)(s);
-//const reduce=f=>(reduceMap)(f)(identity);
+const reduce=f=>(reduceMap)(f)(identity);
 const apply=f=>s=>(f)(s);
-const reduceMap=f=>g=>s=>(nonEmpty)(s)(c=>d=>(reduceMap)(f)(g)((firstRight)(s)('.'))((f)((g)(c))((g)(d))))(g);
-const reduce=f=>s=>(nonEmpty)(s)(c=>d=>(reduce)(f)((firstRight)(s)('.'))((f)(c)(d)))(identity);
+const reduceMapSansFirst=f=>g=>s=>c=>(nonEmpty)(s)(d=>(reduceMapSansFirst)(f)(g)((right)(s)('.'))((f)(c)((g)(d))))(c);
+const reduceMap=f=>g=>s=>c=>(reduceMapSansFirst)(f)(g)(s)((g)(c));
 const Y=f=>(x=>(f)(x)(x))(x=>(f)(x)(x));
 const whileLoop=f=>s=>(f)(s)(g=>(whileLoop)(f)((g)(s))(g))(g=>s);
+const replaceFirst=s=>c=>d=>(concatN)('..')((left)(s)(c))(d)((right)(s)(c));
+const replaceAll=s=>c=>(contains)(s)(c)(d=>(concatN)('..')((left)(s)(c))(d)((replaceAll)((right)(s)(c))(c)(d)))(d=>s);
+const replaceN=s=>c=>(reduce)(u=>t=>(replaceAll)(u)((t)(True))((t)(False)))(c)(s);
+const pair=a=>b=>q=>(q)(a)(b);
+const count=s=>(nonEmpty)(s)(c=>(contains)(s)(c)((concat)('.')((count)((right)(s)(c))(c)))(''))(c=>'');
 function map(f){
 	//return g=>s=>(nonEmpty)(c=>(map)(f))(c=>(g)(s)((f)(c)));
 }
@@ -574,23 +581,30 @@ function map(f){
 function JSFunctionToLambda(s){
 	return (whileLoop)(c=>(contains)(c)('function'))(s)(
 		c=>(concatN)('.......')
-			((firstLeft)(c)('function'))
+			((left)(c)('function'))
 			('const ')
-			((firstEnclosed)(c)('function ')('('))
+			((enclosed)(c)('function ')('('))
 			('=')
-			((firstEnclosed)((firstRight)(c)('function '))('(')(')'))
+			((enclosed)((right)(c)('function '))('(')(')'))
 			('=>')
-			((firstEnclosed)(c)('return ')('\n}'))
-			((firstRight)(c)('}'))
+			((enclosed)(c)('return ')('\n}'))
+			((right)(c)('}'))
 			);
 }
 
 console.log(
-	(concat) ((reduceMap)(concat)(s=>(firstRight)(s)(';'))('...')('ad;n')('b;')('c;')('e;')) ((boolAnd) ((nonEmpty)('a')) ((nonEmpty)('b')) ('1')('0'))
+	(concat) ((reduceMap)(concat)(s=>(left)(s)(';'))('...')('ad;n')('b;')('c;')('e;')) ((And) ((nonEmpty)('a')) ((nonEmpty)('b')) ('1')('0'))
 	);
 console.log((whileLoop)(nonEmpty)('....')(s=>''));
-console.log((firstLeft)('asjk;')(';'));
+console.log((left)('asjk;')(';'));
+console.log((replaceAll)('hjhsdaskhkjshakjhkajhg')('a')('s'));
+console.log((replaceN)('hjhsdaskhkjshakjhkajhg')('..')((pair)('a')('s'))((pair)('h')('i')));
 
+const openCloseQuotes=s=>(whileLoop)(a=>(contains)(a)('\''))(s)(a=>(replaceFirst)((replaceFirst)(a)('\'')('“'))('\'')('”'));
+const formatProgram=s=>(colorHTMLN)((replaceN)((openCloseQuotes)(s))('.....')((pair)('(“')('(<span style=\'color:#4488ff\'>'))((pair)('”)')('</span>)'))((pair)('=>')((concat)((spanStartWithColor)('#ff8844'))('→</span>')))((pair)(')(')((concat)((spanStartWithColor)('#888888'))('|</span>')))((pair)('const ')('<br><span style=\'color:#22cc44\'>def </span>')))('..')((pair)('(')('#888888'))((pair)(')')('#888888'));
+const colorHTML=s=>t=>c=>(replaceAll)(s)(t)((concatN)('....')('<span style=\'color:')(c)('\'>')(t)('</span>'));
+const colorHTMLN=s=>c=>(reduce)(u=>t=>(colorHTML)(u)((t)(True))((t)(False)))(c)(s);
+const spanStartWithColor=c=>(concatN)('..')('<span style=\'color:')(c)('\'>');
 
 function registerSW(f){
 	// Check that service workers are supported
