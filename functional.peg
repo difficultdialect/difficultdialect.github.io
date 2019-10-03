@@ -1,0 +1,35 @@
+Expression = s:SubExpression {
+const True=s=>c=>s;
+const False=s=>c=>c;
+const left=s=>c=>s.includes(c)?s.slice(0,s.indexOf(c)):'';
+const right=s=>c=>s.includes(c)?s.slice(s.indexOf(c)+c.length):'';	
+const enclosed=s=>c=>d=>(left)((right)(s)(c))(d);
+const lastLeft=s=>c=>s.includes(c)?s.slice(0,s.lastIndexOf(c)):'';
+const lastRight=s=>c=>s.includes(c)?s.slice(s.lastIndexOf(c)+c.length):'';	
+const contains=s=>c=>s.includes(c)?True:False;
+const concat=s=>c=>s+c;
+const equals=s=>c=>s==c?True:False;
+const nonEmpty=s=>s?True:False;
+return eval(s);}
+SubExpression = Term/Application
+Application = 	b:(Left Definition Right)*
+				a:((Left(Lambda/Application)Right)/Name)
+                c:(Left Term Right)* 
+                d:(Left Definition Right)*
+                	{return '(()=>{'+(b.concat(d)).map(e=>e[1]).join('/*New joining*/')+'return ('+
+                    	((Array.isArray(a)?a[1]:(a+'.f?'+a+'.f():'+a)))+')'+(c.map(e=>'('+e[1]+')').join(''))+';})()'
+                        ;}
+Term = t:(Lambda/Application/String) {return t;}//+'.f?'+t+'.f():'+t;}
+Definition = n:Name Equals e:SubExpression {return '\nconst '+n+'={f:()=>'+e+'};';}
+Lambda = n:Name Arrow e:SubExpression {return (n+'=>'+e+'');}
+Incomplete = 'incomplete'?
+Left = _ '(' _
+Right = _ ')' _
+Equals = _ '=' _
+Arrow = _ ('->'/'=>') _ 
+Name = _ n:NameChar _ {return n.join('');}
+String = _ '\'' s:StringChar '\'' _ {return '\''+s.join('')+'\'';}
+NameChar = [^ \t\n\r'()->]+
+StringChar = [^']*
+__ = [ \t\n\r]+
+_ = [ \t\n\r]*
