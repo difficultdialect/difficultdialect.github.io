@@ -544,40 +544,70 @@ function best(a,f){
 	return a.reduce((b,c)=>f(b,c)?c:b);
 }
 
-const True=s=>c=>s;
-const False=s=>c=>c;
+const id=a=>a;
+const T=a=>b=>a; //true (return first argument)
+const F=a=>id; //false (return second argument)
+const N=a=>a(F)(T); //not
+const A=a=>a(id)(T(F)); //and
+const O=a=>a(T(T))(id); //or
 
-/* Pre-defined String functions */
-const left=s=>c=>s.includes(c)?s.slice(0,s.indexOf(c)):'';
-const right=s=>c=>s.includes(c)?s.slice(s.indexOf(c)+c.length):'';	
-const enclosed=s=>c=>d=>(left)((right)(s)(c))(d);
-const lastLeft=s=>c=>s.includes(c)?s.slice(0,s.lastIndexOf(c)):'';
-const lastRight=s=>c=>s.includes(c)?s.slice(s.lastIndexOf(c)+c.length):'';	
-const contains=s=>c=>s.includes(c)?True:False;
-const concat=s=>c=>s+c;
-const equals=s=>c=>s==c?True:False;
-const nonEmpty=s=>s?True:False;
+const l=a=>b=>b.includes(a)?b.slice(0,b.indexOf(a)):''; //left of a in b
+const r=a=>b=>b.includes(a)?b.slice(b.indexOf(a)+a.length):''; //right of a in b
+const j=a=>b=>a+b;
 
-const identity=s=>s;
-const And=f=>(f)(identity)((True)(False));
-const compose=f=>g=>s=>(f)((g)(s));
-const composeN=f=>(reduce)(compose)(f);
-const concatN=s=>(reduce)(concat)(s);
-const reduce=f=>(reduceMap)(f)(identity);
-const apply=f=>s=>(f)(s);
-const reduceMapSansFirst=f=>g=>s=>c=>(nonEmpty)(s)(d=>(reduceMapSansFirst)(f)(g)((right)(s)('.'))((f)(c)((g)(d))))(c);
-const reduceMap=f=>g=>s=>c=>(reduceMapSansFirst)(f)(g)(s)((g)(c));
-const Y=f=>(x=>(f)(x)(x))(x=>(f)(x)(x));
-const whileLoop=f=>s=>(f)(s)(g=>(whileLoop)(f)((g)(s))(g))(g=>s);
-const replaceFirst=s=>c=>d=>(concatN)('..')((left)(s)(c))(d)((right)(s)(c));
-const replaceAll=s=>c=>(contains)(s)(c)(d=>(concatN)('..')((left)(s)(c))(d)((replaceAll)((right)(s)(c))(c)(d)))(d=>s);
-const replaceN=s=>c=>(reduce)(u=>t=>(replaceAll)(u)((t)(True))((t)(False)))(c)(s);
-const pair=a=>b=>q=>(q)(a)(b);
-const count=s=>(nonEmpty)(s)(c=>(contains)(s)(c)((concat)('.')((count)((right)(s)(c))(c)))(''))(c=>'');
-function map(f){
-	//return g=>s=>(nonEmpty)(c=>(map)(f))(c=>(g)(s)((f)(c)));
-}
+const inc=a=>b=>b.includes(a)?T:F;
+const eq=a=>b=>A(inc(a)(b))(inc(b)(a));
 
+const ev=eval;
+
+const beginsWith=a=>b=>A(inc(a)(b))(eq(l(a)(b))(''));
+const compose=a=>b=>c=>b(a(c)); //compose
+//const c2=a=>b=>c1(b)(a); //compose reverse
+const w=a=>b=>a(b)(c=>w(a)(c(b))(c))(c=>b); //while(a(b)) apply c to b
+const p=a=>b=>c=>c(a)(b); //pair return first for true and second for false
+const NULL=a=>F; //constantly false, last element of list
+const reduce=a=>b=>c=>w(d=>d(F)(e=>f=>T))(p(b)(c))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(T);
+const concatReverseMap=a=>reduce(b=>c=>p(a(c))(b)); //spills second list with map applied into first
+const reverseMap=a=>concatReverseMap(a)(NULL);
+const reverse=reverseMap(id); //reverse list
+const map=a=>compose(reverse)(reverseMap(a));
+const concatReverse=concatReverseMap(id);
+const concat=a=>b=>concatReverse(b)(reverse(a));
+const filterReverse=a=>reduce(b=>c=>a(c)(p(c)(b))(b))(NULL);
+const filter=a=>compose(reverse)(filterReverse(a));
+const joinList=reduce(j)(''); //print list of strings head to tail
+//const list=(a=>b=>c=>c(d=>e=>T)(a(p(c)(b)))(b))(NULL);
+const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
+const createPairList=addToPairlist(NULL);
+const extendContext=a=>b=>c=>((d=>d(e=>f=>T)(d(T)(F))(b(c)))(filter(d=>beginsWith(d(T))(c))(a)));
+//const parserContext=extendContext(createPairList
+//	(p('(')(x=>s=>))
+//	(NULL))(a=>b=>c=>console.log('Function not found'));
+const next=a=>b=>filter(c=>)
+const functions=createPairList
+	(p('repeat')(f('a')(x=>(a=>a+a)(x('parse')(x)(x('a'))(T)(x))(x('parse')(x)(x('a'))(F)))))
+	(p('repeat')())
+	(p('')(console.log('undefined symbol')))
+	(NULL);
+const list5=p('a')(p('b')(p('c')(p('d')(NULL))));
+const list1=createPairList(p('1')('a'))(p('2')('b'))(p('3')('c'))(p('4')('d'))(NULL);
+console.log(joinList(concat(filter(a=>O(eq(a)('b'))(eq(a)('c')))(list5))(map(a=>'('+a+')')(list5))));
+console.log(joinList(map(a=>j(a(T))(a(F)))(list1)));
+const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a);
+const parserList=createPairList(p('space')(a=>reverse(w(b=>inc(' ')(b(T)))(p(a)(NULL))(b=>p(r(' ')(b(T)))(p(l(' ')(b(T)))(b(F)))))))(NULL);
+console.log(joinList(parserList(T)(F)('jkj hjhakdjsd kjk jk kjkjl ljkllk')));
+//console.log()
+//const list=(p(p('d')('4'))(p(p('c')('3'))(p(p('b')('2'))(p(p('a')('1'))(NULL)))));
+//const extendContext=a=>b=>c=>d=>eq(a)(d)(b)(c(d));
+const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
+const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
+const findLargest=a=>b=>reduce(c=>d=>inc(c(T))(d(T))(d)(c))(p('')(c=>console.log(':(')))(filter(c=>beginsWith(c(T))(b))(a));
+const parse=f=>x=>s=>f(x);
+
+//const joinContext=a=>b=>c=>
+console.log(jo(a=>eq(a)('j')(j)('error'))('1')('2'));
+//console.log((x=>x('infLoop')(x)('arg2'))(f('a')(x=>eq(x('a'))('infLoop')(f('b')(x=>x('infLoop')(x)('arg')))('error'))));
+/*
 function JSFunctionToLambda(s){
 	return (whileLoop)(c=>(contains)(c)('function'))(s)(
 		c=>(concatN)('.......')
@@ -591,20 +621,7 @@ function JSFunctionToLambda(s){
 			((right)(c)('}'))
 			);
 }
-
-console.log(
-	(concat) ((reduceMap)(concat)(s=>(left)(s)(';'))('...')('ad;n')('b;')('c;')('e;')) ((And) ((nonEmpty)('a')) ((nonEmpty)('b')) ('1')('0'))
-	);
-console.log((whileLoop)(nonEmpty)('....')(s=>''));
-console.log((left)('asjk;')(';'));
-console.log((replaceAll)('hjhsdaskhkjshakjhkajhg')('a')('s'));
-console.log((replaceN)('hjhsdaskhkjshakjhkajhg')('..')((pair)('a')('s'))((pair)('h')('i')));
-
-const openCloseQuotes=s=>(whileLoop)(a=>(contains)(a)('\''))(s)(a=>(replaceFirst)((replaceFirst)(a)('\'')('“'))('\'')('”'));
-const formatProgram=s=>(colorHTMLN)((replaceN)((openCloseQuotes)(s))('.....')((pair)('(“')('(<span style=\'color:#4488ff\'>'))((pair)('”)')('</span>)'))((pair)('=>')((concat)((spanStartWithColor)('#ff8844'))('→</span>')))((pair)(')(')((concat)((spanStartWithColor)('#888888'))('|</span>')))((pair)('const ')('<br><span style=\'color:#22cc44\'>def </span>')))('..')((pair)('(')('#888888'))((pair)(')')('#888888'));
-const colorHTML=s=>t=>c=>(replaceAll)(s)(t)((concatN)('....')('<span style=\'color:')(c)('\'>')(t)('</span>'));
-const colorHTMLN=s=>c=>(reduce)(u=>t=>(colorHTML)(u)((t)(True))((t)(False)))(c)(s);
-const spanStartWithColor=c=>(concatN)('..')('<span style=\'color:')(c)('\'>');
+*/
 
 function registerSW(f){
 	// Check that service workers are supported
