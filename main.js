@@ -557,10 +557,10 @@ const j=a=>b=>a+b;
 
 const inc=a=>b=>b.includes(a)?T:F;
 const eq=a=>b=>A(inc(a)(b))(inc(b)(a));
-
+const ne=a=>N(inc(a)(''));
 const ev=eval;
 
-const beginsWith=a=>b=>A(inc(a)(b))(eq(l(a)(b))(''));
+const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))(''));
 const compose=a=>b=>c=>b(a(c)); //compose
 //const c2=a=>b=>c1(b)(a); //compose reverse
 const w=a=>b=>a(b)(c=>w(a)(c(b))(c))(c=>b); //while(a(b)) apply c to b
@@ -579,49 +579,39 @@ const joinList=reduce(j)(''); //print list of strings head to tail
 //const list=(a=>b=>c=>c(d=>e=>T)(a(p(c)(b)))(b))(NULL);
 const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
 const createPairList=addToPairlist(NULL);
-const extendContext=a=>b=>c=>((d=>d(e=>f=>T)(d(T)(F))(b(c)))(filter(d=>beginsWith(d(T))(c))(a)));
+const extendContext=a=>b=>c=>((d=>d(e=>f=>T)(d(T)(F))(b(c)))(filter(d=>bw(d(T))(c))(a)));
+const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a);
+const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
 //const parserContext=extendContext(createPairList
 //	(p('(')(x=>s=>))
-//	(NULL))(a=>b=>c=>console.log('Function not found'));
-const next=a=>b=>filter(c=>)
+//	(NULL))(a=>b=>c=>console.log('Function not found')); 
 const functions=createPairList
-	(p('repeat')(f('a')(x=>(a=>a+a)(x('parse')(x)(x('a'))(T)(x))(x('parse')(x)(x('a'))(F)))))
-	(p('repeat')())
-	(p('')(console.log('undefined symbol')))
+	(p('(')(b=>s=>x=>b(parse(x)(s))))
+	(p(')')(b=>s=>x=>b))
+	(p('cct')(a=>b=>a+b))
+	(p('a')('x'))
+	(p('b')('y'))
+	(p('pr')(b=>s=>x=>next(b(a=>''+a+''))(r('pr')(s))(x)))
+	(p('')(s=>x=>console.log('undefined symbol')))
 	(NULL);
-const list5=p('a')(p('b')(p('c')(p('d')(NULL))));
-const list1=createPairList(p('1')('a'))(p('2')('b'))(p('3')('c'))(p('4')('d'))(NULL);
-console.log(joinList(concat(filter(a=>O(eq(a)('b'))(eq(a)('c')))(list5))(map(a=>'('+a+')')(list5))));
-console.log(joinList(map(a=>j(a(T))(a(F)))(list1)));
-const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a);
-const parserList=createPairList(p('space')(a=>reverse(w(b=>inc(' ')(b(T)))(p(a)(NULL))(b=>p(r(' ')(b(T)))(p(l(' ')(b(T)))(b(F)))))))(NULL);
-console.log(joinList(parserList(T)(F)('jkj hjhakdjsd kjk jk kjkjl ljkllk')));
-//console.log()
-//const list=(p(p('d')('4'))(p(p('c')('3'))(p(p('b')('2'))(p(p('a')('1'))(NULL)))));
-//const extendContext=a=>b=>c=>d=>eq(a)(d)(b)(c(d));
-const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
-const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
-const findLargest=a=>b=>reduce(c=>d=>inc(c(T))(d(T))(d)(c))(p('')(c=>console.log(':(')))(filter(c=>beginsWith(c(T))(b))(a));
-const parse=f=>x=>s=>f(x);
+	
+const next=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(c)(d)(d)(c))('')((f=>filter(c=>inc(l(c)(b))(reduce(c=>d=>inc(c)(l(d)(b))(c)(l(d)(b)))(b)(f)))(f))(filter(c=>A(inc(c)(b))(ne(c)))(a)))); // search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
 
-//const joinContext=a=>b=>c=>
+const parse=f=>x=>s=>
+	w(a=>ne(a(T)))
+	(p(s)(p(x)(f)))
+	
+	(a=> (c=> (n=>p(r(n)(a(T)))(p(c)(a(F)(F)(filter(b=>eq(n)(b(T)))(c)(T)(F)))))
+	(next(map(b=>b(T))(c))(a(T)))  )    (a(F)(T))) (F)(F);
+
+console.log(joinList(map(b=>b(T))(functions)));
+console.log(next(map(b=>b(T))(functions))('dfjkg'));
+console.log(parse(id)(functions)('s'));
+console.log(next(map(a=>a(T))(functions))('(abprcd'));
+
+const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
+
 console.log(jo(a=>eq(a)('j')(j)('error'))('1')('2'));
-//console.log((x=>x('infLoop')(x)('arg2'))(f('a')(x=>eq(x('a'))('infLoop')(f('b')(x=>x('infLoop')(x)('arg')))('error'))));
-/*
-function JSFunctionToLambda(s){
-	return (whileLoop)(c=>(contains)(c)('function'))(s)(
-		c=>(concatN)('.......')
-			((left)(c)('function'))
-			('const ')
-			((enclosed)(c)('function ')('('))
-			('=')
-			((enclosed)((right)(c)('function '))('(')(')'))
-			('=>')
-			((enclosed)(c)('return ')('\n}'))
-			((right)(c)('}'))
-			);
-}
-*/
 
 function registerSW(f){
 	// Check that service workers are supported
