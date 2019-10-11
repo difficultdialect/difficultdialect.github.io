@@ -2,14 +2,24 @@
 	<head>
 		<title>Editor</title>
 		<style>
-			[contenteditable]:focus {
-				outline: 0px solid transparent;
-			}
+			textarea:focus{outline: 0px solid transparent;}
 		</style>
 	</head>
 	<body>
-		<div contenteditable="true" style="height:90vh;background-color:#f3f5f6">
-		<span>Welcome</span>
-		</div>
+		<textarea id="my-textarea" style="border:none;resize:none;background-color:#f3f5f6">a</textarea>
 	</body>
+	<script>
+		function enableTab(id) {
+    			var el = document.getElementById(id);
+    			el.onkeydown = function(e) {
+        			if (e.keyCode === 9) {
+            				let val = this.value,start = this.selectionStart,end = this.selectionEnd;
+            				this.value = val.substring(0, start) + '\t' + val.substring(end);
+            				this.selectionStart = this.selectionEnd = start + 1;
+      					return false;
+       				}
+    			};
+		}
+		enableTab('my-textarea');
+	</script>
 </html>
