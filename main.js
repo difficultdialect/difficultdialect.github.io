@@ -544,30 +544,32 @@ function best(a,f){
 	return a.reduce((b,c)=>f(b,c)?c:b);
 }
 
+/* Constructions from JS */
+const ev=eval;
+const until=a=>b=>c=>a(c)(()=>c)(()=>until(a)(b)(b(c)))();
+const l=a=>b=>b.includes(a)?b.slice(0,b.indexOf(a)):''; //left of a in b
+const r=a=>b=>b.includes(a)?b.slice(b.indexOf(a)+a.length):''; //right of a in b
+const j=a=>b=>a+b;
+const inc=a=>b=>b.includes(a)?(c=>d=>c):(c=>d=>d);
+
+/* Definitions */
 const id=a=>a;
 const T=a=>b=>a; //true (return first argument)
 const F=a=>id; //false (return second argument)
 const N=a=>a(F)(T); //not
 const A=a=>a(id)(T(F)); //and
 const O=a=>a(T(T))(id); //or
-
-const l=a=>b=>b.includes(a)?b.slice(0,b.indexOf(a)):''; //left of a in b
-const r=a=>b=>b.includes(a)?b.slice(b.indexOf(a)+a.length):''; //right of a in b
-const j=a=>b=>a+b;
-
-const inc=a=>b=>b.includes(a)?T:F;
-const eq=a=>b=>A(inc(a)(b))(inc(b)(a));
-const ne=a=>N(inc(a)(''));
-const ev=eval;
-
-const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))(''));
 const compose=a=>b=>c=>b(a(c)); //compose
-//const c2=a=>b=>c1(b)(a); //compose reverse
-const w=a=>b=>a(b)(c=>w(a)(c(b))(c))(c=>b); //while(a(b)) apply c to b
-const p=a=>b=>c=>c(a)(b); //pair return first for true and second for false
-const NULL=a=>F; //constantly false, last element of list
-const reduce=a=>b=>c=>w(d=>d(F)(e=>f=>T))(p(b)(c))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(T);
-const concatReverseMap=a=>reduce(b=>c=>p(a(c))(b)); //spills second list with map applied into first
+const till=a=>until(compose(a)(N));
+
+const eq=a=>b=>A(inc(a)(b))(inc(b)(a)); //a equals b
+const ne=a=>N(inc(a)('')); //non-empty
+const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))('')); // b begins with a
+
+const p=a=>b=>c=>c(a)(b); //pair
+const NULL=a=>F;
+const reduce=a=>b=>c=>till(d=>d(F)(e=>f=>T))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(p(b)(c))(T); //starting at b, reduce c with function a
+const concatReverseMap=a=>reduce(b=>c=>p(a(c))(b)); //spill second list with map a applied into first
 const reverseMap=a=>concatReverseMap(a)(NULL);
 const reverse=reverseMap(id); //reverse list
 const map=a=>compose(reverse)(reverseMap(a));
@@ -576,15 +578,10 @@ const concat=a=>b=>concatReverse(b)(reverse(a));
 const filterReverse=a=>reduce(b=>c=>a(c)(p(c)(b))(b))(NULL);
 const filter=a=>compose(reverse)(filterReverse(a));
 const joinList=reduce(j)(''); //print list of strings head to tail
-//const list=(a=>b=>c=>c(d=>e=>T)(a(p(c)(b)))(b))(NULL);
 const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
-const createPairList=addToPairlist(NULL);
-const extendContext=a=>b=>c=>((d=>d(e=>f=>T)(d(T)(F))(b(c)))(filter(d=>bw(d(T))(c))(a)));
-const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a);
+const createPairList=addToPairlist(NULL); //create list from arguments(which are pairs), terminate on argument NULL
+const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a); //compose functions from a list
 const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
-//const parserContext=extendContext(createPairList
-//	(p('(')(x=>s=>))
-//	(NULL))(a=>b=>c=>console.log('Function not found')); 
 const functions=createPairList
 	(p('(')(b=>s=>x=>b(parse(x)(s))))
 	(p(')')(b=>s=>x=>b))
@@ -598,15 +595,16 @@ const functions=createPairList
 const next=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(c)(d)(d)(c))('')((f=>filter(c=>inc(l(c)(b))(reduce(c=>d=>inc(c)(l(d)(b))(c)(l(d)(b)))(b)(f)))(f))(filter(c=>A(inc(c)(b))(ne(c)))(a)))); // search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
 
 const parse=f=>x=>s=>
-	w(a=>ne(a(T)))
-	(p(s)(p(x)(f)))
-	
+	till(a=>ne(a(T)))
 	(a=> (c=> (n=>p(r(n)(a(T)))(p(c)(a(F)(F)(filter(b=>eq(n)(b(T)))(c)(T)(F)))))
-	(next(map(b=>b(T))(c))(a(T)))  )    (a(F)(T))) (F)(F);
+	(next(map(b=>b(T))(c))(a(T)))  )    (a(F)(T)))
+	
+	(p(s)(p(x)(f)))
+	(F)(F);
 
 console.log(joinList(map(b=>b(T))(functions)));
 console.log(next(map(b=>b(T))(functions))('dfjkg'));
-console.log(parse(id)(functions)('s'));
+console.log(parse(id)(functions)('cctba'));
 console.log(next(map(a=>a(T))(functions))('(abprcd'));
 
 const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
