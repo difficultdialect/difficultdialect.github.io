@@ -2,24 +2,168 @@
 	<head>
 		<title>Editor</title>
 		<style>
-			textarea:focus{outline: 0px solid transparent;}
+			body{
+				margin:0;
+				text-align:center;
+				padding:10vh;
+			}
+			#div0{
+				height:100%;width:100%;
+				position:relative;
+				box-shadow:0 0 0.3em #a0a0a0;
+			}
+			#div1{
+				height:100%;width:67%;
+				position:absolute;
+				display:block;
+			}
+			#div2{
+				color:#606060;
+				text-align:left;
+				height:100%;width:33%;
+				position:absolute;
+				top:0;
+				left:67%;
+				display:block;
+			}
+			#div3{
+				padding:1em;
+			}
+			.area,pre,#div2{
+				font-family:monospace, monospace;
+				font-size:small;
+			}
+			.area{
+				word-break:break-all;
+				word-wrap:break-word;
+				height:100%;width:100%;
+				overflow-x:hidden;
+				overflow-y:scroll;
+			}
+			.area,pre{
+				padding:0;
+				margin:0;
+				top:0;
+				left:0;
+				text-align:left;
+				position:absolute;
+			}
+			pre{
+				white-space: pre-wrap;       /* Since CSS 2.1 */
+    			white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    			white-space: -pre-wrap;      /* Opera 4-6 */
+    			white-space: -o-pre-wrap;    /* Opera 7 */
+    			word-wrap: break-word;
+			}
+			#display1{
+				color:black;
+				background:#f0eee8;
+				z-index:0;
+			}
+			#input1{
+				color:transparent;
+				caret-color:#20a0c0;
+				background:transparent;
+				z-index:1;
+				border:none;resize:none;
+			}
+			#input1:focus{outline: 0px solid transparent;}
 		</style>
 	</head>
 	<body>
-		<textarea id="my-textarea" style="border:none;resize:none;background-color:#f3f5f6">a</textarea>
+		<div id='div0'>
+			<div id='div1'>
+				<div id='display1' class="area"></div>
+				<textarea id="input1" class="area" autofocus></textarea>
+			</div>
+			<div id='div2'>
+				<div id='div3'>Output here.</div>
+			</div>
+		</div>
 	</body>
 	<script>
-		function enableTab(id) {
-    			var el = document.getElementById(id);
-    			el.onkeydown = function(e) {
-        			if (e.keyCode === 9) {
-            				let val = this.value,start = this.selectionStart,end = this.selectionEnd;
-            				this.value = val.substring(0, start) + '\t' + val.substring(end);
-            				this.selectionStart = this.selectionEnd = start + 1;
-      					return false;
-       				}
-    			};
-		}
-		enableTab('my-textarea');
+
+
+/* Constructions from JS */
+const ev=eval;
+const until=a=>b=>c=>a(c)(()=>c)(()=>until(a)(b)(b(c)))();
+const l=a=>b=>b.includes(a)?b.slice(0,b.indexOf(a)):''; //left of a in b
+const r=a=>b=>b.includes(a)?b.slice(b.indexOf(a)+a.length):''; //right of a in b
+const j=a=>b=>a+b;
+const inc=a=>b=>b.includes(a)?(c=>d=>c):(c=>d=>d);
+
+/* Definitions */
+const id=a=>a;
+const T=a=>b=>a; //true (return first argument)
+const F=a=>id; //false (return second argument)
+const N=a=>a(F)(T); //not
+const A=a=>a(id)(T(F)); //and
+const O=a=>a(T(T))(id); //or
+const compose=a=>b=>c=>b(a(c)); //compose
+const till=a=>until(compose(a)(N));
+
+const eq=a=>b=>A(inc(a)(b))(inc(b)(a)); //a equals b
+const ne=a=>N(inc(a)('')); //non-empty
+const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))('')); // b begins with a
+
+const p=a=>b=>c=>c(a)(b); //pair
+const NULL=a=>F;
+const reduce=a=>b=>c=>till(d=>d(F)(e=>f=>T))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(p(b)(c))(T); //starting at b, reduce c with function a
+const filterMapReverseConcat=a=>b=>reduce(c=>d=>a(d)(p(b(d))(c))(c)); //filter list2 with a, map with b, and spill into list1
+const reverse=filterMapReverseConcat(a=>T)(id)(NULL);
+const concat=a=>b=>filterMapReverseConcat(c=>T)(id)(b)(reverse(a));
+const filterMap=a=>b=>compose(reverse)(filterMapReverseConcat(a)(b)(NULL));
+const map=filterMap(b=>T);
+const filter=a=>filterMap(a)(id);
+const joinList=reduce(j)(''); //print list of strings head to tail
+const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
+const createPairList=addToPairlist(NULL); //create list from arguments(which are pairs), terminate on argument NULL
+const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a); //compose functions from a list
+const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
+const functions=createPairList
+	(p('(')(b=>s=>x=>b(parse(x)(s))))
+	(p(')')(b=>s=>x=>b))
+	(p('cct')(a=>b=>a+b))
+	(p('a')('x'))
+	(p('b')('y'))
+	(p('pr')(b=>s=>x=>next(b(a=>''+a+''))(r('pr')(s))(x)))
+	(p('')(s=>x=>console.log('undefined symbol')))
+	(NULL);
+
+const match=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(d)(b)(inc(l(d)(b))(c(T))(inc(c(T))(l(d)(b))(inc(d)(c(F))(c)(p(l(d)(b))(d)))(p(l(d)(b))(d)))(c))(c))(p(b)(''))(a)(F)); // search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
+const next=match;
+
+const parse=f=>x=>s=>
+	till(a=>ne(a(T)))
+	(a=> (c=> (n=>p(r(n)(a(T)))(p(c)(a(F)(F)(filter(b=>eq(n)(b(T)))(c)(T)(F)))))
+	(next(map(b=>b(T))(c))(a(T)))  )    (a(F)(T)))
+	
+	(p(s)(p(x)(f)))
+	(F)(F);
+
+console.log(joinList(map(b=>b(T))(functions)));
+console.log(next(map(b=>b(T))(functions))('dfjkg'));
+console.log(parse(id)(functions)('cctba'));
+console.log(next(map(a=>a(T))(functions))('(abprcd'));
+
+const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
+
+console.log(jo(a=>eq(a)('j')(j)('error'))('1')('2'));
+
+
+
+function enableTab(el) {
+    el.onkeydown = function(e) {
+        if (e.keyCode === 9) {
+          	let val = this.value,start = this.selectionStart,end = this.selectionEnd;
+            this.value = val.substring(0, start) + '\t' + val.substring(end);
+            this.selectionStart = this.selectionEnd = start + 1;
+      		return false;
+       	}
+    };
+}
+const input=document.getElementById('input1'),display=document.getElementById('display1');
+enableTab(input);
+input.addEventListener('input',()=>display.innerHTML='<pre><span style=\'color:#c020e0\'>'+input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')+'</span></pre>');
 	</script>
 </html>
