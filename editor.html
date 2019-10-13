@@ -12,8 +12,14 @@
 				position:relative;
 				box-shadow:0 0 0.3em #a0a0a0;
 			}
-			#div1{
+			#div05{
 				height:100%;width:67%;
+				position:absolute;
+				display:block;
+				margin:0em;
+			}
+			#div1{
+				height:100%;width:100%;
 				position:absolute;
 				display:block;
 			}
@@ -41,10 +47,10 @@
 				overflow-y:scroll;
 			}
 			.area,pre{
-				padding:0;
 				margin:0;
 				top:0;
 				left:0;
+				padding:0;
 				text-align:left;
 				position:absolute;
 			}
@@ -72,9 +78,11 @@
 	</head>
 	<body>
 		<div id='div0'>
-			<div id='div1'>
-				<div id='display1' class="area"></div>
-				<textarea id="input1" class="area" autofocus></textarea>
+			<div id='div05'>
+				<div id='div1'>
+					<div id='display1' class="area"></div>
+					<textarea id="input1" class="area" autofocus></textarea>
+				</div>
 			</div>
 			<div id='div2'>
 				<div id='div3'>Output here.</div>
@@ -107,6 +115,15 @@ const ne=a=>N(inc(a)('')); //non-empty
 const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))('')); // b begins with a
 
 const p=a=>b=>c=>c(a)(b); //pair
+const t3=a=>b=>c=>p(a)(p(b)(c));
+const t4=a=>b=>c=>d=>p(a)(t3(b)(c)(d));
+const t13=a=>a(T);
+const t23=a=>a(F)(T);
+const t33=a=>a(F)(F);
+const t14=a=>a(T);
+const t24=a=>a(F)(T);
+const t34=a=>a(F)(F)(T);
+const t44=a=>a(F)(F)(F);
 const NULL=a=>F;
 const reduce=a=>b=>c=>till(d=>d(F)(e=>f=>T))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(p(b)(c))(T); //starting at b, reduce c with function a
 const filterMapReverseConcat=a=>b=>reduce(c=>d=>a(d)(p(b(d))(c))(c)); //filter list2 with a, map with b, and spill into list1
@@ -119,36 +136,32 @@ const joinList=reduce(j)(''); //print list of strings head to tail
 const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
 const createPairList=addToPairlist(NULL); //create list from arguments(which are pairs), terminate on argument NULL
 const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a); //compose functions from a list
-const f=a=>b=>c=>d=>b(e=>eq(a)(e)(d)(c(e)));
+const color=a=>b=>p(b(T))(p(b(F))('<span style=\'color:'+a+'\'>'+b(T)+'</span>'));
 const functions=createPairList
-	(p('(')(b=>s=>x=>b(parse(x)(s))))
-	(p(')')(b=>s=>x=>b))
-	(p('cct')(a=>b=>a+b))
-	(p('a')('x'))
-	(p('b')('y'))
-	(p('pr')(b=>s=>x=>next(b(a=>''+a+''))(r('pr')(s))(x)))
-	(p('')(s=>x=>console.log('undefined symbol')))
-	(NULL);
-
-const match=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(d)(b)(inc(l(d)(b))(c(T))(inc(c(T))(l(d)(b))(inc(d)(c(F))(c)(p(l(d)(b))(d)))(p(l(d)(b))(d)))(c))(c))(p(b)(''))(a)(F)); // search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
-const next=match;
-
-const parse=f=>x=>s=>
-	till(a=>ne(a(T)))
-	(a=> (c=> (n=>p(r(n)(a(T)))(p(c)(a(F)(F)(filter(b=>eq(n)(b(T)))(c)(T)(F)))))
-	(next(map(b=>b(T))(c))(a(T)))  )    (a(F)(T)))
-	
-	(p(s)(p(x)(f)))
-	(F)(F);
-
+	//(color('#ff0000')(p('(')(f=>)
+	(color('#ff0000')(p(')')(b=>s=>x=>b)))
+	(color('#c020e0')(p('cct')(f=>f(a=>b=>a+b))))
+	(color('#20c0e0')(p('a')(f=>f('x'))))
+	(color('#20c0e0')(p('b')(f=>f('y'))))
+	(color('#ff0000')(p('pr')(b=>s=>x=>next(b(a=>''+a+''))(r('pr')(s))(x))))
+	(color('#ff0000')(p('')(id)))
+	(color('#ffffff')(p(' ')(id)))
+	(color('#ffffff')(p('\t')(id)))
+	(color('#ffffff')(p('\n')(id)))
+	(NULL); 
+const first=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(d)(b)(inc(l(d)(b))(c(T))(inc(c(T))(l(d)(b))(inc(d)(c(F))(c)(p(l(d)(b))(d)))(p(l(d)(b))(d)))(c))(c))(p(b)(''))(a)(F)); //search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
+const find=a=>b=>filter(c=>eq(a)(c(T)))(b)(T); //find pair having first element as a, in list b
+const parse=m=>f=>x=>s=>
+	till(a=>ne(a(F)(F)(F)))
+	(a=>(m=>f=>x=>s=>(n=>
+			t4 (j(m)(n(F)(F))) ((n(F)(T))(f)) (x) (ne(n(T))(r(n(T))(s))(''))
+		)(find(first(map(b=>b(T))(x))(s))(x)))
+		(t14(a))(t24(a))(t34(a))(t44(a)))
+	(t4(m)(f)(x)(s));
 console.log(joinList(map(b=>b(T))(functions)));
-console.log(next(map(b=>b(T))(functions))('dfjkg'));
-console.log(parse(id)(functions)('cctba'));
-console.log(next(map(a=>a(T))(functions))('(abprcd'));
-
-const jo=f('a')(f('b')(x=>x('j')((f('c')(x=>x('j')(x('c'))('3')))(x)(x('a')))(x('b'))));
-
-console.log(jo(a=>eq(a)('j')(j)('error'))('1')('2'));
+console.log(first(map(b=>b(T))(functions))('dfjkg'));
+console.log(parse('')(id)(functions)('cctba')(T));
+console.log(first(map(a=>a(T))(functions))('(abprcd'));
 
 
 
@@ -162,8 +175,12 @@ function enableTab(el) {
        	}
     };
 }
-const input=document.getElementById('input1'),display=document.getElementById('display1');
+const input=document.getElementById('input1'),display=document.getElementById('display1'),output=document.getElementById('div3');
 enableTab(input);
-input.addEventListener('input',()=>display.innerHTML='<pre><span style=\'color:#c020e0\'>'+input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')+'</span></pre>');
+input.addEventListener('input',()=>{
+	const p=parse('')(id)(functions)(input.value);
+	display.innerHTML='<pre><span style=\'color:#c020e0\'>'+p(T).replace(/\n/g,'<br>')+'</span></pre>';
+	output.innerHTML=p(F)(T);
+});
 	</script>
 </html>
