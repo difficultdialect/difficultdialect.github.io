@@ -10,7 +10,7 @@
 			#div0{
 				height:100%;width:100%;
 				position:relative;
-				box-shadow:0 0 0.3em #a0a0a0;
+				border: 0.11em solid #e0e0e0;
 			}
 			#div05{
 				height:100%;width:67%;
@@ -24,7 +24,8 @@
 				display:block;
 			}
 			#div2{
-				color:#606060;
+				color:#808080;
+				background:#f8f8f8;
 				text-align:left;
 				height:100%;width:33%;
 				position:absolute;
@@ -85,13 +86,11 @@
 				</div>
 			</div>
 			<div id='div2'>
-				<div id='div3'>Output here.</div>
+				<div id='div3'></div>
 			</div>
 		</div>
 	</body>
 	<script>
-
-
 /* Constructions from JS */
 const ev=eval;
 const until=a=>b=>c=>a(c)(()=>c)(()=>until(a)(b)(b(c)))();
@@ -99,7 +98,7 @@ const l=a=>b=>b.includes(a)?b.slice(0,b.indexOf(a)):''; //left of a in b
 const r=a=>b=>b.includes(a)?b.slice(b.indexOf(a)+a.length):''; //right of a in b
 const j=a=>b=>a+b;
 const inc=a=>b=>b.includes(a)?(c=>d=>c):(c=>d=>d);
-
+const isString=a=>(typeof a)=='string'?(c=>d=>c):(c=>d=>d);
 /* Definitions */
 const id=a=>a;
 const T=a=>b=>a; //true (return first argument)
@@ -109,11 +108,9 @@ const A=a=>a(id)(T(F)); //and
 const O=a=>a(T(T))(id); //or
 const compose=a=>b=>c=>b(a(c)); //compose
 const till=a=>until(compose(a)(N));
-
 const eq=a=>b=>A(inc(a)(b))(inc(b)(a)); //a equals b
 const ne=a=>N(inc(a)('')); //non-empty
 const bw=a=>b=>A(inc(a)(b))(eq(l(a)(b))('')); // b begins with a
-
 const p=a=>b=>c=>c(a)(b); //pair
 const t3=a=>b=>c=>p(a)(p(b)(c));
 const t4=a=>b=>c=>d=>p(a)(t3(b)(c)(d));
@@ -133,38 +130,39 @@ const filterMap=a=>b=>compose(reverse)(filterMapReverseConcat(a)(b)(NULL));
 const map=filterMap(b=>T);
 const filter=a=>filterMap(a)(id);
 const joinList=reduce(j)(''); //print list of strings head to tail
-const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(a);
+const addToPairlist=a=>b=>b(c=>d=>T)(addToPairlist(p(b)(a)))(reverse(a));
 const createPairList=addToPairlist(NULL); //create list from arguments(which are pairs), terminate on argument NULL
 const composeList=a=>b=>reduce(c=>d=>d(c))(b)(a); //compose functions from a list
 const color=a=>b=>p(b(T))(p(b(F))('<span style=\'color:'+a+'\'>'+b(T)+'</span>'));
+const replace=a=>b=>c=>map(d=>eq(d(T))(a)(b)(d))(c); //replace pairs in c that have first element as a, with b
 const functions=createPairList
-	//(color('#ff0000')(p('(')(f=>)
-	(color('#ff0000')(p(')')(b=>s=>x=>b)))
-	(color('#c020e0')(p('cct')(f=>f(a=>b=>a+b))))
-	(color('#20c0e0')(p('a')(f=>f('x'))))
-	(color('#20c0e0')(p('b')(f=>f('y'))))
-	(color('#ff0000')(p('pr')(b=>s=>x=>next(b(a=>''+a+''))(r('pr')(s))(x))))
-	(color('#ff0000')(p('')(id)))
-	(color('#ffffff')(p(' ')(id)))
-	(color('#ffffff')(p('\t')(id)))
-	(color('#ffffff')(p('\n')(id)))
+	(color('#e0c020')(p('\'')(f=>x=>p('')(p(color('#e0c020')(p('')(r=>g=>y=>p(r)(y))))(p(color('#e0c020')(p('\'')(g=>y=>p(f(g))((x)))))(NULL))))))
+	(color('#c020e0')(p('cct')(f=>x=>p(f(a=>b=>a+b))(isString(f(a=>b=>a+b))(x(F)(F)(F)(F)(F))(x)))))
+	(color('#20c0e0')(p('a')(f=>x=>p(f('x'))(isString(f('x'))(x(F)(F)(F)(F)(F))(x)))))
+	(color('#20c0e0')(p('b')(f=>x=>p(f('y'))(isString(f('y'))(x(F)(F)(F)(F)(F))(x)))))
+	(color('#c0c0c0')(p('(')(f=>x=>p(id)(replace(')')(color('#c0c0c0')(p(')')(g=>y=>p(f(g))(isString(f(g))(x(F)(F)(F)(F)(F))(x)))))(x)))))
+	(color('#808080')(p('/*')(f=>x=>p(id)(p(color('#808080')(p('')(r=>g=>y=>p(g(r))(y))))(p(color('#808080')(p('*/')(g=>y=>p(f)(x))))(NULL))))))
+	(color('#808080')(p('//')(f=>x=>p(id)(p(color('#808080')(p('')(r=>g=>y=>p(g(r))(y))))(p(color('#808080')(p('\n')(g=>y=>p(f)(x))))(NULL))))))
+	(color('#ff0000')(p('')(r=>p)))
+	(color('#ff0000')(p(')')(p)))
+	(color('#ffffff')(p(' ')(p)))
+	(color('#ffffff')(p('\t')(p)))
+	(color('#ffffff')(p('\n')(p)))
 	(NULL); 
-const first=a=>b=>(m=>bw(m)(b)(m)(l(m)(b)))(reduce(c=>d=>inc(d)(b)(inc(l(d)(b))(c(T))(inc(c(T))(l(d)(b))(inc(d)(c(F))(c)(p(l(d)(b))(d)))(p(l(d)(b))(d)))(c))(c))(p(b)(''))(a)(F)); //search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
-const find=a=>b=>filter(c=>eq(a)(c(T)))(b)(T); //find pair having first element as a, in list b
+const first=a=>b=>(m=>ne(m)(bw(m)(b)(m)(l(m)(b)))(b))(reduce(c=>d=>A(inc(d)(b))(ne(d))(inc(l(d)(b))(c(T))(inc(c(T))(l(d)(b))(inc(d)(c(F))(c)(p(l(d)(b))(d)))(p(l(d)(b))(d)))(c))(c))(p(b)(''))(a)(F)); //search for non-empty strings from list a in b, get first match, largest in case of tie, return match if b begins with it, else left of match
+console.log(first(functions)('pq'));
+const find=a=>b=>(c=>c(d=>e=>T)(c(T))(c))(filter(c=>eq(a)(c(T)))(b)); //find pair having first element as a, in list b
 const parse=m=>f=>x=>s=>
 	till(a=>ne(a(F)(F)(F)))
 	(a=>(m=>f=>x=>s=>(n=>
-			t4 (j(m)(n(F)(F))) ((n(F)(T))(f)) (x) (ne(n(T))(r(n(T))(s))(''))
-		)(find(first(map(b=>b(T))(x))(s))(x)))
+			(t4 (j(m)(n(F)(F))) ((n(F)(T))(f)(x)(T)) ((n(F)(T))(f)(x)(F)) (ne(n(T))(r(n(T))(s))('')))
+		)((r=>(find(r)(x))(b=>c=>T)(find(r)(x))(p(r)(p(find('')(x)(F)(T)(r))(find('')(x)(F)(F).replace('><','>'+r+'<')))))(first(map(b=>b(T))(x))(s))))
 		(t14(a))(t24(a))(t34(a))(t44(a)))
 	(t4(m)(f)(x)(s));
 console.log(joinList(map(b=>b(T))(functions)));
 console.log(first(map(b=>b(T))(functions))('dfjkg'));
 console.log(parse('')(id)(functions)('cctba')(T));
 console.log(first(map(a=>a(T))(functions))('(abprcd'));
-
-
-
 function enableTab(el) {
     el.onkeydown = function(e) {
         if (e.keyCode === 9) {
@@ -179,7 +177,7 @@ const input=document.getElementById('input1'),display=document.getElementById('d
 enableTab(input);
 input.addEventListener('input',()=>{
 	const p=parse('')(id)(functions)(input.value);
-	display.innerHTML='<pre><span style=\'color:#c020e0\'>'+p(T).replace(/\n/g,'<br>')+'</span></pre>';
+	display.innerHTML='<pre>'+p(T).replace(/\n/g,'<br>')+'</pre>';
 	output.innerHTML=p(F)(T);
 });
 	</script>
