@@ -93,7 +93,9 @@
 	<script>
 
 const red='#ff0000',green='#c0e020',blue='#20c0e0',brown='#e0c020',light='#c0c0c0',dark='#808080',white='#ffffff';
-const functions={'a':a=>{'':'x'},'b':a=>{'':'y'},'substitution':a,'constant':function(a){let b={};for(let key in a)b[key]=a;return b;},'id':a=>a,'':''};
+const compose=a=>b=>c=>a[b](a)[c];
+const functions={'a':a=>{'':'x'},'b':a=>{'':'y'},'substitution':function(a){return },'substitution':function(a){let b={};for(let key in a)b[key]=function(c){let d={};for(let key2 in c)d[key2]=function(e){let f={};for(let key3 in e)f[key3]=;}(a); return d;}(a); return b;},'constant':function(a){let b={};for(let key in a)b[key]=a;return b;},'id':a=>a,'':''};
+
 function enableTab(el) {
     el.onkeydown = function(e) {
         if (e.keyCode === 9) {
