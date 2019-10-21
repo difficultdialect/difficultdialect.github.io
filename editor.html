@@ -38,7 +38,7 @@
 			}
 			.area,pre,#div2{
 				font-family:monospace, monospace;
-				font-size:small;
+				font-size:medium;
 			}
 			.area{
 				word-break:break-all;
@@ -64,7 +64,8 @@
 			}
 			#display1{
 				color:black;
-				background:#f8f4f0;
+				/*background:#f8f4f0;*/
+				background: black;
 				z-index:0;
 			}
 			#input1{
@@ -100,12 +101,15 @@ const j=a=>b=>a+b;
 const inc=a=>b=>b.includes(a)?(c=>d=>c):(c=>d=>d);
 const isString=a=>(typeof a)=='string'?(c=>d=>c):(c=>d=>d);
 /* Definitions */
+const apt=a=>b=>b(a);
+const ap=a=>b=>sb(a)?'\nError: Not a function:'+a+'.\n':a(b);
 const id=a=>a;
 const T=a=>b=>a; //true (return first argument)
 const F=a=>id; //false (return second argument)
 const N=a=>a(F)(T); //not
 const A=a=>a(id)(T(F)); //and
 const O=a=>a(T(T))(id); //or
+const iota=a=>ap(ap(a)(b=>c=>d=>ap(ap(b)(d))(ap(c)(d))))(b=>c=>b);
 const compose=a=>b=>c=>b(a(c)); //compose
 const till=a=>until(compose(a)(N));
 const eq=a=>b=>A(inc(a)(b))(inc(b)(a)); //a equals b
@@ -123,8 +127,6 @@ const t34=a=>a(F)(F)(T);
 const t44=a=>a(F)(F)(F);
 const NULL=T(F);
 const sb=a=>(typeof a)=='string';
-const apt=a=>b=>b(a);
-const ap=a=>b=>sb(a)?'\nError: Not a function:'+a+'.\n':a(b);
 const ns='\nError: Not a string.\n';
 //const reduce=a=>b=>c=>till(d=>d(F)(T(T(T))))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(p(b)(c))(T); //starting at b, reduce c with function a
 const reduce=a=>b=>c=>till(compose(apt(F))(apt(T(T(T)))))(d=>p(a(d(T))(d(F)(T)))(d(F)(F)))(p(b)(c))(T); //starting at b, reduce c with function a
@@ -147,17 +149,12 @@ const q=a=>b=>filter(c=>eq(c(T))(a(T)))(b)(c=>d=>T)(replace(a(T))(a)(b))(p(a)(b)
 const functions=createPairList
 	(color(brown)(p('\'')(f=>x=>p('')(q(color(brown)(p('')(r=>g=>y=>p(r)(y))))(q(color(brown)(p('\'')(g=>y=>p(ap(f)(g))((x)))))(NULL))))))
 	(color(green)(p('+')(f=>x=>p(sb(f)?(a=>sb(a)?f+a:ns):ns)(x))))
-	(color(blue)(p('a')(f=>x=>p(ap(f)('x'))(x))))
-	(color(blue)(p('b')(f=>x=>p(ap(f)('y'))(x))))
-	(color(blue)(p('p')(f=>x=>p(ap(f)(p))(x))))
-	(color(blue)(p('T')(f=>x=>p(ap(f)(T))(x))))
-	(color(blue)(p('F')(f=>x=>p(ap(f)(F))(x))))
+	(color(blue)(p('i')(f=>x=>p(ap(f)(iota))(x))))
 	(color(light)(p('(')(f=>x=>p(id)(replace(')')(color(light)(p(')')(g=>y=>p(ap(f)(g))(x))))(x)))))
 	(color(dark)(p('/*')(f=>x=>p(id)(q(color(dark)(p('')(r=>g=>y=>p(f)(y))))(q(color(dark)(p('*/')(g=>y=>p(f)(x))))(NULL))))))
 	(color(dark)(p('//')(f=>x=>p(id)(q(color(dark)(p('')(r=>g=>y=>p(f)(y))))(q(color(dark)(p('\n')(g=>y=>p(f)(x))))(NULL))))))
 	(color(light)(p('[')(f=>x=>p('')(q(color(brown)(p('')(r=>g=>y=>p(r)(y))))(q(color(light)(p('=')(g=>y=>p(id)(q(color(light)(p(']')(h=>z=>p(f)(q(color(blue)(p(g)(i=>a=>p(i(h))(a))))(x)))))(x)))))(NULL))))))
 	(color(light)(p('\\')(f=>x=>p('')(q(color(blue)(p('')(r=>g=>y=>p(r)(y))))(q(color(light)(p('.')(g=>y=>p(id)(wrap(g)(x)))))(NULL))))))
-	//(color(light)(p('\\')(f=>x=>p('')(q(color(blue)(p('')(r=>g=>y=>p(r)(y))))(q(color(light)(p('.')(g=>y=>p(id)(q(color(red)(p('')(r=>h=>z=>p(r)(z))))(q(color(light)(p('/')(i=>a=>p(b=>parse('')(id)(q(color(white)(p(g)(k=>l=>p(ap(k)(b))(l))))(x))(i)(F)(T))(x))))(NULL))))))(NULL))))))
 	(color(light)(p('[')(f=>x=>p('')(q(color(brown)(p('')(r=>g=>y=>p(r)(y))))(q(color(light)(p('=')(g=>y=>p(id)())))(NULL))))))
 	(color(red)(p('')(r=>p)))
 	(color(red)(p(')')(p)))
